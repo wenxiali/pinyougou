@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<HTML xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+    <title>品优购，欢迎登录</title>
+
+    <link rel="stylesheet" type="text/css" href="css/webbase.css"/>
+    <link rel="stylesheet" type="text/css" href="css/pages-login.css"/>
+
+    <script type="text/javascript" src="script/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="script/jquery.cookie.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ($.cookie("rmbUser") == "true") {
+                $("#isTrue").attr("checked", true);
+                $("#username").val($.cookie("username"));
+                $("#password").val($.cookie("password"));
+            }
+        });
+
+        //记住用户名密码
+        function Save() {
+            if ($("#ck_rmbUser").attr("checked")) {
+                var str_username = $("#username").val();
+                var str_password = $("#password").val();
+                $.cookie("rmbUser", "true", { expires: 1 }); //存储一个带7天期限的cookie
+                $.cookie("username", str_username, { expires: 1 });
+                $.cookie("password", str_password, { expires: 1 });
+            }
+            else {
+                $.cookie("rmbUser", "false", { expire: -1 });
+                $.cookie("username", "", { expires: -1 });
+                $.cookie("password", "", { expires: -1 });
+            }
+
+        };
+
+    </script>
+
+</head>
+
+<body>
+<div class="login-box">
+    <!--head-->
+    <div class="py-container logoArea">
+        <a href="" class="logo"></a>
+    </div>
+    <!--loginArea-->
+    <div class="loginArea">
+        <div class="py-container login">
+            <div class="loginform">
+                <ul class="sui-nav nav-tabs tab-wraped">
+                    <li>
+                        <a href="#index" data-toggle="tab">
+                            <h3>扫描登录</h3>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="#profile" data-toggle="tab">
+                            <h3>账户登录</h3>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content tab-wraped">
+                    <div id="index" class="tab-pane">
+                        <p>二维码登录，暂为官网二维码</p>
+                        <img src="img/wx_cz.jpg"/>
+                    </div>
+                    <div id="profile" class="tab-pane  active">
+                        <form class="sui-form" action="login.action" method="post">
+                            <div class="input-prepend"><span class="add-on loginname"></span>
+                                <input id="prependedInput" required type="text" name="username"  placeholder="用户名/手机号"
+                                       oninvalid="setCustomValidity('请填写正确的：用户名/手机号');" oninput="setCustomValidity('');"
+                                       class="span2 input-xfat">
+                            </div>
+                            <div class="input-prepend"><span class="add-on loginpwd"></span>
+                                <input id="prependedInput" required type="password" name="password" placeholder="请输入密码"
+                                       oninvalid="setCustomValidity('请填写密码');" oninput="setCustomValidity('');"
+                                       class="span2 input-xfat">
+                            </div>
+                            <div class="setting">
+                                <label class="checkbox inline">
+                                    <input name="isTrue" type="checkbox"  value="2" checked="">
+                                    记住密码
+                                </label>
+                                <span class="forget">忘记密码？</span>
+                            </div>
+                            <div class="logined">
+                                <input class="sui-btn btn-block btn-xlarge btn-danger" type="submit" onclick="Save()" value="登陆"/>
+                            </div>
+                        </form>
+                        <div class="otherlogin">
+                            <div class="types">
+                                <ul>
+                                    <li><img src="img/qq.png" width="35px" height="35px"/></li>
+                                    <li><img src="img/sina.png"/></li>
+                                    <li><img src="img/ali.png"/></li>
+                                    <li><img src="img/weixin.png"/></li>
+                                </ul>
+                            </div>
+                            <span class="register"><a href="register" target="_blank">立即注册</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--foot-->
+    <div class="py-container copyright">
+        <ul>
+            <li>关于我们</li>
+            <li>联系我们</li>
+            <li>联系客服</li>
+            <li>商家入驻</li>
+            <li>营销中心</li>
+            <li>手机品优购</li>
+            <li>销售联盟</li>
+            <li>品优购社区</li>
+        </ul>
+        <div class="address">地址：北京市昌平区建材城西路金燕龙办公楼一层 邮编：100096 电话：400-618-4000 传真：010-82935100</div>
+        <div class="beian">京ICP备08001421号京公网安备110108007702
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
+<script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
+<script type="text/javascript" src="js/plugins/jquery-placeholder/jquery.placeholder.min.js"></script>
+<script type="text/javascript" src="js/pages/login.js"></script>
+</body>
+
+</html>

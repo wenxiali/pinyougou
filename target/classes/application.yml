@@ -1,0 +1,49 @@
+server:
+  servlet:
+    context-path: /pinyougou
+
+mybatis-plus:
+  typeAliasesPackage: com.cssl.pojo
+  mapper-locations: classpath:com/cssl/dao/*.xml
+  configuration:
+    auto-mapping-behavior: full
+    use-generated-keys: true
+  global-config:
+    db-config:
+      #主键类型  id_worker:"数据库ID自增"  auto ID自增
+      id-type: auto
+      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+      field-strategy: not_empty
+      #驼峰下划线转换
+      column-underline: false
+      #数据库大写下划线转换
+      #capital-mode: true
+      #逻辑删除配置
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+      db-type: mysql
+    refresh: true
+      #自定义填充策略接口实现
+      #meta-object-handler: com.baomidou.springboot.xxx
+    #自定义SQL注入器
+    #sql-injector: com.baomidou.springboot.xxx
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.106.152.20:3306/pinyougoudb
+    username: root
+    password: wxl112233
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm
+    time-zone: GMT+8
+
+  #thymeleaf start
+  thymeleaf:
+    encoding: UTF-8
+    #开发时关闭缓存,不然没法看到实时页面
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+#thymeleaf end
