@@ -8,9 +8,7 @@ import java.util.Map;
 public interface UserService {
     int insertUser(TbUser user);
 
-    TbUser selectName(String username);
-
-    TbUser selectPhone(String phone);
+    TbUser selectName(String username,String phone);
 
     IPage<Map<String,Object>> selectList(IPage page,String username);
 

@@ -6,15 +6,19 @@
 
 
     <insert id="insertUser" parameterType="TbUser" keyColumn="id" keyProperty="id">
-        INSERT INTO tb_user (username,PASSWORD,phone,created) VALUES(#{username},#{password},#{phone},'2018-09-21');
+        INSERT INTO tb_user (username,PASSWORD,phone,created,updated) VALUES(#{username},#{password},#{phone},#{created},#{updated})
     </insert>
 
     <select id="selectName" resultType="TbUser">
-        select * from tb_user where username=#{username}
-    </select>
-
-    <select id="selectPhone" resultType="TbUser">
-        select * from tb_user where phone=#{phone}
+        select * from tb_user
+        <where>
+            <if test="username!=null and username!=''">
+                or username=#{username}
+            </if>
+            <if test="phone !=null and phone !='' ">
+                or phone=#{phone}
+            </if>
+        </where>
     </select>
 
     <select id="selectList" resultType="map">
@@ -27,17 +31,17 @@
 
     <select id="selectUser" resultType="TbUser">
         SELECT * FROM tb_user
-         <where>
-             <if test="username!=null and username!=''">
-                 or username=#{username}
-             </if>
-             <if test="phone !=null and phone !='' ">
-                 or phone=#{phone}
-             </if>
-             <if test="password !=null and password !=''">
-                 and password=#{password}
-             </if>
-         </where>
+        <where>
+            <if test="username!=null and username!=''">
+                or username=#{username}
+            </if>
+            <if test="phone !=null and phone !='' ">
+                or phone=#{phone}
+            </if>
+            <if test="password !=null and password !=''">
+                and password=#{password}
+            </if>
+        </where>
     </select>
 
 </mapper>

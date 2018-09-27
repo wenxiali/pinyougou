@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * TbSeller entity. @author MyEclipse Persistence Tools
@@ -34,7 +34,7 @@ public class TbSeller implements Serializable {
 	private Long address;
 	private String logo_Pic;
 	private String brief;
-	private Timestamp create_Time;
+	private Date create_Time;
 	private String legal_Person;
 	private String legal_Person_Card_Id;
 	private String bank_User;

@@ -23,13 +23,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public TbUser selectName(String username) {
-        return dao.selectName(username);
-    }
-
-    @Override
-    public TbUser selectPhone(String phone) {
-        return dao.selectPhone(phone);
+    public TbUser selectName(String username,String phone) {
+        return dao.selectName(username,phone);
     }
 
     @Override

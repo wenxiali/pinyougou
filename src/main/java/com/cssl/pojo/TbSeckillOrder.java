@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * TbSeckillOrder entity. @author MyEclipse Persistence Tools
@@ -20,8 +20,8 @@ public class TbSeckillOrder implements Serializable {
 	private Double money;
 	private String user_Id;
 	private String seller_Id;
-	private Timestamp create_Time;
-	private Timestamp pay_Time;
+	private Date create_Time;
+	private Date pay_Time;
 	private String status;
 	private String receiver_Address;
 	private String receiver_Mobile;

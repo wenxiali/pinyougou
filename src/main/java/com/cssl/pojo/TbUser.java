@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * TbUser entity. @author MyEclipse Persistence Tools
@@ -22,8 +22,8 @@ public class TbUser implements Serializable {
 	private String password;
 	private String phone;
 	private String email;
-	private Timestamp created;
-	private Timestamp updated;
+	private Date created;
+	private Date updated;
 	private String source_Type;
 	private String nick_Name;
 	private String name;
@@ -37,8 +37,8 @@ public class TbUser implements Serializable {
 	private Integer user_Level;
 	private Integer points;
 	private Integer experience_Value;
-	private Timestamp birthday;
-	private Timestamp last_Login_Time;
+	private Date birthday;
+	private Date last_Login_Time;
 
 
 

@@ -9,9 +9,7 @@ import java.util.Map;
 public interface UserDao   {
     int insertUser(TbUser user);
 
-    TbUser selectName(@Param("username") String username);
-
-    TbUser selectPhone(@Param("phone") String phone);
+    TbUser selectName(@Param("username") String username,@Param("phone") String phone);
 
     IPage<Map<String,Object>> selectList(IPage page,@Param("username") String username);
 

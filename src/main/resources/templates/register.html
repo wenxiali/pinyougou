@@ -57,7 +57,7 @@
                         url:"verification?username="+username,
                         success:function(result){
                             if(result=="Y"){
-                                $("#name").text("用户名已存在！");
+                                $("#name").text("用户名已存在");
                                 $("#regForm").disabled=true;
                             }else{
                                 $("#name").text("用户名可以使用");
@@ -76,7 +76,7 @@
                         url:"verification?phone="+phone,
                         success:function(result){
                             if(result=="Y"){
-                                $("#tel").text("同一個手機號衹能注冊一次！");
+                                $("#tel").text("同一個手機號衹能注冊一次");
                                 $("#regForm").disabled=true;
                             }else{
                                 $("#tel").text("");
@@ -84,7 +84,7 @@
                         }
                     });
                 }else{
-                    $("#name").text("用户名不能为空!");
+                    $("#name").text("");
                     $("#regForm").disabled=true;
                 }
             });
