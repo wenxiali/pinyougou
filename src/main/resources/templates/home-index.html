@@ -196,31 +196,13 @@
                                 <th width="5%">数量</th>
                                 <th width="8%">商品操作</th>
                                 <th width="10%">实付款</th>
-                                <th width="10%">交易状态</th>
-                                <th width="10%">交易操作</th>
+                                <th width="20%">交易状态</th>
                                 </thead>
                             </tr>
                         </table>
                     </div>
                     <div class="order-detail">
                         <div class="orders">
-                            <div class="choose-order">
-                                <div class="sui-pagination pagination-large top-pages">
-                                    <ul>
-                                        <li class="prev disabled"><A href="" th:href="@{/home-index(pa=1)}">首页</A></li>
-                                        <li class="prev disabled"><A href=""
-                                                                     th:href="@{/home-index(pa=${list.getCurrent()-1})}">上一页</A>
-                                        </li>
-                                        <li class="prev disabled"><A href=""
-                                                                     th:href="@{/home-index(pa=${list.getCurrent()+1})}">下一页</A>
-                                        </li>
-                                        <li class="prev disabled"><A href=""
-                                                                     th:href="@{/home-index(pa=${list.getPages()})}">末页</A>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
                             <!--order1-->
                             <div class="choose-title" th:each="home:${list.getRecords()}">
                                 <label data-toggle="checkbox" class="checkbox-pretty">
@@ -239,8 +221,8 @@
                                         </td>
                                         <td width="5%" class="center">
                                             <ul class="unstyled">
-                                                <li class="o-price" th:text="${home.price}">¥</li>
-                                                <li th:text="${home.payment}">¥</li>
+                                                <li class="o-price" th:text="${home.price}"></li>
+                                                <li th:text="${home.payment}"></li>
                                             </ul>
                                         </td>
                                         <td width="5%" class="center" th:text="${home.num}"></td>
@@ -250,27 +232,50 @@
                                         <td width="10%" class="center">
                                             <ul class="unstyled">
                                                 <li>¥299.00</li>
-                                                <li>（含运费：￥0.00）</li>
+                                                <li>（含运费：￥<span th:text="${home.pf}"></span>）</li>
                                             </ul>
                                         </td>
-                                        <td width="10%" class="center">
-                                            <ul class="unstyled">
-                                                <li>等待卖家付款</li>
-                                                <li><a href="orderDetail.html" class="btn">订单详情 </a></li>
+                                        <td width="20%" class="center">
+                                            <ul class="unstyled" th:switch="${home.status}">
+                                                <li th:case="1">等待买家付款</li>
+                                                <li th:case="2">买家已付款</li>
+                                                <li th:case="3">等待卖家发货</span></li>
+                                                <li th:case="4">卖家已发货</span></li>
+                                                <li th:case="5">交易成功</span></li>
+                                                <li th:case="6">交易关闭</span></li>
+                                                <li th:case="7">待评价</span></li>
+                                                <li><a href="home-orderDetail" class="btn">订单详情 </a></li>
                                             </ul>
                                         </td>
-                                        <td width="10%" class="center">
-                                            <ul class="unstyled">
-                                                <li><a href="#" class="sui-btn btn-info">立即付款</a></li>
-                                                <li>取消订单</li>
+                                        <!--<td width="10%" class="center">
+                                            <ul class="unstyled" th:switch="${home.status}">
+                                                <li th:case="1"><a href="#" class="sui-btn btn-info">立即付款</a></li>
+                                                <li th:case="2"><a href="#"> 取消订单</a></li>
+                                                <li th:case=""></li>
 
                                             </ul>
-                                        </td>
+                                        </td>-->
                                     </tr>
 
 
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="choose-order">
+                                <div class="sui-pagination pagination-large top-pages">
+                                    <ul>
+                                        <li class="prev disabled"><A href="" th:href="@{/home-index(pa=1)}">首页</A></li>
+                                        <li class="prev disabled"><A href=""
+                                                                     th:href="@{/home-index(pa=${list.getCurrent()-1})}">上一页</A>
+                                        </li>
+                                        <li class="prev disabled"><A href=""
+                                                                     th:href="@{/home-index(pa=${list.getCurrent()+1})}">下一页</A>
+                                        </li>
+                                        <li class="prev disabled"><A href=""
+                                                                     th:href="@{/home-index(pa=${list.getPages()})}">末页</A>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
 
