@@ -205,8 +205,8 @@
                         <div class="orders">
                             <!--order1-->
                             <div class="choose-title" th:each="home:${list.getRecords()}">
-                                <label data-toggle="checkbox" class="checkbox-pretty">
-                                    <input type="checkbox" checked="checked">  <span th:text="${home.ct}"></span> &nbsp;订单编号：<span th:text="${home.ori}"></span> 店铺：<span th:text="${home.nn}"></span> <a>和我联系</a>
+                                <label data-toggle="checkbox" >
+                                    <input type="checkbox" ><span th:text="${home.ct}"></span></input> &nbsp;订单编号：<span th:text="${home.ori}"></span> 店铺：<span th:text="${home.nn}"></span> <a>和我联系</a>
                                 </label>
                                 <a class="sui-btn btn-info share-btn">分享</a>
 
