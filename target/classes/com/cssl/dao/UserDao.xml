@@ -22,7 +22,7 @@
     </select>
 
     <select id="selectList" resultType="map">
-        SELECT o.`create_time`,o.`order_id`,s.nick_name,oi.`title`,o.`payment`,o.`status`
+        SELECT o.`create_time` as ct,o.`order_id` as ori,s.nick_name as nn,oi.`title`,oi.`price`,o.`payment`,oi.`num`
          FROM tb_order o
         LEFT JOIN tb_order_item oi ON o.`order_id`=oi.`order_id`
         LEFT JOIN tb_seller s ON o.`seller_id`=s.`seller_id`

@@ -143,4 +143,9 @@ public class ShowController {
     public String homepersonfootmark(){
         return "home-person-footmark.html";
     }
+
+    @RequestMapping("/getOrderInfo")
+    public String getOrderInfo(){
+        return "getOrderInfo";
+    }
 }

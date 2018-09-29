@@ -22,13 +22,14 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/home-index")
-    public String index(Integer pa, Model model, HttpSession session){
+    public String index(Integer pa, Model model,HttpSession session){
+
         if (pa==null ||pa==0){
             pa = 1;
         }
         String username=(String)session.getAttribute("username");
-        IPage<Map<String,Object>> page = service.selectList(new Page(pa,4),username);
-        model.addAttribute("page",page);
+        IPage<Map<String,Object>> list = service.selectList(new Page(pa,4),username);
+        model.addAttribute("list",list);
         return "home-index";
     }
 }

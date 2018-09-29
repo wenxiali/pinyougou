@@ -40,6 +40,6 @@ public class TbOrder implements Serializable {
 	private String invoice_Type;
 	private String source_Type;
 	private String seller_Id;
-
+	private TbOrderItem tbOrderItem;
 
 }
