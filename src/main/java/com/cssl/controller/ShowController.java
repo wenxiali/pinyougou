@@ -45,31 +45,6 @@ public class ShowController {
      *
      * @return
      */
-    @RequestMapping("/home-order-pay")
-    public String homeorderpay(){
-        return "home-order-pay.html";
-    }
-
-    /**
-     *
-     * @return
-     */
-    @RequestMapping("/home-order-receive")
-    public String homeorderreceive(){
-        return "home-order-receive.html";
-    }
-    /**
-     *
-     * @return
-     */
-    @RequestMapping("/home-order-send")
-    public String homeordersend(){
-        return "home-order-send.html";
-    }
-    /**
-     *
-     * @return
-     */
     @RequestMapping("/home-orderDetail")
     public String homeorderDetail(){
         return "home-orderDetail.html";

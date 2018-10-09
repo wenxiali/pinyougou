@@ -11,6 +11,41 @@
 
     <link rel="stylesheet" type="text/css" href="css/webbase.css"/>
     <link rel="stylesheet" type="text/css" href="css/pages-seckillOrder.css"/>
+    <script type="text/javascript" src="script/jquery-1.8.3.js"></script>
+    <script type="text/javascript">
+        function selectAll() {
+            var ckall = document.getElementsByName("selected");
+            if (document.getElementById("ck").checked) {
+                for (var i = 0; i < ckall.length; i++) {
+                    ckall[i].checked = 1;
+                }
+            } else {
+                for (var j = 0; j < ckall.length; j++) {
+                    ckall[j].checked = 0;
+                }
+            }
+        }
+        $(function () {
+           $("#ck2").click(function () {
+               var ckall = document.getElementsByName("selected");
+               for (var i=0;i<ckall.length;i++){
+                   if (ckall[i].checked==false) {
+                       document.getElementById("ck").checked = false;
+                       break;
+                   }
+                   if (i==ckall.length-1){
+                       document.getElementById("ck").checked= true;
+                   }
+               }
+           })
+        })
+    </script>
+    <style>
+        #del{
+            position: relative;
+            left: 800px;
+        }
+    </style>
 </head>
 
 <body>
@@ -163,9 +198,9 @@
                     <dl>
                         <dt><i>·</i> 订单中心</dt>
                         <dd><a href="home-index" class="list-active">我的订单</a></dd>
-                        <dd><a href="home-order-pay">待付款</a></dd>
-                        <dd><a href="home-order-send">待发货</a></dd>
-                        <dd><a href="home-order-receive">待收货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-pay(status=1)}">待付款</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-send(status=3)}">待发货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-receive(status=4)}">待收货</a></dd>
                         <dd><a href="home-order-evaluate">待评价</a></dd>
                     </dl>
                     <dl>
@@ -202,11 +237,15 @@
                         </table>
                     </div>
                     <div class="order-detail">
+                        <input type="checkbox" id="ck" onclick="selectAll()">&nbsp;<span>全选</span>
+                        <a href="" class="sui-btn btn-info btn-bordered hepay-btn" id="del">删  除</a>
                         <div class="orders">
                             <!--order1-->
                             <div class="choose-title" th:each="home:${list.getRecords()}">
-                                <label data-toggle="checkbox" >
-                                    <input type="checkbox" ><span th:text="${home.ct}"></span></input> &nbsp;订单编号：<span th:text="${home.ori}"></span> 店铺：<span th:text="${home.nn}"></span> <a>和我联系</a>
+                                <label data-toggle="checkbox">
+                                    <input type="checkbox" id="ck2" onclick="select()" name="selected"/><span th:text="${home.ct}"></span>
+                                    &nbsp;订单编号：<span th:text="${home.ori}"></span> &nbsp;
+                                    店铺：<span th:text="${home.nn}"></span><a>和我联系</a>
                                 </label>
                                 <a class="sui-btn btn-info share-btn">分享</a>
 
@@ -231,7 +270,7 @@
                                         </td>
                                         <td width="10%" class="center">
                                             <ul class="unstyled">
-                                                <li>¥299.00</li>
+                                                <li th:text="${home.tf}"></li>
                                                 <li>（含运费：￥<span th:text="${home.pf}"></span>）</li>
                                             </ul>
                                         </td>
@@ -241,7 +280,7 @@
                                                 <li th:case="2">买家已付款</li>
                                                 <li th:case="3">等待卖家发货</span></li>
                                                 <li th:case="4">卖家已发货</span></li>
-                                                <li th:case="5">交易成功</span></li>
+                                                <li th:case="5">已评价</span></li>
                                                 <li th:case="6">交易关闭</span></li>
                                                 <li th:case="7">待评价</span></li>
                                                 <li><a href="home-orderDetail" class="btn">订单详情 </a></li>

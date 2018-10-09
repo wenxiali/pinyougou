@@ -29,8 +29,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public IPage<Map<String,Object>> selectList(IPage page,String username) {
-        return dao.selectList(page,username);
+    public IPage<Map<String,Object>> selectList(IPage page,String username,Integer status,String nick_Name) {
+        return dao.selectList(page,username,status,nick_Name);
     }
 
     @Override

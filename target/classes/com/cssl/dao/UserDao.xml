@@ -22,11 +22,22 @@
     </select>
 
     <select id="selectList" resultType="map">
-        SELECT o.`create_time` as ct,o.`order_id` as ori,s.nick_name as nn,oi.`title`,oi.`price`,o.`status`,o.`post_fee` as pf,o.`payment`,oi.`num`
-         FROM tb_order o
+        SELECT o.`create_time` as ct,o.`order_id` as ori,s.nick_name as nn,oi.`title`,oi.`price`,o.`status`,
+        o.`post_fee` as pf,o.`payment`,oi.`num`,oi.`total_fee` as tf
+        FROM tb_order o
         LEFT JOIN tb_order_item oi ON o.`order_id`=oi.`order_id`
         LEFT JOIN tb_seller s ON o.`seller_id`=s.`seller_id`
-        WHERE o.`user_id`= #{username}
+        <where>
+            <if test="username !=null and username!='' ">
+                and o.`user_id`= #{username}
+            </if>
+            <if test="nick_Name !=null and nick_Name!=''">
+                and s.`nick_name`=#{nickName}
+            </if>
+            <if test="status !=null and status!=0">
+                and o.`status`=#{status}
+            </if>
+        </where>
     </select>
 
     <select id="selectUser" resultType="TbUser">

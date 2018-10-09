@@ -22,14 +22,50 @@ public class IndexController {
      * @return
      */
     @RequestMapping("/home-index")
-    public String index(Integer pa, Model model,HttpSession session){
+    public String index(Integer pa, Integer status,String nick_Name,Model model,HttpSession session){
 
         if (pa==null ||pa==0){
             pa = 1;
         }
         String username=(String)session.getAttribute("username");
-        IPage<Map<String,Object>> list = service.selectList(new Page(pa,4),username);
+        IPage<Map<String,Object>> list = service.selectList(new Page(pa,4),username,status,nick_Name);
         model.addAttribute("list",list);
         return "home-index";
+    }
+
+    @RequestMapping("/home-order-pay")
+    public String homeorderpay(Integer pa, Integer status,String nick_Name,Model model,HttpSession session){
+
+        if (pa==null ||pa==0){
+            pa = 1;
+        }
+        String username=(String)session.getAttribute("username");
+        IPage<Map<String,Object>> list = service.selectList(new Page(pa,4),username,status,nick_Name);
+        model.addAttribute("list",list);
+        return "home-order-pay";
+    }
+
+    @RequestMapping("/home-order-send")
+    public String homeordersend(Integer pa, Integer status,String nick_Name,Model model,HttpSession session){
+
+        if (pa==null ||pa==0){
+            pa = 1;
+        }
+        String username=(String)session.getAttribute("username");
+        IPage<Map<String,Object>> list = service.selectList(new Page(pa,2),username,status,nick_Name);
+        model.addAttribute("list",list);
+        return "home-order-send";
+    }
+
+    @RequestMapping("/home-order-receive")
+    public String homeorderreceive(Integer pa, Integer status,String nick_Name,Model model,HttpSession session){
+
+        if (pa==null ||pa==0){
+            pa = 1;
+        }
+        String username=(String)session.getAttribute("username");
+        IPage<Map<String,Object>> list = service.selectList(new Page(pa,2),username,status,nick_Name);
+        model.addAttribute("list",list);
+        return "home-order-receive";
     }
 }

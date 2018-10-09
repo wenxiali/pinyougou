@@ -11,7 +11,9 @@ public interface UserDao   {
 
     TbUser selectName(@Param("username") String username,@Param("phone") String phone);
 
-    IPage<Map<String,Object>> selectList(IPage page,@Param("username") String username);
+    IPage<Map<String,Object>> selectList(IPage page,@Param("username") String userName,
+                                         @Param("status") Integer status,
+                                         @Param("nick_Name") String nick_Name);
 
     TbUser selectUser(@Param("username") String username,@Param("phone") String phone,@Param("password") String password);
 }
