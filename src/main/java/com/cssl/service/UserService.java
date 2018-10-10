@@ -1,12 +1,12 @@
 package com.cssl.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.cssl.pojo.TbUser;
 
 import java.util.Map;
 
-public interface UserService {
-    int insertUser(TbUser user);
+public interface UserService extends IService<TbUser> {
 
     TbUser selectName(String username,String phone);
 

@@ -1,6 +1,7 @@
 package com.cssl.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cssl.dao.UserDao;
 import com.cssl.pojo.TbUser;
 import com.cssl.service.UserService;
@@ -12,15 +13,10 @@ import java.util.Map;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserDao,TbUser> implements UserService {
 
     @Autowired
     private UserDao dao;
-
-    @Override
-    public int insertUser(TbUser user) {
-        return dao.insertUser(user);
-    }
 
     @Override
     public TbUser selectName(String username,String phone) {

@@ -1,13 +1,13 @@
 package com.cssl.dao;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.cssl.SuperMapper;
 import com.cssl.pojo.TbUser;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
 
-public interface UserDao   {
-    int insertUser(TbUser user);
+public interface UserDao extends SuperMapper<TbUser> {
 
     TbUser selectName(@Param("username") String username,@Param("phone") String phone);
 

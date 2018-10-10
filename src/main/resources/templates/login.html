@@ -11,34 +11,6 @@
     <link rel="stylesheet" type="text/css" href="css/webbase.css"/>
     <link rel="stylesheet" type="text/css" href="css/pages-login.css"/>
 
-    <script type="text/javascript" src="script/jquery-1.8.3.js"></script>
-    <script type="text/javascript" src="script/jquery.cookie.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            if ($.cookie("rmbUser") == "true") {
-                $("#ck_rmbUser").attr("checked", true);
-                $("#name").val($.cookie("username"));
-                $("#pwd").val($.cookie("password"));
-            }
-        });
-
-        //记住用户名密码
-        function Save() {
-            if ($("#ck_rmbUser").attr("checked")) {
-                var str_username = $("#name").val();
-                var str_password = $("#pwd").val();
-                $.cookie("rmbUser", "true", { expires: 7 }); //存储一个带7天期限的cookie
-                $.cookie("username", str_username, { expires: 7 });
-                $.cookie("password", str_password, { expires: 7 });
-            }
-            else {
-                $.cookie("rmbUser", "false", { expire: -1 });
-                $.cookie("username", "", { expires: -1 });
-                $.cookie("password", "", { expires: -1 });
-            }
-
-        };
-    </script>
 </head>
 
 <body>
@@ -68,7 +40,7 @@
                         <p>二维码登录，暂为官网二维码</p>
                         <img src="img/wx_cz.jpg"/>
                     </div>
-                    <div id="profile" class="tab-pane  active">
+                    <div id="profile"  class="tab-pane  active"><!--"-->
                         <form class="sui-form" action="login.action" method="post">
                             <div class="input-prepend"><span class="add-on loginname"></span>
                                 <input id="name" required type="text" name="username"  placeholder="用户名/手机号"
@@ -82,13 +54,13 @@
                             </div>
                             <div class="setting">
                                 <label class="checkbox inline">
-                                    <input name="ck_rmbUser" type="checkbox"  value="2" checked="">
+                                    <input id="ck_rmbUser" name="ck_rmbUser" type="checkbox"  value="2" >
                                     记住用户名和密码
                                 </label>
                                 <span class="forget">忘记密码？</span>
                             </div>
                             <div class="logined">
-                                <input id="" class="sui-btn btn-block btn-xlarge btn-danger" type="submit" onclick="Save()" value="登陆"/>
+                                <input id="sunt" class="sui-btn btn-block btn-xlarge btn-danger" type="submit" onclick="Save();" value="登陆"/>
                             </div>
                         </form>
                         <div class="otherlogin">
@@ -125,11 +97,41 @@
     </div>
 </div>
 
-<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
-<script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
-<script type="text/javascript" src="js/plugins/jquery-placeholder/jquery.placeholder.min.js"></script>
-<script type="text/javascript" src="js/pages/login.js"></script>
+<!--<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="plugins/jquery.easing/jquery.easing.min.js"></script>-->
+<!--<script type="text/javascript" src="plugins/sui/sui.min.js"></script>-->
+<!--<script type="text/javascript" src="plugins/jquery-placeholder/jquery.placeholder.min.js"></script>-->
+<!--<script type="text/javascript" src="js/pages/login.js"></script>-->
+<script type="text/javascript" src="script/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="script/jquery.cookie.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($.cookie("rmbUser") == 'true') {
+            $("#ck_rmbUser").attr("checked", true);
+            $("#name").val($.cookie("username"));
+            $("#pwd").val($.cookie("password"));
+        }
+    });
+
+    //记住用户名密码
+    function Save() {
+        if ($("#ck_rmbUser").attr("checked")) {
+            var str_username = $("#name").val();
+            var str_password = $("#pwd").val();
+            $.cookie("rmbUser", "true", { expires: 7 }); //存储一个带7天期限的cookie
+            $.cookie("username", str_username, { expires: 7 });
+            $.cookie("password", str_password, { expires: 7 });
+        }
+        else {
+            $.cookie("rmbUser", "false", { expire: -1 });
+            $.cookie("username", "", { expires: -1 });
+            $.cookie("password", "", { expires: -1 });
+        }
+
+    };
+
+</script>
+
 </body>
 
 </html>

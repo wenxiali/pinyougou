@@ -14,21 +14,7 @@ public class ShowController {
     public String index(){
         return "index";
     }
-    /**
-     * 登陸
-     */
-    @RequestMapping("/login")
-    public String login(){
-        return "login";
-    }
 
-    /**
-     * 注冊
-     */
-    @RequestMapping("/register")
-    public String register(){
-        return "register";
-    }
 
 
     @RequestMapping("home")
@@ -45,27 +31,12 @@ public class ShowController {
      *
      * @return
      */
-    @RequestMapping("/home-orderDetail")
-    public String homeorderDetail(){
-        return "home-orderDetail.html";
-    }
-    /**
-     *
-     * @return
-     */
     @RequestMapping("/home-person-collect")
     public String homepersoncollect(){
         return "home-person-collect.html";
     }
 
-    /**
-     *
-     * @return
-     */
-    @RequestMapping("/home-order-evaluate")
-    public String homeorderevaluate(){
-        return "home-order-evaluate.html";
-    }
+
     /**
      *
      * @return

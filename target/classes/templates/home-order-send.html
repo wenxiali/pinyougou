@@ -25,21 +25,21 @@
                 }
             }
         }
-
         $(function () {
-            $("#ck2").click(function () {
+            $(".ck2").click(function () {
                 var ckall = document.getElementsByName("selected");
                 for (var i = 0; i < ckall.length; i++) {
                     if (ckall[i].checked == false) {
                         document.getElementById("ck").checked = false;
                         break;
                     }
-                    if (i == ckall.length - 1) {
+                    if (i == ckall.length < 0) {
                         document.getElementById("ck").checked = true;
                     }
                 }
-            })
-        })
+
+            });
+        });
     </script>
     <style>
         #del {
@@ -177,6 +177,11 @@
 
     })
 </script>
+<style>
+    .person-photo{
+        width: 80px;
+    }
+</style>
 <script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
 <script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
 <script type="text/javascript" src="js/plugins/jquery-placeholder/jquery.placeholder.min.js"></script>
@@ -190,9 +195,9 @@
             <div class="yui3-u-1-6 list">
 
                 <div class="person-info">
-                    <div class="person-photo"><img src="img/_/photo.png" alt=""></div>
+                    <div class="person-photo"><img th:src="@{${session.head_Pic}}"></div>
                     <div class="person-account">
-                        <span class="name">Michelle</span>
+                        <span class="name"  th:text="${session.username}"></span>
                         <span class="safe">账户安全</span>
                     </div>
                     <div class="clearfix"></div>
@@ -200,11 +205,11 @@
                 <div class="list-items">
                     <dl>
                         <dt><i>·</i> 订单中心</dt>
-                        <dd><a href="home-index">我的订单</a></dd>
-                        <dd><a href="home-order-pay">待付款</a></dd>
-                        <dd><a href="home-order-send" class="list-active">待发货</a></dd>
-                        <dd><a href="home-order-receive">待收货</a></dd>
-                        <dd><a href="home-order-evaluate">待评价</a></dd>
+                        <dd><a href="#" th:href="@{/home-index}">我的订单</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-pay(status=1)}">待付款</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-send(status=3)}" class="list-active">待发货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-receive(status=4)}">待收货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-evaluate(status=7)}">待评价</a></dd>
                     </dl>
                     <dl>
                         <dt><i>·</i> 我的中心</dt>
@@ -247,9 +252,9 @@
                                 <a href="" class="sui-btn btn-info btn-bordered hepay-btn" id="del">删 除</a>
                                 <div class="orders">
 
-                                    <div class="choose-title" th:each="home:${list.getRecords()}">
+                                    <div class="choose-title" th:each="home:${send.getRecords()}">
                                         <label data-toggle="checkbox">
-                                            <input type="checkbox" id="ck2" name="selected"/><span
+                                            <input type="checkbox" class="ck2" name="selected"/><span
                                                 th:text="${home.ct}"></span>
                                             &nbsp;订单编号：<span
                                                 th:text="${home.ori}"></span> &nbsp;店铺：<span
@@ -285,7 +290,7 @@
                                                 <td width="10%" class="center">
                                                     <ul class="unstyled" th:switch="${home.status}">
                                                         <li th:case="3">等待卖家发货</li>
-                                                        <li><a href="home-orderDetail" class="btn">订单详情 </a></li>
+                                                        <li><a href="#"  th:href="@{/home-orderDetail}"  class="btn">订单详情 </a></li>
                                                     </ul>
                                                 </td>
                                                 <td width="10%" class="center">
@@ -300,16 +305,16 @@
                                     <div class="choose-order">
                                         <div class="sui-pagination pagination-large top-pages">
                                             <ul>
-                                                <li class="prev disabled"><A href="" th:href="@{/home-index(pa=1)}">首页</A>
+                                                <li class="prev disabled"><A href="#" th:href="@{/home-order-send(pa=1)}">首页</A>
                                                 </li>
-                                                <li class="prev disabled"><A href=""
-                                                                             th:href="@{/home-index(pa=${list.getCurrent()-1})}">上一页</A>
+                                                <li class="prev disabled"><A href="#"
+                                                                             th:href="@{/home-order-send(pa=${send.getCurrent()-1})}">上一页</A>
                                                 </li>
-                                                <li class="prev disabled"><A href=""
-                                                                             th:href="@{/home-index(pa=${list.getCurrent()+1})}">下一页</A>
+                                                <li class="prev disabled"><A href="#"
+                                                                             th:href="@{/home-order-send(pa=${send.getCurrent()+1})}">下一页</A>
                                                 </li>
-                                                <li class="prev disabled"><A href=""
-                                                                             th:href="@{/home-index(pa=${list.getPages()})}">末页</A>
+                                                <li class="prev disabled"><A href="#"
+                                                                             th:href="@{/home-order-send(pa=${send.getPages()})}">末页</A>
                                                 </li>
                                             </ul>
                                         </div>

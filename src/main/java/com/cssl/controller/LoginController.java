@@ -20,6 +20,15 @@ public class LoginController {
 
     /**
      * 注冊
+     */
+    @RequestMapping("/register")
+    public String register(){
+        return "register";
+    }
+
+
+    /**
+     * 注冊
      *
      * @param user
      * @return
@@ -29,7 +38,7 @@ public class LoginController {
         if (user.getUsername() != null) {
             user.setCreated(new Date());
             user.setUpdated(new Date());
-            int row = service.insertUser(user);
+            boolean row = service.insert(user);
             System.out.println("注冊成功");
 
             return "login";
@@ -63,6 +72,14 @@ public class LoginController {
 
 
     /**
+     * 登陸
+     */
+    @RequestMapping("/login")
+    public String login(){
+        return "login";
+    }
+
+    /**
      * 登陆
      * @param username
      * @param password
@@ -74,6 +91,7 @@ public class LoginController {
         TbUser user = service.selectUser(username, username, password);
         if (user != null) {
             session.setAttribute("username", user.getUsername());
+            session.setAttribute("head_Pic",user.getHead_Pic());
             return "forward:home-index";
         }
         return "login";
