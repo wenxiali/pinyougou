@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cssl.dao.UserDao">
 
-
+    <!--验证姓名和号码-->
     <select id="selectName" resultType="TbUser">
         select * from tb_user
         <where>
@@ -17,9 +17,10 @@
         </where>
     </select>
 
+    <!--首页查询-->
     <select id="selectList" resultType="map">
         SELECT o.`create_time` as ct,o.`order_id` as ori,s.nick_name as nn,oi.`title`,oi.`price`,o.`status`,
-        o.`post_fee` as pf,o.`payment`,oi.`num`,oi.`total_fee` as tf
+        o.`post_fee` as pf,o.`payment`,oi.`num`,oi.`total_fee` as tf,oi.pic_path as pp
         FROM tb_order o
         LEFT JOIN tb_order_item oi ON o.`order_id`=oi.`order_id`
         LEFT JOIN tb_seller s ON o.`seller_id`=s.`seller_id`
@@ -34,8 +35,10 @@
                 and o.`status`=#{status}
             </if>
         </where>
+        order by ct desc
     </select>
 
+    <!--登录-->
     <select id="selectUser" resultType="TbUser">
         SELECT * FROM tb_user
         <where>

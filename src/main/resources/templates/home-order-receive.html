@@ -40,6 +40,21 @@
 
             });
         });
+        function dell(orderId) {
+            if(confirm('您确定要删除此订单？')) {
+                $.ajax({
+                    url: "delete-receive",
+                    data:"orderId="+orderId,
+                    success: function (r) {
+                        if (r) {
+                            alert("删除成功！");
+                        } else {
+                            alert("删除失败!");
+                        }
+                    }
+                });
+            }
+        }
     </script>
     <style>
         #del{
@@ -181,6 +196,12 @@
     .person-photo{
         width: 80px;
     }
+    .typographic img{
+        width: 80px;
+    }
+    #aa{
+        float: left;
+    }
 </style>
 <script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
 <script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
@@ -249,9 +270,8 @@
                         <div class="orders">
                             <div class="choose-order">
                                 <input type="checkbox" id="ck" onclick="selectAll()">&nbsp;<span>全选</span>
-                                <a href="" class="sui-btn btn-info btn-bordered hepay-btn" id="del">删 除</a>
+                                <a href="" class="sui-btn btn-info btn-bordered hepay-btn" id="del">批量删除</a>
                                 <div class="orders">
-
                                     <div class="choose-title" th:each="home:${receive.getRecords()}">
                                         <label data-toggle="checkbox">
                                             <input type="checkbox" class="ck2" name="selected"/><span
@@ -260,13 +280,13 @@
                                                 th:text="${home.ori}"></span> &nbsp;店铺：<span
                                                 th:text="${home.nn}"></span><a>和我联系</a>
                                         </label>
-                                        <a class="sui-btn btn-info share-btn">分享</a>
+                                        <a class="sui-btn btn-info share-btn" type="button" th:onclick="'javascript:dell(\''+${home.ori}+'\')'">删除</a>
 
                                         <table class="sui-table table-bordered order-datatable">
                                             <tbody>
                                             <tr>
                                                 <td width="35%">
-                                                    <div class="typographic"><img src="img/goods.png"/>
+                                                    <div class="typographic"><img th:src="@{${home.pp}}"/>
                                                         <a href="#" class="block-text" th:text="${home.title}"></a>
                                                         <span class="guige">规格：温泉喷雾150ml</span>
                                                     </div>

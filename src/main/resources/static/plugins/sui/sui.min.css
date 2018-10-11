@@ -3812,9 +3812,9 @@ pre code, .sui-pre code, pre .sui-code, .sui-pre .sui-code {
 
 .typographic a {
     display: block;
-    float: left;
+    float: right;
     min-width: 80px;
-    max-width: 250px
+    max-width: 200px
 }
 
 .typographic span {

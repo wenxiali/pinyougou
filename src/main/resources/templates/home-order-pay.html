@@ -41,16 +41,26 @@
 
             });
         });
+        function dell(orderId) {
+            if(confirm('您确定要取消订单？')) {
+                $.ajax({
+                    url: "delete-pay",
+                    data:"orderId="+orderId,
+                    success: function (r) {
+                        if (r) {
+                            alert("取消成功！");
+                        } else {
+                            alert("取消失败!");
+                        }
+                    }
+                });
+            }
+        }
     </script>
     <style>
         #he {
             position: relative;
-            left: 700px;
-        }
-
-        #del {
-            position: absolute;
-            right: 400px;
+            left: 800px;
         }
 
     </style>
@@ -186,6 +196,12 @@
     .person-photo{
         width: 80px;
     }
+    .typographic img{
+        width: 80px;
+    }
+    #aa{
+        float: left;
+    }
 </style>
 <script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
 <script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
@@ -212,7 +228,7 @@
                         <dt><i>·</i> 订单中心</dt>
 
                         <dd><a href="#" th:href="@{/home-index}">我的订单</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-pay(status=1)}" class="list-active">待付款</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-pay(status=1)}" class="list-active">待付款</a></dd><!--th:if="${session.username}==admin"-->
                         <dd><a href="#" th:href="@{/home-order-send(status=3)}">待发货</a></dd>
                         <dd><a href="#" th:href="@{/home-order-receive(status=4)}">待收货</a></dd>
                         <dd><a href="#" th:href="@{/home-order-evaluate(status=7)}">待评价</a></dd>
@@ -257,7 +273,6 @@
                             <div class="choose-order">
                                 <input type="checkbox" id="ck" onclick="selectAll()">&nbsp;<span>全选</span>
                                 <a href="" class="sui-btn btn-info btn-bordered hepay-btn" id="he">合并付款</a>
-                                <a href="" class="sui-btn btn-info btn-bordered hepay-btn" id="del">删 除</a>
                                 <div class="orders">
 
                                     <div class="choose-title" th:each="home:${pay.getRecords()}">
@@ -268,13 +283,12 @@
                                                 th:text="${home.ori}"></span> &nbsp;店铺：<span
                                                 th:text="${home.nn}"></span><a>和我联系</a>
                                         </label>
-                                        <a class="sui-btn btn-info share-btn">分享</a>
 
                                         <table class="sui-table table-bordered order-datatable">
                                             <tbody>
                                             <tr>
                                                 <td width="35%">
-                                                    <div class="typographic"><img src="img/goods.png"/>
+                                                    <div class="typographic"><img th:src="@{${home.pp}}"/>
                                                         <a href="#" class="block-text" th:text="${home.title}"></a>
                                                         <span class="guige">规格：温泉喷雾150ml</span>
                                                     </div>
@@ -303,8 +317,9 @@
                                                 </td>
                                                 <td width="10%" class="center">
                                                     <ul class="unstyled">
-                                                        <li><a href="#" class="sui-btn btn-info">立即付款</a></li>
-                                                        <li>取消订单</li>
+                                                        <li><a href="#" class="sui-btn btn-info">立即付款</a></li>&nbsp;
+                                                        <li><a class="sui-btn btn-info" type="button" th:onclick="'javascript:dell(\''+${home.ori}+'\')'">取消订单</a>
+                                                        </li>
 
                                                     </ul>
                                                 </td>

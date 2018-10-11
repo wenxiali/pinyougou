@@ -1,7 +1,12 @@
 package com.cssl.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cssl.pojo.TbOrder;
+import com.cssl.pojo.TbOrderItem;
+import com.cssl.service.OrderItemService;
+import com.cssl.service.OrderService;
 import com.cssl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +21,10 @@ public class IndexController {
 
     @Autowired
     private UserService service;
+    @Autowired
+    private OrderService oService;
+    @Autowired
+    private OrderItemService oiService;
 
     /**
      * 我的订单
@@ -31,6 +40,19 @@ public class IndexController {
         IPage<Map<String,Object>> list = service.selectList(new Page(pa,4),username,status,nick_Name);
         model.addAttribute("list",list);
         return "home-index";
+    }
+    /**
+     * 首页删除
+     * @return
+     */
+    @RequestMapping("/delete-index")
+    public String delete(String orderId){
+        boolean a=oiService.delete(new QueryWrapper<TbOrderItem>().eq("order_id",orderId));
+        if (a){
+            boolean b=oService.delete(new QueryWrapper<TbOrder>().eq("order_id",orderId));
+            return "forward:home-index";
+        }
+        return "forward:home-index";
     }
 
     /**
@@ -55,6 +77,20 @@ public class IndexController {
     }
 
     /**
+     * 代付款删除
+     * @return
+     */
+    @RequestMapping("/delete-pay")
+    public String deletepay(String orderId){
+        boolean a=oiService.delete(new QueryWrapper<TbOrderItem>().eq("order_id",orderId));
+        if (a){
+            boolean b=oService.delete(new QueryWrapper<TbOrder>().eq("order_id",orderId));
+            return "forward:home-order-pay";
+        }
+        return "forward:home-order-pay";
+    }
+
+    /**
      * 待发货
      * @param pa
      * @param status
@@ -73,6 +109,20 @@ public class IndexController {
         IPage<Map<String,Object>> send = service.selectList(new Page(pa,2),username,status,nick_Name);
         model.addAttribute("send",send);
         return "home-order-send";
+    }
+
+    /**
+     * 代发货删除
+     * @return
+     */
+    @RequestMapping("/delete-send")
+    public String deletesend(String orderId){
+        boolean a=oiService.delete(new QueryWrapper<TbOrderItem>().eq("order_id",orderId));
+        if (a){
+            boolean b=oService.delete(new QueryWrapper<TbOrder>().eq("order_id",orderId));
+            return "forward:home-order-send";
+        }
+        return "forward:home-order-send";
     }
 
     /**
@@ -97,6 +147,20 @@ public class IndexController {
     }
 
     /**
+     * 代收货删除
+     * @return
+     */
+    @RequestMapping("/delete-receive")
+    public String deletereceive(String orderId){
+        boolean a=oiService.delete(new QueryWrapper<TbOrderItem>().eq("order_id",orderId));
+        if (a){
+            boolean b=oService.delete(new QueryWrapper<TbOrder>().eq("order_id",orderId));
+            return "forward:home-order-receive";
+        }
+        return "forward:home-order-receive";
+    }
+
+    /**
      * 待评价
      * @param pa
      * @param status
@@ -118,6 +182,20 @@ public class IndexController {
     }
 
     /**
+     * 代收货删除
+     * @return
+     */
+    @RequestMapping("/delete-evaluate")
+    public String deleteevaluate(String orderId){
+        boolean a=oiService.delete(new QueryWrapper<TbOrderItem>().eq("order_id",orderId));
+        if (a){
+            boolean b=oService.delete(new QueryWrapper<TbOrder>().eq("order_id",orderId));
+            return "forward:home-order-evaluate";
+        }
+        return "forward:home-order-evaluate";
+    }
+
+    /**
      * 订单详情
      */
     @RequestMapping("/home-orderDetail")
@@ -126,4 +204,6 @@ public class IndexController {
         model.addAttribute("username",username);*/
         return "home-orderDetail";
     }
+
+
 }
