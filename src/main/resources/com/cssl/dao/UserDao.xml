@@ -35,4 +35,34 @@
         </where>
     </select>
 
+    <update id="updateUser" parameterType="int">
+        UPDATE tb_user
+        <set>
+            <if  test="email!=null and email!=''">
+                email=#{email},
+            </if>
+            <if test="nick_Name != null and nick_Name!=''">
+                nick_name =#{nick_name},
+            </if>
+            <if test="sex != null and sex!=''">
+                sex =#{sex},
+            </if>
+            <if test="birthday != null and birthday!=''">
+                birthday =#{birthday},
+            </if>
+            <if test="province_Id != null and province_Id!=''">
+                provinceid =#{provinceid},
+            </if>
+            <if test="city_Id != null and city_Id!=''">
+                cityid =#{cityid},
+            </if>
+            <if test="town_Id != null and town_Id!=''">
+                townid =#{townid},
+            </if>
+            <if test="job != null and job!=''">
+                job =#{job},
+            </if>
+        </set>
+        WHERE username=#{username}
+    </update>
 </mapper>

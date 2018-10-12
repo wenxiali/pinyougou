@@ -100,17 +100,16 @@ public class LoginController {
      * @return
      */
     @RequestMapping("/home-setting-info.action")
-    private String insertInfo(TbUser user,HttpSession session){
-        String name=(String)session.getAttribute("username");
-        if (user.getUsername() ==name) {
-            if (user.getNick_Name() != null) {
-                boolean row = service.insert(user);
-                return "login";
-            } else {
-                return "register";
+    private String insertInfo(TbUser user,String username,HttpSession session){
+        username=(String)session.getAttribute("username");
+        if (user.getUsername().equals(username)) {
+            int row = service.updateUser(user);
+            System.out.println(row);
+            if (row>0){
+                return "home";
             }
         }
-        return "";
+        return "home-setting-info";
     }
 
 

@@ -214,11 +214,17 @@
                     </ul>
                     <div class="tab-content ">
                         <div id="one" cla   ss="tab-pane active">
-                            <form id="form-msg" th:action="@{/home-setting-info.action}" method="post" class="sui-form form-horizontal">
+                            <form id="form-msg" th:action="@{/home-setting-info.action(username=${session.username})}" method="post" class="sui-form form-horizontal">
                                 <div class="control-group">
                                     <label for="inputName" class="control-label">昵称：</label>
                                     <div class="controls">
                                         <input type="text" id="inputName" name="nick_Name" placeholder="昵称">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="inputName" class="control-label">邮箱：</label>
+                                    <div class="controls">
+                                        <input type="email" id="email" name="email" placeholder="邮箱">
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -247,37 +253,26 @@
                                     <div class="controls">
                                         <div data-toggle="distpicker">
                                             <div class="form-group area">
-                                                <select class="form-control" id="province1" name="province_Id"></select>
+                                                <select class="form-control" id="province1" name="provinceid"></select>
                                             </div>
                                             <div class="form-group area">
-                                                <select class="form-control" id="city1" name="city_Id"></select>
+                                                <select class="form-control" id="city1" name="cityid"></select>
                                             </div>
                                             <div class="form-group area">
-                                                <select class="form-control" id="district1" name="town_Id"></select>
+                                                <select class="form-control" id="district1" name="townid"></select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label for="inputJob" class="control-label">职业：</label>
-                                    <div class="controls"><span class="sui-dropdown dropdown-bordered select"><span
-                                            class="dropdown-inner"><a role="button" data-toggle="dropdown" href="#"
-                                                                      class="dropdown-toggle">
-                                                <input name="job" type="hidden" data-rules="required"><i
-                                            class="caret"></i><span>请选择</span></a>
-                                            <ul id="menu4" role="menu" aria-labelledby="drop4"
-                                                class="sui-dropdown-menu">
-                                                <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                           href="javascript:void(0);" value="bj">程序员</a></li>
-                                                <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                           href="javascript:void(0);"
-                                                                           value="sb">产品经理</a></li>
-                                                <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                           href="javascript:void(0);"
-                                                                           value="sb">UI设计师</a></li>
-                                            </ul>
-                                            </span>
-                                            </span>
+                                    <div class="controls"><span class="sui-dropdown dropdown-bordered select"/>
+                                        <select name="job" >
+                                            <option th:value="程序员">程序员</option>
+                                            <option th:value="架构师">架构师</option>
+                                            <option th:value="UI设计师">UI设计师</option>
+                                            <option th:value="其他">其他</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="control-group">

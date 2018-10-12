@@ -38,5 +38,6 @@ public class TbUser implements Serializable {
 	private String province_Id;
 	private String city_Id;
 	private String town_Id;
+	private String job;
 
 }

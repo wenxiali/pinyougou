@@ -23,11 +23,13 @@ public class UserServiceImpl extends ServiceImpl<UserDao,TbUser> implements User
         return dao.selectName(username,phone);
     }
 
-
-
-
     @Override
     public TbUser selectUser(String username, String phone, String password) {
         return dao.selectUser(username,phone,password);
+    }
+
+    @Override
+    public int updateUser(TbUser user) {
+        return dao.updateUser(user);
     }
 }
