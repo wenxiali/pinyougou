@@ -13,10 +13,6 @@ import java.util.Date;
 @Setter
 public class TbUser implements Serializable {
 
-	public TbUser(){
-
-	}
-
 	private Long id;
 	private String username;
 	private String password;
@@ -39,7 +35,8 @@ public class TbUser implements Serializable {
 	private Integer experience_Value;
 	private Date birthday;
 	private Date last_Login_Time;
-
-
+	private String province_Id;
+	private String city_Id;
+	private String town_Id;
 
 }

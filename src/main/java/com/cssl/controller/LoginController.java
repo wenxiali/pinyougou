@@ -39,11 +39,8 @@ public class LoginController {
             user.setCreated(new Date());
             user.setUpdated(new Date());
             boolean row = service.insert(user);
-            System.out.println("注冊成功");
-
             return "login";
         } else {
-            System.out.println("注冊失敗");
             return "register";
         }
     }
@@ -96,4 +93,25 @@ public class LoginController {
         }
         return "login";
     }
+
+    /**
+     * 基本资料完善
+     * @param user
+     * @return
+     */
+    @RequestMapping("/home-setting-info.action")
+    private String insertInfo(TbUser user,HttpSession session){
+        String name=(String)session.getAttribute("username");
+        if (user.getUsername() ==name) {
+            if (user.getNick_Name() != null) {
+                boolean row = service.insert(user);
+                return "login";
+            } else {
+                return "register";
+            }
+        }
+        return "";
+    }
+
+
 }

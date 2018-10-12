@@ -228,9 +228,9 @@
                         <dt><i>·</i> 订单中心</dt>
                         <dd><a href="#" th:href="@{/home-index}">我的订单</a></dd>
                         <dd><a href="#" th:href="@{/home-order-pay(status=1)}">待付款</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-send(status=3)}" class="list-active">待发货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-send(status=2,status=3)}" class="list-active">待发货</a></dd>
                         <dd><a href="#" th:href="@{/home-order-receive(status=4)}">待收货</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-evaluate(status=7)}">待评价</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-evaluate(status=5,status=7)}">待评价</a></dd>
                     </dl>
                     <dl>
                         <dt><i>·</i> 我的中心</dt>

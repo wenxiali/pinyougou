@@ -37,7 +37,7 @@ public class IndexController {
             pa = 1;
         }
         String username=(String)session.getAttribute("username");
-        IPage<Map<String,Object>> list = service.selectList(new Page(pa,4),username,status,nick_Name);
+        IPage<Map<String,Object>> list = oService.selectList(new Page(pa,4),username,status,nick_Name);
         model.addAttribute("list",list);
         return "home-index";
     }
@@ -71,7 +71,7 @@ public class IndexController {
             pa = 1;
         }
         String username=(String)session.getAttribute("username");
-        IPage<Map<String,Object>> pay = service.selectList(new Page(pa,2),username,status,nick_Name);
+        IPage<Map<String,Object>> pay = oService.selectList(new Page(pa,2),username,status,nick_Name);
         model.addAttribute("pay",pay);
         return "home-order-pay";
     }
@@ -106,7 +106,7 @@ public class IndexController {
             pa = 1;
         }
         String username=(String)session.getAttribute("username");
-        IPage<Map<String,Object>> send = service.selectList(new Page(pa,2),username,status,nick_Name);
+        IPage<Map<String,Object>> send = oService.selectList(new Page(pa,2),username,status,nick_Name);
         model.addAttribute("send",send);
         return "home-order-send";
     }
@@ -141,7 +141,7 @@ public class IndexController {
             pa = 1;
         }
         String username=(String)session.getAttribute("username");
-        IPage<Map<String,Object>> receive = service.selectList(new Page(pa,2),username,status,nick_Name);
+        IPage<Map<String,Object>> receive = oService.selectList(new Page(pa,2),username,status,nick_Name);
         model.addAttribute("receive",receive);
         return "home-order-receive";
     }
@@ -176,7 +176,7 @@ public class IndexController {
             pa = 1;
         }
         String username=(String)session.getAttribute("username");
-        IPage<Map<String,Object>> evaluate = service.selectList(new Page(pa,2),username,status,nick_Name);
+        IPage<Map<String,Object>> evaluate = oService.selectList(new Page(pa,2),username,status,nick_Name);
         model.addAttribute("evaluate",evaluate);
         return "home-order-evaluate";
     }

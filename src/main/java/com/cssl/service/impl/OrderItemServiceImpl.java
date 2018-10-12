@@ -10,4 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class OrderItemServiceImpl extends ServiceImpl<OrderItemDao, TbOrderItem> implements OrderItemService {
+
+
 }

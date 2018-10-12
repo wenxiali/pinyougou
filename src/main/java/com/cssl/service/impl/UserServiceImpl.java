@@ -24,10 +24,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao,TbUser> implements User
     }
 
 
-    @Override
-    public IPage<Map<String,Object>> selectList(IPage page,String username,Integer status,String nick_Name) {
-        return dao.selectList(page,username,status,nick_Name);
-    }
+
 
     @Override
     public TbUser selectUser(String username, String phone, String password) {
