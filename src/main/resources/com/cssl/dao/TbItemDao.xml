@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssl.dao.TbItemDao">
+
+    <select id="selectHottest" resultType="map">
+       SELECT * FROM  tb_item_cat AS a,tb_item AS b
+       WHERE a.id=b.categoryId
+       AND b.categoryId IN (SELECT id FROM tb_item_cat WHERE parent_id IN (SELECT id FROM tb_item_cat WHERE parent_id=74))
+       ORDER BY b.create_time DESC
+       LIMIT 1,6
+    </select>
+
+    <select id="selectHotshow" resultType="map">
+       SELECT * FROM  tb_item_cat AS a,tb_item AS b
+       WHERE a.id=b.categoryId
+       AND b.categoryId IN (SELECT id FROM tb_item_cat WHERE parent_id IN (SELECT id FROM tb_item_cat WHERE parent_id=74))
+       ORDER BY b.create_time DESC
+       LIMIT 10,3
+    </select>
+
+    <select id="selecttitle" resultType="map">
+       SELECT * FROM  tb_item_cat AS a,tb_item AS b
+       WHERE a.id=b.categoryId
+       AND b.categoryId IN (SELECT id FROM tb_item_cat WHERE id IN (SELECT id FROM tb_item_cat WHERE parent_id=#{id}))
+       LIMIT 1,5
+    </select>
+
+    <select id="selectMod" resultType="map">
+       SELECT * FROM  tb_item_cat AS a,tb_item AS b
+       WHERE a.id=b.categoryId
+       AND b.categoryId IN (SELECT id FROM tb_item_cat WHERE parent_id IN (SELECT id FROM tb_item_cat WHERE parent_id=558))
+       ORDER BY b.create_time DESC
+       LIMIT 2,6
+    </select>
+
+    <select id="selectModshow" resultType="map">
+       SELECT * FROM  tb_item_cat AS a,tb_item AS b
+       WHERE a.id=b.categoryId
+       AND b.categoryId IN (SELECT id FROM tb_item_cat WHERE parent_id IN (SELECT id FROM tb_item_cat WHERE parent_id=558))
+       ORDER BY b.create_time DESC
+       LIMIT 10,3
+    </select>
+
+</mapper>

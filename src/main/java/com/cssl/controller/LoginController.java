@@ -88,6 +88,7 @@ public class LoginController {
         TbUser user = service.selectUser(username, username, password);
         if (user != null) {
             session.setAttribute("username", user.getUsername());
+            session.setAttribute("phone", user.getPhone());
             session.setAttribute("head_Pic",user.getHead_Pic());
             return "forward:home-index";
         }
@@ -104,7 +105,6 @@ public class LoginController {
         username=(String)session.getAttribute("username");
         if (user.getUsername().equals(username)) {
             int row = service.updateUser(user);
-            System.out.println(row);
             if (row>0){
                 return "home";
             }

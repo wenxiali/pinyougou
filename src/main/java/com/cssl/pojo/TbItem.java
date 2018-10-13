@@ -23,7 +23,7 @@ public class TbItem implements Serializable {
 	private Integer num;
 	private String barcode;
 	private String image;
-	private Long category_Id;
+	private Long categoryId;
 	private String status;
 	private Timestamp create_Time;
 	private Timestamp update_Time;

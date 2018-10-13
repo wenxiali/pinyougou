@@ -30,7 +30,7 @@
                     <ul class="fr">
                         <li class="f-item">我的订单</li>
                         <li class="f-item space"></li>
-                        <li class="f-item"><a href="home.html" target="_blank">我的品优购</a></li>
+                        <li class="f-item"><a href="#" th:href="@{/home}">我的品优购</a></li>
                         <li class="f-item space"></li>
                         <li class="f-item">品优购会员</li>
                         <li class="f-item space"></li>
@@ -137,7 +137,6 @@
         }, function () {
             $("#shopcarlist").hide();
         });
-
     })
 </script>
 <script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
@@ -216,13 +215,33 @@
                         <div id="one" cla   ss="tab-pane active">
                             <form id="form-msg" th:action="@{/home-setting-info.action(username=${session.username})}" method="post" class="sui-form form-horizontal">
                                 <div class="control-group">
-                                    <label for="inputName" class="control-label">昵称：</label>
+                                   <label for="inputName" class="control-label">用户名：</label>
                                     <div class="controls">
-                                        <input type="text" id="inputName" name="nick_Name" placeholder="昵称">
+                                        <input type="text" th:value="${session.username}" id="username" name="username" >
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label for="inputName" class="control-label">邮箱：</label>
+                                    <label for="inputName" class="control-label">手机号：</label>
+                                    <div class="controls">
+                                        <input type="text" id="phone" name="phone"  th:value="${session.phone}" >
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="inputPassword" class="control-label">短信验证码：</label>
+                                    <div class="controls">
+                                        <input type="text" id="yanzheng" name="yanzheng" placeholder="短信验证码">
+                                        <input type="button" value="获取短信验证码"/>
+                                        <span id="yz" style="color: red"></span>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="inputName" class="control-label">昵称：</label>
+                                    <div class="controls">
+                                        <input type="text" id="inputName" name="nick_name" placeholder="昵称">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                     <label for="inputName" class="control-label">邮箱：</label>
                                     <div class="controls">
                                         <input type="email" id="email" name="email" placeholder="邮箱">
                                     </div>
@@ -239,17 +258,17 @@
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label for="inputPassword" name="birthday" class="control-label">生日：</label>
-                                    <div class="controls">
-                                        <select id="select_year2" rel="1990"></select>年
-                                        <select id="select_month2" rel="4"></select>月
+                                   <label for="inputPassword" class="control-label">生日：</label>
+                                    <div class="controls" name="birthday" >
+                                        <select id="select_year2"  rel="1990"></select>年
+                                        <select id="select_month2"  rel="4"></select>月
                                         <select id="select_day2" rel="3"></select>日
                                     </div>
                                 </div>
 
 
                                 <div class="control-group">
-                                    <label for="inputPassword" class="control-label">所在地：</label>
+                                    </span><label for="inputPassword" class="control-label">所在地：</label>
                                     <div class="controls">
                                         <div data-toggle="distpicker">
                                             <div class="form-group area">

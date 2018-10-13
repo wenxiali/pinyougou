@@ -21,7 +21,7 @@ public class TbUser implements Serializable {
 	private Date created;
 	private Date updated;
 	private String source_Type;
-	private String nick_Name;
+	private String nick_name;
 	private String name;
 	private String status;
 	private String head_Pic;

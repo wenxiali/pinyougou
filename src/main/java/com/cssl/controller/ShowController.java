@@ -3,6 +3,8 @@ package com.cssl.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class ShowController {
 
@@ -12,86 +14,44 @@ public class ShowController {
      */
     @RequestMapping("/index")
     public String index(){
-        return "index";
-    }
-
-
-
-    @RequestMapping("home")
-    public String home(){
-        return "home";
-    }
-
-
-    @RequestMapping("cart")
-    public String cart(){
-        return "cart";
-    }
-    /**
-     *
-     * @return
-     */
-    @RequestMapping("/home-person-collect")
-    public String homepersoncollect(){
-        return "home-person-collect.html";
+        return "index.html";
     }
 
 
     /**
-     *
-     * @return
+     *商品详情
      */
-    @RequestMapping("/home-setting-address")
-    public String homesettingaddress(){
-        return "home-setting-address.html";
-    }
-    /**
-     *
-     * @return
-     */
-    @RequestMapping("/home-setting-address-complete")
-    public String homesettingaddresscomplete(){
-        return "home-setting-address-complete.html";
-    }
-    /**
-     *
-     * @return
-     */
-    @RequestMapping("/home-setting-address-phone")
-    public String homesettingaddressphone(){
-        return "home-setting-address-phone.html";
+    @RequestMapping("/item")
+    public String item(){
+        return "item.html";
     }
 
     /**
-     *
-     * @return
+     * 秒杀页面
      */
-    @RequestMapping("/home-setting-info")
-    public String homesettinginfo(){
-        return "home-setting-info.html";
-    }
-    /**
-     *
-     * @return
-     */
-    @RequestMapping("/home-setting-safe")
-    public String homesettingsafe(){
-        return "home-setting-safe.html";
-    }
-
     @RequestMapping("/seckill-index")
-    public String seckillindex(){
+    public String  seckillindex(){
         return "seckill-index.html";
     }
 
-
-    @RequestMapping("/home-person-footmark")
-    public String homepersonfootmark(){
-        return "home-person-footmark.html";
+    /**
+     * 手机列表页面
+     */
+    @RequestMapping("/search")
+    public String search(){
+        return "search.html";
     }
 
-    @RequestMapping("/getOrderInfo")
-    public String getOrderInfo(){
-        return "getOrderInfo";
+    /**
+     * 欢迎界面
+     */
+    @RequestMapping("/home")
+    public String home(String username, HttpSession session){
+        username=(String)session.getAttribute("username");
+        if (username==null){
+            return "login";
+        }
+        return "forward:home-index";
     }
+
 }

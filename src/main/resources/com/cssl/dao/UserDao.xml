@@ -18,7 +18,6 @@
     </select>
 
 
-
     <!--登录-->
     <select id="selectUser" resultType="TbUser">
         SELECT * FROM tb_user
@@ -38,10 +37,16 @@
     <update id="updateUser" parameterType="int">
         UPDATE tb_user
         <set>
-            <if  test="email!=null and email!=''">
+            <if test="username!=null and username!=''">
+                username=#{username},
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone=#{phone},
+            </if>
+            <if test="email!=null and email!=''">
                 email=#{email},
             </if>
-            <if test="nick_Name != null and nick_Name!=''">
+            <if test="nick_name != null and nick_name!=''">
                 nick_name =#{nick_name},
             </if>
             <if test="sex != null and sex!=''">
@@ -61,6 +66,9 @@
             </if>
             <if test="job != null and job!=''">
                 job =#{job},
+            </if>
+            <if test="head_Pic!=null and head_Pic!=''">
+                head_pic=#{head_pic},
             </if>
         </set>
         WHERE username=#{username}
