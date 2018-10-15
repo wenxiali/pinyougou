@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssl.dao.AddressDao">
+
+    <select id="selectAddress" resultType="map">
+      SELECT ta.aid,contact,tp.`province`,tc.`city`,tar.area,ta.`address`,ta.`mobile`,ta.`is_default`
+      FROM tb_address ta
+        LEFT JOIN tb_provinces tp ON ta.`province_id`=tp.`provinceid`
+        LEFT JOIN tb_cities tc ON ta.`city_id`=tc.`cityid`
+        LEFT JOIN tb_areas tar ON ta.`town_id`=tar.areaid
+        <where>
+            <if test="aId!=null and aId!=0">
+                ta.`aid`=#{aId}
+            </if>
+            <if test="username!=null and username!=''">
+                ta.`username`=#{username}
+            </if>
+        </where>
+        ORDER BY ta.`create_date` DESC
+    </select>
+
+    <delete id="deleteAdd" parameterType="int">
+        DELETE FROM tb_address WHERE aid=#{aId}
+    </delete>
+
+</mapper>

@@ -38,7 +38,6 @@ public class TbItemCatController {
      */
     @RequestMapping("/indexx")
     public String indexx( HttpSession session,Model model,Map<String,Object> map,Integer id){
-        System.err.println("进入"+id);
         //查询一级目录
         IPage<TbItemCat> list= service.selectPage(new Page(1,15),new QueryWrapper<TbItemCat>().eq("parent_Id",0));
         model.addAttribute("list",list.getRecords());

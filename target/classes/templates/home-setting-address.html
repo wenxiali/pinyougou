@@ -11,6 +11,31 @@
 
     <link rel="stylesheet" type="text/css" href="css/webbase.css"/>
     <link rel="stylesheet" type="text/css" href="css/pages-seckillOrder.css"/>
+    <script type="text/javascript" src="script/jquery-1.8.3.js"></script>
+    <script type="text/javascript">
+        function del(aId) {
+            if (confirm('您确定要删除地址？')) {
+                $.ajax({
+                    url: "delAddress.action",
+                    data: "aId=" + aId,
+                    success: function (r) {
+                        if (r > 0) {
+                            alert("删除成功！");
+                            window.location="home-setting-address.action";
+                        } else {
+                            alert("删除失败!");
+                            window.location="home-setting-address.action";
+                        }
+                    }
+                });
+            }
+        }
+        /*
+        function modify(contact) {
+
+        }*/
+    </script>
+    
 </head>
 
 <body>
@@ -24,8 +49,6 @@
                 <div class="shortcut">
                     <ul class="fl">
                         <li class="f-item">品优购欢迎您！</li>
-                        <li class="f-item">请<a href="login.html" target="_blank">登录</a>　<span><a href="register.html"
-                                                                                                 target="_blank">免费注册</a></span>
                         </li>
                     </ul>
                     <ul class="fr">
@@ -150,8 +173,7 @@
 <script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
 <script type="text/javascript" src="js/plugins/jquery-placeholder/jquery.placeholder.min.js"></script>
 <script type="text/javascript" src="js/widget/nav.js"></script>
-<script type="text/javascript" src="pages/userInfo/distpicker.data.js"></script>
-<script type="text/javascript" src="pages/userInfo/distpicker.js"></script>
+<script type="text/javascript" src="js/plugins/citypicker/address.js"></script>
 <script type="text/javascript" src="pages/userInfo/main.js"></script>
 </body>
 <!--header-->
@@ -172,7 +194,7 @@
                 <div class="list-items">
                     <dl>
                         <dt><i>·</i> 订单中心</dt>
-                        <dd><a href="#" class="list-active" th:href="@{/home-index}">我的订单</a></dd>
+                        <dd><a href="#" th:href="@{/home-index}">我的订单</a></dd>
                         <dd><a href="#" th:href="@{/home-order-pay(status=1)}">待付款</a></dd>
                         <dd><a href="#" th:href="@{/home-order-send(status=2,status=3)}">待发货</a></dd>
                         <dd><a href="#" th:href="@{/home-order-receive(status=4)}">待收货</a></dd>
@@ -189,7 +211,8 @@
                     <dl>
                         <dt><i>·</i> 设置</dt>
                         <dd><a href="home-setting-info">个人信息</a></dd>
-                        <dd><a href="home-setting-address" class="list-active">地址管理</a></dd>
+                        <dd><a href="#" th:href="@{/home-setting-address.action(userId=${session.username})}"
+                               class="list-active">地址管理</a></dd>
                         <dd><a href="home-setting-safe">安全管理</a></dd>
                     </dl>
                 </div>
@@ -214,29 +237,40 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>刘田田</td>
-                                <td>北京 北京市 海淀区 上地街道东北旺西路8号中关村软件园9号楼</td>
-                                <td>1774***********4</td>
-                                <td>
-                                    <a href="#">编辑</a>
-                                    <a href="#">删除</a>
-                                    默认地址
+                            <tr th:each="addr:${address.getRecords()}">
+                                <td th:text="${addr.contact}"></td>
+                                <td><span th:text="${addr.province}"/><span th:text="${addr.city}"/><span
+                                        th:text="${addr.area}"/><span th:text="${addr.address}"/></td>
+                                <td th:text="${addr.mobile}"></td>
+                                <td align="center">
+                                    <a data-toggle="modal" data-target=".modify" data-keyboard="false"
+                                       class="sui-btn  btn-info add-new">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="button" value="删除" th:onclick="'javascript:del(\''+${addr.aid}+'\')'"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                                   <span th:switch="${addr.is_default}">
+                                       <span th:case="1">默认地址</span>
+                                       <span th:case="0">设为默认</span>
+                                   </span>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>沈沉</td>
-                                <td>北京 北京市 海淀区 上地街道东北旺西路8号中关村软件园9号楼</td>
-                                <td>1774***********4</td>
-                                <td>
-                                    <a href="#">编辑</a>
-                                    <a href="#">删除</a>
-                                    <a href="#">设为默认</a>
-                                </td>
-                            </tr>
-
                             </tbody>
                         </table>
+                        <div class="choose-order">
+                            <div class="sui-pagination pagination-large top-pages">
+                                <ul>
+                                    <li class="prev disabled"><A href="#"
+                                                                 th:href="@{/home-setting-address(pa=1)}">首页</A></li>
+                                    <li class="prev disabled"><A href="#"
+                                                                 th:href="@{/home-setting-address(pa=${address.getCurrent()-1})}">上一页</A>
+                                    </li>
+                                    <li class="prev disabled"><A href="#"
+                                                                 th:href="@{/home-setting-address(pa=${address.getCurrent()+1})}">下一页</A>
+                                    </li>
+                                    <li class="prev disabled"><A href="#"
+                                                                 th:href="@{/home-setting-address(pa=${address.getPages()})}">末页</A>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <!--新增地址弹出层-->
                     <div tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade edit"
@@ -249,11 +283,87 @@
                                     <h4 id="myModalLabel" class="modal-title">新增地址</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="" class="sui-form form-horizontal">
+                                    <form action="insert.action" method="post" class="sui-form form-horizontal">
                                         <div class="control-group">
                                             <label class="control-label">收货人：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" name="contact" class="input-medium">
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">所在地区：</label>
+                                            <div class="controls">
+                                                <div data-toggle="distpicker">
+                                                    <div class="form-group area">
+                                                        <select class="form-control" name="province_Id" id="province1"></select>
+                                                    </div>
+                                                    <div class="form-group area">
+                                                        <select class="form-control" name="city_Id" id="city1"></select>
+                                                    </div>
+                                                    <div class="form-group area">
+                                                        <select class="form-control" name="town_Id" id="district1"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">详细地址：</label>
+                                            <div class="controls">
+                                                <input type="text" name="address" class="input-large">
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">联系电话：</label>
+                                            <div class="controls">
+                                                <input type="text" name="mobile" class="input-medium">
+                                            </div>
+                                        </div>
+                                        <!--<div class="control-group">
+                                            <label class="control-label">设为默认：</label>
+                                            <div class="controls">
+                                                <input type="radio" name="is_Default" class="input-medium">是
+                                                <input type="radio" name="is_Default" checked="checked"  class="input-medium">否
+                                            </div>
+                                        </div>-->
+                                        <div class="control-group">
+                                            <label class="control-label">地址别名：</label>
+                                            <div class="controls">
+                                                <input type="text" name="alias" class="input-medium">
+                                            </div>
+                                            <div class="othername">
+                                                建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#"
+                                                                                                           class="sui-btn btn-default">父母家</a>　<a
+                                                    href="#" class="sui-btn btn-default">公司</a>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" value="提交" />
+                                            <input type="button" value="取消"/>
+                                        </div>
+                                    </form>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--修改地址弹出层-->
+     <!--               <div tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade modify"
+                         style="width:580px;">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" data-dismiss="modal" aria-hidden="true" class="sui-close">×
+                                    </button>
+                                    <h4 id="myModalLabel" class="modal-title">修改地址</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="modify.action" class="sui-form form-horizontal">
+                                        <div class="control-group">
+                                            <label class="control-label">收货人：</label>
+                                            <div class="controls">
+                                                <input type="text" th:value="${address.contact}" class="input-medium">
                                             </div>
                                         </div>
                                         <div class="control-group">
@@ -275,25 +385,26 @@
                                         <div class="control-group">
                                             <label class="control-label">详细地址：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-large">
+                                                <input type="text" th:value="${address.is_default}" class="input-large">
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">联系电话：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" th:value="${address.mobile}" class="input-medium">
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label class="control-label">邮箱：</label>
+                                            <label class="control-label">设为默认：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="radio"  class="input-medium">是
+                                                <input type="radio"  class="input-medium">否
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">地址别名：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" th:value="${address.alias}" class="input-medium">
                                             </div>
                                             <div class="othername">
                                                 建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#"
@@ -301,22 +412,22 @@
                                                     href="#" class="sui-btn btn-default">公司</a>
                                             </div>
                                         </div>
-
+                                        <div class="modal-footer">
+                                            <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large">确定
+                                            </button>
+                                            <button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large">
+                                                取消
+                                            </button>
+                                        </div>
                                     </form>
 
 
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large">确定
-                                    </button>
-                                    <button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large">
-                                        取消
-                                    </button>
-                                </div>
+
                             </div>
                         </div>
                     </div>
-
+-->
                 </div>
             </div>
         </div>

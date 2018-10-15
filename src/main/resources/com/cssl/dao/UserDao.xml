@@ -71,6 +71,6 @@
                 head_pic=#{head_pic},
             </if>
         </set>
-        WHERE username=#{username}
+        WHERE id=${id}
     </update>
 </mapper>

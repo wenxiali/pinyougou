@@ -13,7 +13,7 @@ import java.util.Date;
 @Setter
 public class TbUser implements Serializable {
 
-	private Long id;
+	private Integer id; //改
 	private String username;
 	private String password;
 	private String phone;

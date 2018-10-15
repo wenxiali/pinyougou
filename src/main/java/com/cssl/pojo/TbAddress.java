@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
@@ -16,17 +16,17 @@ public class TbAddress implements Serializable {
 
 	// Fields
 
-	private Long id;
-	private String user_Id;
+	private Integer aId;
+	private String username;
 	private String province_Id;
 	private String city_Id;
 	private String town_Id;
 	private String mobile;
 	private String address;
 	private String contact;
-	private String isDefault;
+	private int is_Default; //改
 	private String notes;
-	private Timestamp createDate;
+	private Date create_Date; //改
 	private String alias;
 
 
