@@ -161,7 +161,7 @@ $(function(){
                     <div class="list-items">
 						<dl>
 							<dt><i>·</i> 订单中心</dt>
-							<dd><a href="#" class="list-active" th:href="@{/home-index}">我的订单</a></dd>
+							<dd><a href="#"  th:href="@{/home-index}">我的订单</a></dd>
 							<dd><a href="#" th:href="@{/home-order-pay(status=1)}">待付款</a></dd>
 							<dd><a href="#" th:href="@{/home-order-send(status=2,status=3)}">待发货</a></dd>
 							<dd><a href="#" th:href="@{/home-order-receive(status=4)}">待收货</a></dd>
@@ -173,11 +173,8 @@ $(function(){
 							<dd><a href="home-person-footmark">我的足迹</a></dd>
 						</dl>
 						<dl>
-							<dt><i>·</i> 物流消息</dt>
-						</dl>
-						<dl>
 							<dt><i>·</i> 设置</dt>
-							<dd><a  href="#" th:href="@{/home-setting-info}" class="list-active">个人信息</a></dd>
+							<dd><a  href="#" th:href="@{/home-setting-info.action}" class="list-active">个人信息</a></dd>
 							<dd><a href="#" th:href="@{/home-setting-address.action(userId=${session.username})}"
 								   class="list-active">地址管理</a></dd>
 							<dd><a href="#" th:href="@{/home-setting-safe.action}">安全管理</a></dd>

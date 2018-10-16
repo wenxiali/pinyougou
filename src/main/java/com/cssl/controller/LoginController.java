@@ -108,19 +108,11 @@ public class LoginController {
 
     /**
      * 基本资料完善
-     *
-     * @param user
      * @return
      */
     @RequestMapping("/home-setting-info.action")
-    private String insertInfo(TbUser user, String username, HttpSession session) {
-        username = (String) session.getAttribute("username");
-        if (user.getUsername().equals(username)) {
-            int row = service.updateUser(user);
-            if (row > 0) {
-                return "home";
-            }
-        }
+    private String insertInfo() {
+
         return "home-setting-info";
     }
 
@@ -161,6 +153,12 @@ public class LoginController {
     public String homesettingsafe(){
 
         return "home-setting-safe";
+    }
+
+    @RequestMapping("/item")
+    public String item(){
+
+        return "item";
     }
 
     @RequestMapping("/modifyPW.action")

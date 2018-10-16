@@ -30,7 +30,7 @@
                     <ul class="fr">
                         <li class="f-item">我的订单</li>
                         <li class="f-item space"></li>
-                        <li class="f-item"><a href="#" th:href="@{/home}">我的品优购</a></li>
+                        <li class="f-item"><a href="home.html" target="_blank">我的品优购</a></li>
                         <li class="f-item space"></li>
                         <li class="f-item">品优购会员</li>
                         <li class="f-item space"></li>
@@ -124,8 +124,8 @@
     </div>
 </div>
 
-<script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
-<script type="text/javascript">
+
+<!--<script type="text/javascript">
     $(function () {
         $("#service").hover(function () {
             $(".service").show();
@@ -138,24 +138,26 @@
             $("#shopcarlist").hide();
         });
     })
-</script>
-<script type="text/javascript" src="js/plugins/jquery.easing/jquery.easing.min.js"></script>
-<script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
-<script type="text/javascript" src="js/plugins/jquery-placeholder/jquery.placeholder.min.js"></script>
-<script type="text/javascript" src="js/widget/nav.js"></script>
-<script type="text/javascript" src="js/plugins/birthday/birthday.js"></script>
-<script type="text/javascript" src="js/plugins/citypicker/distpicker.data.js"></script>
+</script>-->
+<script type="text/javascript" src="script/jquery-1.8.3.js"></script>
 <script type="text/javascript" src="js/plugins/citypicker/distpicker.js"></script>
-<script type="text/javascript" src="js/plugins/upload/uploadPreview.js"></script>
-<script type="text/javascript" src="js/pages/main.js"></script>
+
 <script>
     $(function () {
-        $.ms_DatePicker({
-            YearSelector: "#select_year2",
-            MonthSelector: "#select_month2",
-            DaySelector: "#select_day2"
-        });
-    });
+
+
+        $("#two").attr("style","display:none;");
+        $("#hinb").click(function () {
+            $("#one").attr("style","display:none;");
+            $("#two").attr("style","display:block;");
+        })
+
+        $("#whab").click(function () {
+            $("#one").attr("style","display:block;");
+            $("#two").attr("style","display:none;");
+        })
+
+    })
 </script>
 <style>
     .person-photo {
@@ -172,7 +174,7 @@
             <div class="yui3-u-1-6 list">
 
                 <div class="person-info">
-                    <div class="person-photo"><img th:src="@{${session.head_Pic}}"></div>
+                    <div class="person-photo"><img id="dltx" th:src="@{${session.head_Pic}}"></div>
                     <div class="person-account">
                         <span class="name" th:text="${session.username}"/>
                         <span class="safe">账户安全</span>
@@ -182,7 +184,7 @@
                 <div class="list-items">
                     <dl>
                         <dt><i>·</i> 订单中心</dt>
-                        <dd><a href="#" class="list-active" th:href="@{/home-index}">我的订单</a></dd>
+                        <dd><a href="#" th:href="@{/home-index}">我的订单</a></dd>
                         <dd><a href="#" th:href="@{/home-order-pay(status=1)}">待付款</a></dd>
                         <dd><a href="#" th:href="@{/home-order-send(status=2,status=3)}">待发货</a></dd>
                         <dd><a href="#" th:href="@{/home-order-receive(status=4)}">待收货</a></dd>
@@ -194,13 +196,9 @@
                         <dd><a href="home-person-footmark">我的足迹</a></dd>
                     </dl>
                     <dl>
-                        <dt><i>·</i> 物流消息</dt>
-                    </dl>
-                    <dl>
                         <dt><i>·</i> 设置</dt>
                         <dd><a  href="#" th:href="@{/home-setting-info}" class="list-active">个人信息</a></dd>
-                        <dd><a href="#" th:href="@{/home-setting-address.action(userId=${session.username})}"
-                               class="list-active">地址管理</a></dd>
+                        <dd><a href="#" th:href="@{/home-setting-address.action(username=${session.username})}">地址管理</a></dd>
                         <dd><a href="#" th:href="@{/home-setting-safe.action}">安全管理</a></dd>
                     </dl>
                 </div>
@@ -209,40 +207,30 @@
             <div class="yui3-u-5-6">
                 <div class="body userInfo">
                     <ul class="sui-nav nav-tabs nav-large nav-primary ">
-                        <li class="active"><a href="#one" data-toggle="tab">基本资料</a></li>
-                        <li><a href="#two" data-toggle="tab">头像照片</a></li>
+                        <li id="whab" class="active"><a href="#one" data-toggle="tab">完善资料</a></li>
+                        <li id="hinb"><a href="#two" data-toggle="tab">个人信息</a></li>
                     </ul>
                     <div class="tab-content ">
                         <div id="one" cla   ss="tab-pane active">
-                            <form id="form-msg" th:action="@{/home-setting-info.action(username=${session.username})}" method="post" class="sui-form form-horizontal">
+                            <form id="form-msg" enctype="multipart/form-data" method="post"  class="sui-form form-horizontal">
                                 <div class="control-group">
-                                   <label for="inputName" class="control-label">用户名：</label>
+                                    <label for="inputName" class="control-label">当前头像：</label>
                                     <div class="controls">
-                                        <input type="text" th:value="${session.username}" id="username" name="username" >
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label for="inputName" class="control-label">手机号：</label>
-                                    <div class="controls">
-                                        <input type="text" id="phone" name="phone"  th:value="${session.phone}" >
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label for="inputPassword" class="control-label">短信验证码：</label>
-                                    <div class="controls">
-                                        <input type="text" id="yanzheng" name="yanzheng" placeholder="短信验证码">
-                                        <input type="button" value="获取短信验证码"/>
-                                        <span id="yz" style="color: red"></span>
+                                        <div class="upload">
+                                            <img id="imgShow_WU_FILE_0" width="100" height="100" src="">
+                                            <input type="file" id="up_img_WU_FILE_0"/>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label for="inputName" class="control-label">昵称：</label>
                                     <div class="controls">
-                                        <input type="text" id="inputName" name="nick_name" placeholder="昵称">
+                                        <input type="text" id="userName" name="nick_Name" placeholder="昵称">
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                     <label for="inputName" class="control-label">邮箱：</label>
+                                    <label for="inputName" class="control-label">邮箱：</label>
                                     <div class="controls">
                                         <input type="email" id="email" name="email" placeholder="邮箱">
                                     </div>
@@ -250,26 +238,27 @@
                                 <div class="control-group">
                                     <label for="inputGender" class="control-label">性别：</label>
                                     <div class="controls">
-                                        <label data-toggle="radio" class="radio-pretty inline">
-                                            <input type="radio" name="sex" value="1"><span>男</span>
+                                        <label data-toggle="radio" >
+                                            <input type="radio" id="nan"  name="sex" value="1"><span>男</span>
                                         </label>
-                                        <label data-toggle="radio" class="radio-pretty inline">
-                                            <input type="radio" name="sex" value="2"><span>女</span>
+                                        <label data-toggle="radio" >
+                                            <input type="radio" id="nv"  name="sex" value="2"><span>女</span>
                                         </label>
                                     </div>
                                 </div>
-                                <div class="control-group">
-                                   <label for="inputPassword" class="control-label">生日：</label>
-                                    <div class="controls" name="birthday" >
-                                        <select id="select_year2"  rel="1990"></select>年
-                                        <select id="select_month2"  rel="4"></select>月
-                                        <select id="select_day2" rel="3"></select>日
-                                    </div>
+                                <div class="control-group" id="wueb">
+                                    <label for="inputPassword" class="control-label">生日：</label>
+                                    <input type="text" id="time" name="birthday"/>
+
                                 </div>
+                              <!--  <div class="control-group" id="engf">
+                                    <label for="inputPassword" class="control-label">生日：</label>
+                                    <input type="date"  name="birthday"/>
 
+                                </div>-->
 
                                 <div class="control-group">
-                                    </span><label for="inputPassword" class="control-label">所在地：</label>
+                                    <label for="inputPassword" class="control-label">所在地：</label>
                                     <div class="controls">
                                         <div data-toggle="distpicker">
                                             <div class="form-group area">
@@ -287,7 +276,7 @@
                                 <div class="control-group">
                                     <label for="inputJob" class="control-label">职业：</label>
                                     <div class="controls"><span class="sui-dropdown dropdown-bordered select"/>
-                                        <select name="job" >
+                                        <select id="job" name="job" >
                                             <option th:value="程序员">程序员</option>
                                             <option th:value="架构师">架构师</option>
                                             <option th:value="UI设计师">UI设计师</option>
@@ -298,7 +287,7 @@
                                 <div class="control-group">
                                     <label for="sanwei" class="control-label"></label>
                                     <div class="controls">
-                                        <button type="submit" class="sui-btn btn-primary">立即注册</button>
+                                        <button type="button" id="sum" class="sui-btn btn-primary">提交</button>
                                     </div>
                                 </div>
                             </form>
@@ -308,8 +297,8 @@
                             <div class="new-photo">
                                 <p>当前头像：</p>
                                 <div class="upload">
-                                    <img id="imgShow_WU_FILE_0" width="100" height="100" th:src="@{${session.head_Pic}}">
-                                    <input type="file" id="up_img_WU_FILE_0"/>
+                                    <img  width="100" height="100" th:src="@{${session.head_Pic}}">
+
                                 </div>
 
                             </div>

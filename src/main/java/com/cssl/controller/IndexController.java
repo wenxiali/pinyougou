@@ -3,17 +3,28 @@ package com.cssl.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cssl.dto.UserDto;
 import com.cssl.pojo.TbOrder;
 import com.cssl.pojo.TbOrderItem;
+import com.cssl.pojo.TbUser;
 import com.cssl.service.OrderItemService;
 import com.cssl.service.OrderService;
 import com.cssl.service.UserService;
+import com.cssl.util.FileUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -195,14 +206,80 @@ public class IndexController {
         return "forward:home-order-evaluate";
     }
 
+
+    @RequestMapping(value = "/geteuser",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> geteuser(HttpServletRequest request){
+        String username=(String)request.getSession().getAttribute("username");
+        Map<String,Object> modlMap=new HashMap<>();
+        TbUser user =service.getUser(username);
+        if(user!=null){
+            UserDto userDto=new UserDto();
+            userDto.setNick_Name(user.getNick_name());
+            userDto.setEmail(user.getEmail());
+            userDto.setHead_pic(user.getHead_Pic());
+            userDto.setTime(user.getLast_Login_Time());
+            userDto.setSex(user.getSex());
+            userDto.setProvinceid(user.getProvince_Id());
+            userDto.setCityid(user.getCity_Id());
+            userDto.setAreaid(user.getTown_Id());
+            userDto.setJob(user.getJob());
+            modlMap.put("getUser",userDto);
+        }
+
+        return modlMap;
+    }
+
     /**
-     * 订单详情
+     * 完善信息方法,@RequestParam("fileImg") MultipartFile fileImg
      */
-    @RequestMapping("/home-orderDetail")
-    public String homeorderDetail(HttpSession session,Model model){
-        /*String username=(String)session.getAttribute("username");
-        model.addAttribute("username",username);*/
-        return "home-orderDetail";
+    @RequestMapping(value = "/updateuserty",method = RequestMethod.POST)
+    @ResponseBody
+    public int updateUserty(MultipartFile fileImg,
+                            @RequestParam("strs") String strs,
+                            HttpServletRequest request){
+        String username=(String)request.getSession().getAttribute("username");
+        System.out.println(strs);
+        ObjectMapper mapper = new ObjectMapper(); // create once, reuse
+        UserDto userdato=null;
+        try {
+            userdato= mapper.readValue(strs,UserDto.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        TbUser user=new TbUser();
+        user.setNick_name(userdato.getNick_Name());
+        user.setEmail(userdato.getEmail());
+        user.setSex(userdato.getSex());
+        user.setProvince_Id(userdato.getProvinceid());
+        user.setCity_Id(userdato.getCityid());
+        user.setTown_Id(userdato.getAreaid());
+        user.setJob(userdato.getJob());
+
+        user.setLast_Login_Time(userdato.getTime());
+        try{
+            if(null!=fileImg.getOriginalFilename()&&!"".equals(fileImg.getOriginalFilename())){
+
+                String fileType="imgupload/"+username+"/tx/";
+                String filePath = request.getSession().getServletContext().getRealPath(fileType);
+                //清空对应文件头像
+                FileUtil.deleteFileOrpath(filePath);
+                user.setHead_Pic(FileUtil.addimags(fileImg,fileType,request));
+            }else {
+                user.setHead_Pic(null);
+            }
+        }catch (Exception e){
+            user.setHead_Pic(null);
+        }
+
+        user.setUsername(username);
+        int counr=0;
+        if(username!=null &&username!=""){
+            counr=service.updateUser(user);
+        }
+
+        return counr;
     }
 
 

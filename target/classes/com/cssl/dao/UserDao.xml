@@ -34,43 +34,45 @@
         </where>
     </select>
 
-    <update id="updateUser" parameterType="int">
+    <update id="updateUser" parameterType="TbUser">
+
         UPDATE tb_user
         <set>
-            <if test="username!=null and username!=''">
-                username=#{username},
+            <if test="nick_name!=null and nick_name!=''">
+                nick_name=#{nick_name},
             </if>
-            <if test="phone!=null and phone!=''">
-                phone=#{phone},
-            </if>
-            <if test="email!=null and email!=''">
+            <if test="email !=null and email !=''">
                 email=#{email},
             </if>
-            <if test="nick_name != null and nick_name!=''">
-                nick_name =#{nick_name},
+            <if test="head_Pic !=null and head_Pic!=''">
+                head_pic=#{head_Pic},
             </if>
-            <if test="sex != null and sex!=''">
-                sex =#{sex},
+
+            <if test="sex!=null and sex!=''">
+                sex=#{sex},
             </if>
-            <if test="birthday != null and birthday!=''">
-                birthday =#{birthday},
+            <if test="last_Login_Time!=null">
+                last_login_time=#{last_Login_Time},
             </if>
-            <if test="province_Id != null and province_Id!=''">
-                provinceid =#{provinceid},
+            <if test="province_Id !=null and province_Id!=''">
+                province_Id=#{province_Id},
             </if>
-            <if test="city_Id != null and city_Id!=''">
-                cityid =#{cityid},
+            <if test="city_Id !=null and city_Id!=''">
+                city_Id=#{city_Id},
             </if>
-            <if test="town_Id != null and town_Id!=''">
-                townid =#{townid},
+            <if test="town_Id !=null and town_Id !=''">
+                town_Id=#{town_Id},
             </if>
-            <if test="job != null and job!=''">
-                job =#{job},
-            </if>
-            <if test="head_Pic!=null and head_Pic!=''">
-                head_pic=#{head_pic},
+            <if test="job!=null and job!=''">
+                job=#{job}
             </if>
         </set>
-        WHERE id=${id}
+        WHERE username=#{username}
     </update>
+
+    <select id="byenUser" resultType="TbUser">
+   SELECT nick_name,email,sex,last_login_time,head_pic,province_Id,city_Id,town_Id,job
+    FROM tb_user WHERE username=#{username}
+
+    </select>
 </mapper>

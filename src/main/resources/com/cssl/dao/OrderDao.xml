@@ -11,14 +11,16 @@
 
     <!--首页查询-->
     <select id="selectList" resultType="map">
-        SELECT o.`create_time` as ct,o.`order_id` as ori,s.nick_name as nn,oi.`title`,oi.`price`,o.`status`,
-        o.`post_fee` as pf,o.`payment`,oi.`num`,oi.`total_fee` as tf,oi.pic_path as pp
+        SELECT o.`order_id` AS ori,o.`create_time` AS ct,o.`receiver_area_name` AS ran,
+        o.`payment_time` AS pt,o.consign_time AS cont,o.`end_time` AS et,o.`close_time` AS ctime,
+        s.nick_name AS nn,oi.`title`,oi.`price`,o.`status`,
+        o.`post_fee` AS pf,o.`payment`,oi.`num`,oi.`total_fee` AS tf,oi.pic_path AS pp
         FROM tb_order o
         LEFT JOIN tb_order_item oi ON o.`order_id`=oi.`order_id`
         LEFT JOIN tb_seller s ON o.`seller_id`=s.`seller_id`
         <where>
-            <if test="username !=null and username!='' ">
-                and o.`user_id`= #{username}
+            <if test="orderId !=null and orderId!=0 ">
+                and o.`order_id`= #{orderId}
             </if>
             <if test="nick_Name !=null and nick_Name!=''">
                 and s.`nick_name`=#{nickName}

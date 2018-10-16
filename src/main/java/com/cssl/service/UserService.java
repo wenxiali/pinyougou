@@ -10,4 +10,6 @@ public interface UserService extends IService<TbUser> {
     TbUser selectUser(String username,String phone,String password);
 
     int updateUser(TbUser user);
+
+    TbUser getUser(String username);
 }

@@ -32,4 +32,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao,TbUser> implements User
     public int updateUser(TbUser user) {
         return dao.updateUser(user);
     }
+
+    @Override
+    public TbUser getUser(String username) {
+        return dao.byenUser(username);
+    }
 }

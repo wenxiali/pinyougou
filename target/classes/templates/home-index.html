@@ -57,6 +57,28 @@
                 });
             }
         }
+
+        function dell() {
+            if (confirm('您确定要删除选中的订单？')){
+                var selected=document.getElementsByName("selected");
+                for (i=0;i<selected.length;i++){
+                    if (selected[i].checked){
+                        var orderId=selected[i].val();
+                        $.ajax({
+                            url: "delete-index",
+                            data: "orderId=" + orderId,
+                            success: function (r) {
+                                if (r) {
+                                    alert("删除成功！");
+                                } else {
+                                    alert("删除失败!");
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        }        
     </script>
     <style>
         #del {
@@ -66,7 +88,7 @@
     </style>
 </head>
 
-<body>
+q<body>
 <!-- 头部栏位 -->
 <!--页面顶部-->
 <div id="nav-bottom">
@@ -227,7 +249,7 @@
                 <div class="list-items">
                     <dl>
                         <dt><i>·</i> 订单中心</dt>
-                        <dd><a href="#" class="list-active" th:href="@{/home-index}">我的订单</a></dd>
+                        <dd><a href="#" th:href="@{/home-index}" class="list-active">我的订单</a></dd>
                         <dd><a href="#" th:href="@{/home-order-pay(status=1)}">待付款</a></dd>
                         <dd><a href="#" th:href="@{/home-order-send(status=2,status=3)}">待发货</a></dd>
                         <dd><a href="#" th:href="@{/home-order-receive(status=4)}">待收货</a></dd>
@@ -240,7 +262,7 @@
                     </dl>
                     <dl>
                         <dt><i>·</i> 设置</dt>
-                        <dd><a href="#" th:href="@{/home-setting-info}">个人信息</a></dd>
+                        <dd><a  href="#" th:href="@{/home-setting-info.action}" >个人信息</a></dd>
                         <dd><a href="#" th:href="@{/home-setting-address.action(username=${session.username})}">地址管理</a></dd>
                         <dd><a href="#" th:href="@{/home-setting-safe.action}">安全管理</a></dd>
                     </dl>
@@ -312,7 +334,7 @@
                                                 <li th:case="5">已评价</span></li>
                                                 <li th:case="6">交易关闭</span></li>
                                                 <li th:case="7">待评价</span></li>
-                                                <li><a href="#" th:href="@{/home-orderDetail}" class="btn">订单详情 </a>
+                                                <li><a href="#" th:href="@{/home-orderDetail()}" class="btn">订单详情 </a>
                                                 </li>
                                             </ul>
                                         </td>
