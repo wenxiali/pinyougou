@@ -1,22 +1,19 @@
 package com.cssl.pojo;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.io.Serializable;
 
 /**
  * TbBrand entity. @author MyEclipse Persistence Tools
  */
-@Getter
-@Setter
+@Data
 public class TbBrand implements Serializable {
 
 	// Fields
-
 	private Long id;
 	private String name;
 	private String first_Char;
-
+	private String image;
 
 }

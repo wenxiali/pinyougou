@@ -157,10 +157,21 @@ public class LoginController {
      * 安全管理页面
      * @return
      */
-    @RequestMapping("/home-setting-safe")
+    @RequestMapping("/home-setting-safe.action")
     public String homesettingsafe(){
 
         return "home-setting-safe";
+    }
+
+    @RequestMapping("/modifyPW.action")
+    public String modifyPW(TbUser user,Integer id, HttpSession session){
+        id=(Integer)session.getAttribute("id");
+        boolean row=service.updateById(user);
+        if (row){
+            return "login";
+        }else {
+            return "home-setting-safe.action";
+        }
     }
 
     @RequestMapping("/home-setting-safe-phone")

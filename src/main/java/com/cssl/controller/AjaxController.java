@@ -1,13 +1,10 @@
 package com.cssl.controller;
 
-import com.cssl.pojo.TbUser;
 import com.cssl.service.AddressService;
 import com.cssl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpSession;
 
 @RestController
 public class AjaxController {
@@ -29,9 +26,10 @@ public class AjaxController {
         return  row;
     }
 
-    @RequestMapping("/modifyPW.action")
-    public boolean modifyPW(TbUser user,Integer id, HttpSession session){
-        boolean row=uService.updateById(user);
+    /*@RequestMapping("/modifyPW.action")
+    public int modifyPW(TbUser user,Integer id, HttpSession session){
+        id=(Integer)session.getAttribute("id");
+        int row=uService.updateUser(user);
         return row;
-    }
+    }*/
 }

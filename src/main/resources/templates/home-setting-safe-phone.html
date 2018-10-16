@@ -143,7 +143,7 @@ $(function(){
 <script type="text/javascript" src="js/widget/nav.js"></script>
 <script type="text/javascript" src="plugins/jquery.validate/jquery.validate.js"></script>
 <script>
-        $(function(){
+        /*$(function(){
             //jquery.validate
             $("#phone-form").validate({
             submitHandler: function() {
@@ -154,12 +154,12 @@ $(function(){
     
         //下面是一些常用的验证规则扩展
 
-        /*-------------验证插件配置 懒人建站http://www.51xuediannao.com/-------------*/
+        /!*-------------验证插件配置 懒人建站http://www.51xuediannao.com/-------------*!/
 
         //配置错误提示的节点，默认为label，这里配置成 span （errorElement:'span'）
-        $.validator.setDefaults({
+       /!* $.validator.setDefaults({
         errorElement:'span'
-        });
+        });*!/
 
         //配置通用的默认提示语
         $.extend($.validator.messages, {
@@ -167,7 +167,7 @@ $(function(){
         equalTo: "请再次输入相同的值"
         });
 
-        /*-------------扩展验证规则使用-------------*/
+        /!*-------------扩展验证规则使用-------------*!/
         //邮箱 
         jQuery.validator.addMethod("mail", function (value, element) {
         var mail = /^[a-z0-9._%-]+@([a-z0-9-]+\.)+[a-z]{2,4}$/;
@@ -266,7 +266,7 @@ $(function(){
         var isIDCard2=/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;//(18位)
 
         return this.optional(element) || (isIDCard1.test(value)) || (isIDCard2.test(value));
-        }, "格式不对");
+        }, "格式不对");*/
     </script>
 </body>
     <!--header-->
