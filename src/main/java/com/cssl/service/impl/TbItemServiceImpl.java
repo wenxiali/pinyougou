@@ -45,6 +45,15 @@ public class TbItemServiceImpl extends ServiceImpl<TbItemDao, TbItem> implements
     }
 
     /**
+     * 热卖单品
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> selectSelling() {
+        return dao.selectSelling();
+    }
+
+    /**
      * 手机通讯最热
      */
     @Override

@@ -46,4 +46,22 @@ public class ShowController {
         return "forward:home-index";
     }
 
+    /**
+     * 合作招商
+     * @return
+     */
+    @RequestMapping("cooperation")
+    public String cooperation(){
+        return "cooperation";
+    }
+
+    /**
+     * 商家入驻
+     * @return
+     */
+    @RequestMapping("sampling")
+    public String sampling(){
+        return "sampling";
+    }
+
 }

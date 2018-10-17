@@ -41,19 +41,26 @@
 
             });
         });
-        function dell(orderId) {
-            if(confirm('您确定要取消订单？')) {
-                $.ajax({
-                    url: "delete-pay",
-                    data:"orderId="+orderId,
-                    success: function (r) {
-                        if (r) {
-                            alert("取消成功！");
-                        } else {
-                            alert("取消失败!");
-                        }
+        function dell() {
+            if (confirm('您确定要删除选中的订单？')){
+                var selected=document.getElementsByName("selected");
+                for (i=0;i<selected.length;i++){
+                    if (selected[i].checked){
+                        var orderId=selected[i].value;
+                        alert(orderId);
+                        $.ajax({
+                            url: "delete",
+                            data: "orderId=" + orderId,
+                            success: function (r) {
+                                if (r == false) {
+                                    alert("操作失败!");
+                                }
+                            }
+                        });
                     }
-                });
+                }
+                // window.location.reload();
+                window.location = "home-order-pay";
             }
         }
     </script>
@@ -93,10 +100,9 @@
                         <li class="f-item" id="service">
                             <span>客户服务</span>
                             <ul class="service">
-                                <li><a href="cooperation.html" target="_blank">合作招商</a></li>
-                                <li><a href="shoplogin.html" target="_blank">商家后台</a></li>
-                                <li><a href="cooperation.html" target="_blank">合作招商</a></li>
-                                <li><a href="#">商家后台</a></li>
+                                <li><a href="cooperation" target="_blank">合作招商</a></li>
+                                <li><a href="sampling" target="_blank">商家入驻</a></li>
+                                <li><a href="" target="_blank">商家后台</a></li>
                             </ul>
                         </li>
                         <li class="f-item space"></li>
@@ -196,6 +202,9 @@
     .person-photo{
         width: 80px;
     }
+    .p-img{
+        width: 180px;
+    }
     .typographic img{
         width: 100px;
     }
@@ -287,7 +296,7 @@
                                                 <td width="35%">
                                                     <div class="typographic"><img th:src="@{${home.pp}}"/>
                                                         <a href="#" class="block-text" th:text="${home.title}"></a>
-                                                        <span class="guige">规格：温泉喷雾150ml</span>
+                                                        <!--<span class="guige">规格：温泉喷雾150ml</span>-->
                                                     </div>
                                                 </td>
                                                 <td width="5%" class="center">
@@ -309,7 +318,7 @@
                                                 <td width="10%" class="center">
                                                     <ul class="unstyled" th:switch="${home.status}">
                                                         <li th:case="1">等待买家付款</li>
-                                                        <li><a href="#" th:href="@{/home-orderDetail}"  class="btn">订单详情 </a></li>
+                                                        <li><a href="#" th:href="@{/home-orderDetail(orderId=${home.ori})}" class="btn" >订单详情 </a></li>
                                                     </ul>
                                                 </td>
                                                 <td width="10%" class="center">
@@ -356,82 +365,24 @@
                                 <div class="like-list">
                                     <ul class="yui3-g">
                                         <li class="yui3-u-1-4">
-                                            <div class="list-wrap">
+                                            <div class="list-wrap" th:each="sell:${selling}">
                                                 <div class="p-img">
-                                                    <img src="img/_/itemlike01.png"/>
+                                                    <img th:src="@{${sell.image}}" />
                                                 </div>
                                                 <div class="attr">
-                                                    <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
+                                                    <em th:text="${sell.title}"></em>
                                                 </div>
                                                 <div class="price">
                                                     <strong>
                                                         <em>¥</em>
-                                                        <i>3699.00</i>
+                                                        <i th:text="${sell.price}"></i>
                                                     </strong>
                                                 </div>
                                                 <div class="commit">
-                                                    <i class="command">已有6人评价</i>
+                                                    <i class="command">已出售<span th:text="${sell.sl}"/></i>
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="yui3-u-1-4">
-                                            <div class="list-wrap">
-                                                <div class="p-img">
-                                                    <img src="img/_/itemlike02.png"/>
-                                                </div>
-                                                <div class="attr">
-                                                    <em>Apple苹果iPhone 6s/6s Plus 16G 64G 128G</em>
-                                                </div>
-                                                <div class="price">
-                                                    <strong>
-                                                        <em>¥</em>
-                                                        <i>4388.00</i>
-                                                    </strong>
-                                                </div>
-                                                <div class="commit">
-                                                    <i class="command">已有700人评价</i>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="yui3-u-1-4">
-                                            <div class="list-wrap">
-                                                <div class="p-img">
-                                                    <img src="img/_/itemlike03.png"/>
-                                                </div>
-                                                <div class="attr">
-                                                    <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                                                </div>
-                                                <div class="price">
-                                                    <strong>
-                                                        <em>¥</em>
-                                                        <i>4088.00</i>
-                                                    </strong>
-                                                </div>
-                                                <div class="commit">
-                                                    <i class="command">已有700人评价</i>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="yui3-u-1-4">
-                                            <div class="list-wrap">
-                                                <div class="p-img">
-                                                    <img src="img/_/itemlike04.png"/>
-                                                </div>
-                                                <div class="attr">
-                                                    <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                                                </div>
-                                                <div class="price">
-                                                    <strong>
-                                                        <em>¥</em>
-                                                        <i>4088.00</i>
-                                                    </strong>
-                                                </div>
-                                                <div class="commit">
-                                                    <i class="command">已有700人评价</i>
-                                                </div>
-                                            </div>
-                                        </li>
-
                                     </ul>
                                 </div>
                             </div>

@@ -25,6 +25,7 @@
                 }
             }
         }
+
         $(function () {
             $(".ck2").click(function () {
                 var ckall = document.getElementsByName("selected");
@@ -40,24 +41,32 @@
 
             });
         });
-        function dell(orderId) {
-            if(confirm('您确定要删除此订单？')) {
-                $.ajax({
-                    url: "delete-receive",
-                    data:"orderId="+orderId,
-                    success: function (r) {
-                        if (r) {
-                            alert("删除成功！");
-                        } else {
-                            alert("删除失败!");
-                        }
+
+        function dell() {
+            if (confirm('您确定要删除选中的订单？')) {
+                var selected = document.getElementsByName("selected");
+                for (i = 0; i < selected.length; i++) {
+                    if (selected[i].checked) {
+                        var orderId = selected[i].value;
+                        alert(orderId);
+                        $.ajax({
+                            url: "delete",
+                            data: "orderId=" + orderId,
+                            success: function (r) {
+                                if (r == false) {
+                                    alert("操作失败!");
+                                }
+                            }
+                        });
                     }
-                });
+                }
+                // window.location.reload();
+                window.location = "home-order-receive";
             }
         }
     </script>
     <style>
-        #del{
+        #del {
             position: relative;
             left: 800px;
         }
@@ -91,10 +100,9 @@
                         <li class="f-item" id="service">
                             <span>客户服务</span>
                             <ul class="service">
-                                <li><a href="cooperation.html" target="_blank">合作招商</a></li>
-                                <li><a href="shoplogin.html" target="_blank">商家后台</a></li>
-                                <li><a href="cooperation.html" target="_blank">合作招商</a></li>
-                                <li><a href="#">商家后台</a></li>
+                                <li><a href="cooperation" target="_blank">合作招商</a></li>
+                                <li><a href="sampling" target="_blank">商家入驻</a></li>
+                                <li><a href="" target="_blank">商家后台</a></li>
                             </ul>
                         </li>
                         <li class="f-item space"></li>
@@ -191,13 +199,18 @@
     })
 </script>
 <style>
-    .person-photo{
+    .person-photo {
         width: 80px;
     }
-    .typographic img{
+
+    .p-img{
+        width: 180px;
+    }
+    .typographic img {
         width: 100px;
     }
-    #aa{
+
+    #aa {
         float: left;
     }
 </style>
@@ -216,7 +229,7 @@
                 <div class="person-info">
                     <div class="person-photo"><img th:src="@{${session.head_Pic}}"></div>
                     <div class="person-account">
-                        <span class="name"  th:text="${session.username}"></span>
+                        <span class="name" th:text="${session.username}"></span>
                         <span class="safe">账户安全</span>
                     </div>
                     <div class="clearfix"></div>
@@ -226,8 +239,9 @@
                         <dt><i>·</i> 订单中心</dt>
                         <dd><a href="#" th:href="@{/home-index}">我的订单</a></dd>
                         <dd><a href="#" th:href="@{/home-order-pay(status=1)}">待付款</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-send(status=2,status=3)}" >待发货</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-receive(status=4,status=5)}"  class="list-active">待收货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-send(status=2,status=3)}">待发货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-receive(status=4,status=5)}" class="list-active">待收货</a>
+                        </dd>
                         <dd><a href="#" th:href="@{/home-order-evaluate(status=6,status=7)}">待评价</a></dd>
                     </dl>
                     <dl>
@@ -237,8 +251,9 @@
                     </dl>
                     <dl>
                         <dt><i>·</i> 设置</dt>
-                        <dd><a  href="#" th:href="@{/home-setting-info.action}" >个人信息</a></dd>
-                        <dd><a href="#" th:href="@{/home-setting-address.action(username=${session.username})}">地址管理</a></dd>
+                        <dd><a href="#" th:href="@{/home-setting-info.action}">个人信息</a></dd>
+                        <dd><a href="#" th:href="@{/home-setting-address.action(username=${session.username})}">地址管理</a>
+                        </dd>
                         <dd><a href="#" th:href="@{/home-setting-safe.action}">安全管理</a></dd>
                     </dl>
                 </div>
@@ -265,7 +280,7 @@
                         <div class="orders">
                             <div class="choose-order">
                                 <input type="checkbox" id="ck" onclick="selectAll()">&nbsp;<span>全选</span>
-                                <a href="" class="sui-btn btn-info btn-bordered hepay-btn" id="del">批量删除</a>
+                                <a href="" class="sui-btn btn-info btn-bordered hepay-btn" onclick="dell()">批量删除</a>
                                 <div class="orders">
                                     <div class="choose-title" th:each="home:${receive.getRecords()}">
                                         <label data-toggle="checkbox">
@@ -275,7 +290,6 @@
                                                 th:text="${home.ori}"></span> &nbsp;店铺：<span
                                                 th:text="${home.nn}"></span><a>和我联系</a>
                                         </label>
-                                        <a class="sui-btn btn-info share-btn" type="button" th:onclick="'javascript:dell(\''+${home.ori}+'\')'">删除</a>
 
                                         <table class="sui-table table-bordered order-datatable">
                                             <tbody>
@@ -283,7 +297,7 @@
                                                 <td width="35%">
                                                     <div class="typographic"><img th:src="@{${home.pp}}"/>
                                                         <a href="#" class="block-text" th:text="${home.title}"></a>
-                                                        <span class="guige">规格：温泉喷雾150ml</span>
+                                                        <!--<span class="guige">规格：温泉喷雾150ml</span>-->
                                                     </div>
                                                 </td>
                                                 <td width="5%" class="center">
@@ -305,7 +319,9 @@
                                                 <td width="10%" class="center">
                                                     <ul class="unstyled" th:switch="${home.status}">
                                                         <li th:case="4">物流派件中</li>
-                                                        <li><a href="#" th:href="@{/home-orderDetail}"  class="btn">订单详情 </a></li>
+                                                        <li><a href="#"
+                                                               th:href="@{/home-orderDetail(orderId=${home.ori})}"
+                                                               class="btn">订单详情 </a></li>
                                                     </ul>
                                                 </td>
                                                 <td width="10%" class="center">
@@ -324,7 +340,8 @@
                                     <div class="choose-order">
                                         <div class="sui-pagination pagination-large top-pages">
                                             <ul>
-                                                <li class="prev disabled"><A href="#" th:href="@{/home-order-receive(pa=1)}">首页</A>
+                                                <li class="prev disabled"><A href="#"
+                                                                             th:href="@{/home-order-receive(pa=1)}">首页</A>
                                                 </li>
                                                 <li class="prev disabled"><A href="#"
                                                                              th:href="@{/home-order-receive(pa=${receive.getCurrent()-1})}">上一页</A>
@@ -349,82 +366,24 @@
                                 <div class="like-list">
                                     <ul class="yui3-g">
                                         <li class="yui3-u-1-4">
-                                            <div class="list-wrap">
+                                            <div class="list-wrap" th:each="sell:${selling}">
                                                 <div class="p-img">
-                                                    <img src="img/_/itemlike01.png"/>
+                                                    <img th:src="@{${sell.image}}"/>
                                                 </div>
                                                 <div class="attr">
-                                                    <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
+                                                    <em th:text="${sell.title}"></em>
                                                 </div>
                                                 <div class="price">
                                                     <strong>
                                                         <em>¥</em>
-                                                        <i>3699.00</i>
+                                                        <i th:text="${sell.price}"></i>
                                                     </strong>
                                                 </div>
                                                 <div class="commit">
-                                                    <i class="command">已有6人评价</i>
+                                                    <i class="command">已出售<span th:text="${sell.sl}"/></i>
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="yui3-u-1-4">
-                                            <div class="list-wrap">
-                                                <div class="p-img">
-                                                    <img src="img/_/itemlike02.png"/>
-                                                </div>
-                                                <div class="attr">
-                                                    <em>Apple苹果iPhone 6s/6s Plus 16G 64G 128G</em>
-                                                </div>
-                                                <div class="price">
-                                                    <strong>
-                                                        <em>¥</em>
-                                                        <i>4388.00</i>
-                                                    </strong>
-                                                </div>
-                                                <div class="commit">
-                                                    <i class="command">已有700人评价</i>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="yui3-u-1-4">
-                                            <div class="list-wrap">
-                                                <div class="p-img">
-                                                    <img src="img/_/itemlike03.png"/>
-                                                </div>
-                                                <div class="attr">
-                                                    <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                                                </div>
-                                                <div class="price">
-                                                    <strong>
-                                                        <em>¥</em>
-                                                        <i>4088.00</i>
-                                                    </strong>
-                                                </div>
-                                                <div class="commit">
-                                                    <i class="command">已有700人评价</i>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="yui3-u-1-4">
-                                            <div class="list-wrap">
-                                                <div class="p-img">
-                                                    <img src="img/_/itemlike04.png"/>
-                                                </div>
-                                                <div class="attr">
-                                                    <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                                                </div>
-                                                <div class="price">
-                                                    <strong>
-                                                        <em>¥</em>
-                                                        <i>4088.00</i>
-                                                    </strong>
-                                                </div>
-                                                <div class="commit">
-                                                    <i class="command">已有700人评价</i>
-                                                </div>
-                                            </div>
-                                        </li>
-
                                     </ul>
                                 </div>
                             </div>

@@ -32,4 +32,11 @@ public interface TbItemService extends IService<TbItem> {
      * 根据标题查询（家用电器，手机通讯）
      */
     public List<Map<String,Object>> selecttitle(Map map);
+
+    /**
+     * 热卖单品
+     * @param map
+     * @return
+     */
+    public List<Map<String,Object>> selectSelling();
 }

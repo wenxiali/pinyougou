@@ -6,6 +6,7 @@ import com.cssl.dto.RegisUser;
 import com.cssl.pojo.TbAddress;
 import com.cssl.pojo.TbUser;
 import com.cssl.service.AddressService;
+import com.cssl.service.TbItemService;
 import com.cssl.service.UserService;
 import com.cssl.util.Constant;
 import com.cssl.util.PhoneRandom;
@@ -35,6 +36,9 @@ public class LoginController {
 
     @Autowired
     private AddressService aService;
+
+    @Autowired
+    private TbItemService iService;
 
     /**
      * 注冊
@@ -217,7 +221,7 @@ public class LoginController {
     }
 
     /**
-     * 修改密码
+     * 修改密码和手机号
      * @param user
      * @param id
      * @param session

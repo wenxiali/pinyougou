@@ -33,5 +33,6 @@ public interface TbItemDao extends SuperMapper<TbItem> {
      */
     public List<Map<String,Object>> selecttitle(Map map);
 
+    public List<Map<String,Object>> selectSelling();
 
 }

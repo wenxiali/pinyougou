@@ -25,6 +25,7 @@
                 }
             }
         }
+
         $(function () {
             $(".ck2").click(function () {
                 var ckall = document.getElementsByName("selected");
@@ -40,19 +41,27 @@
 
             });
         });
-        function dell(orderId) {
-            if(confirm('您确定要删除此订单？')) {
-                $.ajax({
-                    url: "delete-evaluate",
-                    data:"orderId="+orderId,
-                    success: function (r) {
-                        if (r) {
-                            alert("删除成功！");
-                        } else {
-                            alert("删除失败!");
-                        }
+
+        function dell() {
+            if (confirm('您确定要删除选中的订单？')) {
+                var selected = document.getElementsByName("selected");
+                for (i = 0; i < selected.length; i++) {
+                    if (selected[i].checked) {
+                        var orderId = selected[i].value;
+                        alert(orderId);
+                        $.ajax({
+                            url: "delete",
+                            data: "orderId=" + orderId,
+                            success: function (r) {
+                                if (r == false) {
+                                    alert("操作失败!");
+                                }
+                            }
+                        });
                     }
-                });
+                }
+                // window.location.reload();
+                window.location = "home-order-evaluate";
             }
         }
     </script>
@@ -91,10 +100,9 @@
                         <li class="f-item" id="service">
                             <span>客户服务</span>
                             <ul class="service">
-                                <li><a href="cooperation.html" target="_blank">合作招商</a></li>
-                                <li><a href="shoplogin.html" target="_blank">商家后台</a></li>
-                                <li><a href="cooperation.html" target="_blank">合作招商</a></li>
-                                <li><a href="#">商家后台</a></li>
+                                <li><a href="cooperation" target="_blank">合作招商</a></li>
+                                <li><a href="sampling" target="_blank">商家入驻</a></li>
+                                <li><a href="" target="_blank">商家后台</a></li>
                             </ul>
                         </li>
                         <li class="f-item space"></li>
@@ -191,13 +199,18 @@
     })
 </script>
 <style>
-    .person-photo{
+    .person-photo {
         width: 80px;
     }
-    .typographic img{
+
+    .p-img{
+        width: 180px;
+    }
+    .typographic img {
         width: 100px;
     }
-    #aa{
+
+    #aa {
         float: left;
     }
 </style>
@@ -228,7 +241,8 @@
                         <dd><a href="#" th:href="@{/home-order-pay(status=1)}">待付款</a></dd>
                         <dd><a href="#" th:href="@{/home-order-send(status=2,status=3)}">待发货</a></dd>
                         <dd><a href="#" th:href="@{/home-order-receive(status=4,status=5)}">待收货</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-evaluate(status=6,status=7)}" class="list-active">待评价</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-evaluate(status=6,status=7)}" class="list-active">待评价</a>
+                        </dd>
                     </dl>
                     <dl>
                         <dt><i>·</i> 我的中心</dt>
@@ -237,8 +251,9 @@
                     </dl>
                     <dl>
                         <dt><i>·</i> 设置</dt>
-                        <dd><a  href="#" th:href="@{/home-setting-info.action}" >个人信息</a></dd>
-                        <dd><a href="#" th:href="@{/home-setting-address.action(username=${session.username})}">地址管理</a></dd>
+                        <dd><a href="#" th:href="@{/home-setting-info.action}">个人信息</a></dd>
+                        <dd><a href="#" th:href="@{/home-setting-address.action(username=${session.username})}">地址管理</a>
+                        </dd>
                         <dd><a href="#" th:href="@{/home-setting-safe.action}">安全管理</a></dd>
                     </dl>
                 </div>
@@ -264,7 +279,7 @@
                     <div class="order-detail">
                         <div class="choose-order">
                             <input type="checkbox" id="ck" onclick="selectAll()">&nbsp;<span>全选</span>
-                            <a href="" class="sui-btn btn-info btn-bordered hepay-btn" id="del">批量删除</a>
+                            <a href="" class="sui-btn btn-info btn-bordered hepay-btn" onclick="dell()">批量删除</a>
                             <div class="orders">
                                 <div class="choose-title" th:each="home:${evaluate.getRecords()}">
                                     <label data-toggle="checkbox">
@@ -274,7 +289,6 @@
                                             th:text="${home.ori}"></span> &nbsp;店铺：<span
                                             th:text="${home.nn}"></span><a>和我联系</a>
                                     </label>
-                                    <a class="sui-btn btn-info share-btn" type="button" th:onclick="'javascript:dell(\''+${home.ori}+'\')'">删除</a>
 
                                     <table class="sui-table table-bordered order-datatable">
                                         <tbody>
@@ -282,7 +296,7 @@
                                             <td width="35%">
                                                 <div class="typographic"><img th:src="@{${home.pp}}"/>
                                                     <a href="#" class="block-text" th:text="${home.title}"></a>
-                                                    <span class="guige">规格：温泉喷雾150ml</span>
+                                                    <!--<span class="guige">规格：温泉喷雾150ml</span>-->
                                                 </div>
                                             </td>
                                             <td width="5%" class="center">
@@ -304,7 +318,8 @@
                                             <td width="10%" class="center">
                                                 <ul class="unstyled">
                                                     <li>订单已完成</li>
-                                                    <li><a href="#" th:href="@{/home-orderDetail}"  class="btn">订单详情 </a></li>
+                                                    <li><a href="#" th:href="@{/home-orderDetail(orderId=${home.ori})}"
+                                                           class="btn">订单详情 </a></li>
                                                 </ul>
                                             </td>
                                             <td width="10%" class="center">
@@ -320,7 +335,8 @@
                                 <div class="choose-order">
                                     <div class="sui-pagination pagination-large top-pages">
                                         <ul>
-                                            <li class="prev disabled"><A href="#" th:href="@{/home-order-evaluate(pa=1)}">首页</A>
+                                            <li class="prev disabled"><A href="#"
+                                                                         th:href="@{/home-order-evaluate(pa=1)}">首页</A>
                                             </li>
                                             <li class="prev disabled"><A href="#"
                                                                          th:href="@{/home-order-evaluate(pa=${evaluate.getCurrent()-1})}">上一页</A>
@@ -345,223 +361,164 @@
                             <div class="like-list">
                                 <ul class="yui3-g">
                                     <li class="yui3-u-1-4">
-                                        <div class="list-wrap">
+                                        <div class="list-wrap" th:each="sell:${selling}">
                                             <div class="p-img">
-                                                <img src="img/_/itemlike01.png"/>
+                                                <img th:src="@{${sell.image}}"/>
                                             </div>
                                             <div class="attr">
-                                                <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
+                                                <em th:text="${sell.title}"></em>
                                             </div>
                                             <div class="price">
                                                 <strong>
                                                     <em>¥</em>
-                                                    <i>3699.00</i>
+                                                    <i th:text="${sell.price}"></i>
                                                 </strong>
                                             </div>
                                             <div class="commit">
-                                                <i class="command">已有6人评价</i>
+                                                <i class="command">已出售<span th:text="${sell.sl}"/></i>
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="yui3-u-1-4">
-                                        <div class="list-wrap">
-                                            <div class="p-img">
-                                                <img src="img/_/itemlike02.png"/>
-                                            </div>
-                                            <div class="attr">
-                                                <em>Apple苹果iPhone 6s/6s Plus 16G 64G 128G</em>
-                                            </div>
-                                            <div class="price">
-                                                <strong>
-                                                    <em>¥</em>
-                                                    <i>4388.00</i>
-                                                </strong>
-                                            </div>
-                                            <div class="commit">
-                                                <i class="command">已有700人评价</i>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="yui3-u-1-4">
-                                        <div class="list-wrap">
-                                            <div class="p-img">
-                                                <img src="img/_/itemlike03.png"/>
-                                            </div>
-                                            <div class="attr">
-                                                <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                                            </div>
-                                            <div class="price">
-                                                <strong>
-                                                    <em>¥</em>
-                                                    <i>4088.00</i>
-                                                </strong>
-                                            </div>
-                                            <div class="commit">
-                                                <i class="command">已有700人评价</i>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="yui3-u-1-4">
-                                        <div class="list-wrap">
-                                            <div class="p-img">
-                                                <img src="img/_/itemlike04.png"/>
-                                            </div>
-                                            <div class="attr">
-                                                <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
-                                            </div>
-                                            <div class="price">
-                                                <strong>
-                                                    <em>¥</em>
-                                                    <i>4088.00</i>
-                                                </strong>
-                                            </div>
-                                            <div class="commit">
-                                                <i class="command">已有700人评价</i>
-                                            </div>
-                                        </div>
-                                    </li>
-
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- 底部栏位 -->
-        <!--页面底部-->
-        <div class="clearfix footer">
-            <div class="py-container">
-                <div class="footlink">
-                    <div class="Mod-service">
-                        <ul class="Mod-Service-list">
-                            <li class="grid-service-item intro  intro1">
+            <!-- 底部栏位 -->
+            <!--页面底部-->
+            <div class="clearfix footer">
+                <div class="py-container">
+                    <div class="footlink">
+                        <div class="Mod-service">
+                            <ul class="Mod-Service-list">
+                                <li class="grid-service-item intro  intro1">
 
-                                <i class="serivce-item fl"></i>
-                                <div class="service-text">
-                                    <h4>正品保障</h4>
-                                    <p>正品保障，提供发票</p>
+                                    <i class="serivce-item fl"></i>
+                                    <div class="service-text">
+                                        <h4>正品保障</h4>
+                                        <p>正品保障，提供发票</p>
+                                    </div>
+
+                                </li>
+                                <li class="grid-service-item  intro intro2">
+
+                                    <i class="serivce-item fl"></i>
+                                    <div class="service-text">
+                                        <h4>正品保障</h4>
+                                        <p>正品保障，提供发票</p>
+                                    </div>
+
+                                </li>
+                                <li class="grid-service-item intro  intro3">
+
+                                    <i class="serivce-item fl"></i>
+                                    <div class="service-text">
+                                        <h4>正品保障</h4>
+                                        <p>正品保障，提供发票</p>
+                                    </div>
+
+                                </li>
+                                <li class="grid-service-item  intro intro4">
+
+                                    <i class="serivce-item fl"></i>
+                                    <div class="service-text">
+                                        <h4>正品保障</h4>
+                                        <p>正品保障，提供发票</p>
+                                    </div>
+
+                                </li>
+                                <li class="grid-service-item intro intro5">
+
+                                    <i class="serivce-item fl"></i>
+                                    <div class="service-text">
+                                        <h4>正品保障</h4>
+                                        <p>正品保障，提供发票</p>
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="clearfix Mod-list">
+                            <div class="yui3-g">
+                                <div class="yui3-u-1-6">
+                                    <h4>购物指南</h4>
+                                    <ul class="unstyled">
+                                        <li>购物流程</li>
+                                        <li>会员介绍</li>
+                                        <li>生活旅行/团购</li>
+                                        <li>常见问题</li>
+                                        <li>购物指南</li>
+                                    </ul>
+
                                 </div>
-
-                            </li>
-                            <li class="grid-service-item  intro intro2">
-
-                                <i class="serivce-item fl"></i>
-                                <div class="service-text">
-                                    <h4>正品保障</h4>
-                                    <p>正品保障，提供发票</p>
+                                <div class="yui3-u-1-6">
+                                    <h4>配送方式</h4>
+                                    <ul class="unstyled">
+                                        <li>上门自提</li>
+                                        <li>211限时达</li>
+                                        <li>配送服务查询</li>
+                                        <li>配送费收取标准</li>
+                                        <li>海外配送</li>
+                                    </ul>
                                 </div>
-
-                            </li>
-                            <li class="grid-service-item intro  intro3">
-
-                                <i class="serivce-item fl"></i>
-                                <div class="service-text">
-                                    <h4>正品保障</h4>
-                                    <p>正品保障，提供发票</p>
+                                <div class="yui3-u-1-6">
+                                    <h4>支付方式</h4>
+                                    <ul class="unstyled">
+                                        <li>货到付款</li>
+                                        <li>在线支付</li>
+                                        <li>分期付款</li>
+                                        <li>邮局汇款</li>
+                                        <li>公司转账</li>
+                                    </ul>
                                 </div>
-
-                            </li>
-                            <li class="grid-service-item  intro intro4">
-
-                                <i class="serivce-item fl"></i>
-                                <div class="service-text">
-                                    <h4>正品保障</h4>
-                                    <p>正品保障，提供发票</p>
+                                <div class="yui3-u-1-6">
+                                    <h4>售后服务</h4>
+                                    <ul class="unstyled">
+                                        <li>售后政策</li>
+                                        <li>价格保护</li>
+                                        <li>退款说明</li>
+                                        <li>返修/退换货</li>
+                                        <li>取消订单</li>
+                                    </ul>
                                 </div>
-
-                            </li>
-                            <li class="grid-service-item intro intro5">
-
-                                <i class="serivce-item fl"></i>
-                                <div class="service-text">
-                                    <h4>正品保障</h4>
-                                    <p>正品保障，提供发票</p>
+                                <div class="yui3-u-1-6">
+                                    <h4>特色服务</h4>
+                                    <ul class="unstyled">
+                                        <li>夺宝岛</li>
+                                        <li>DIY装机</li>
+                                        <li>延保服务</li>
+                                        <li>品优购E卡</li>
+                                        <li>品优购通信</li>
+                                    </ul>
                                 </div>
-
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="clearfix Mod-list">
-                        <div class="yui3-g">
-                            <div class="yui3-u-1-6">
-                                <h4>购物指南</h4>
-                                <ul class="unstyled">
-                                    <li>购物流程</li>
-                                    <li>会员介绍</li>
-                                    <li>生活旅行/团购</li>
-                                    <li>常见问题</li>
-                                    <li>购物指南</li>
-                                </ul>
-
-                            </div>
-                            <div class="yui3-u-1-6">
-                                <h4>配送方式</h4>
-                                <ul class="unstyled">
-                                    <li>上门自提</li>
-                                    <li>211限时达</li>
-                                    <li>配送服务查询</li>
-                                    <li>配送费收取标准</li>
-                                    <li>海外配送</li>
-                                </ul>
-                            </div>
-                            <div class="yui3-u-1-6">
-                                <h4>支付方式</h4>
-                                <ul class="unstyled">
-                                    <li>货到付款</li>
-                                    <li>在线支付</li>
-                                    <li>分期付款</li>
-                                    <li>邮局汇款</li>
-                                    <li>公司转账</li>
-                                </ul>
-                            </div>
-                            <div class="yui3-u-1-6">
-                                <h4>售后服务</h4>
-                                <ul class="unstyled">
-                                    <li>售后政策</li>
-                                    <li>价格保护</li>
-                                    <li>退款说明</li>
-                                    <li>返修/退换货</li>
-                                    <li>取消订单</li>
-                                </ul>
-                            </div>
-                            <div class="yui3-u-1-6">
-                                <h4>特色服务</h4>
-                                <ul class="unstyled">
-                                    <li>夺宝岛</li>
-                                    <li>DIY装机</li>
-                                    <li>延保服务</li>
-                                    <li>品优购E卡</li>
-                                    <li>品优购通信</li>
-                                </ul>
-                            </div>
-                            <div class="yui3-u-1-6">
-                                <h4>帮助中心</h4>
-                                <img src="img/wx_cz.jpg">
+                                <div class="yui3-u-1-6">
+                                    <h4>帮助中心</h4>
+                                    <img src="img/wx_cz.jpg">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="Mod-copyright">
-                        <ul class="helpLink">
-                            <li>关于我们<span class="space"></span></li>
-                            <li>联系我们<span class="space"></span></li>
-                            <li>关于我们<span class="space"></span></li>
-                            <li>商家入驻<span class="space"></span></li>
-                            <li>营销中心<span class="space"></span></li>
-                            <li>友情链接<span class="space"></span></li>
-                            <li>关于我们<span class="space"></span></li>
-                            <li>营销中心<span class="space"></span></li>
-                            <li>友情链接<span class="space"></span></li>
-                            <li>关于我们</li>
-                        </ul>
-                        <p>地址：北京市昌平区建材城西路金燕龙办公楼一层 邮编：100096 电话：400-618-4000 传真：010-82935100</p>
-                        <p>京ICP备08001421号京公网安备110108007702</p>
+                        <div class="Mod-copyright">
+                            <ul class="helpLink">
+                                <li>关于我们<span class="space"></span></li>
+                                <li>联系我们<span class="space"></span></li>
+                                <li>关于我们<span class="space"></span></li>
+                                <li>商家入驻<span class="space"></span></li>
+                                <li>营销中心<span class="space"></span></li>
+                                <li>友情链接<span class="space"></span></li>
+                                <li>关于我们<span class="space"></span></li>
+                                <li>营销中心<span class="space"></span></li>
+                                <li>友情链接<span class="space"></span></li>
+                                <li>关于我们</li>
+                            </ul>
+                            <p>地址：北京市昌平区建材城西路金燕龙办公楼一层 邮编：100096 电话：400-618-4000 传真：010-82935100</p>
+                            <p>京ICP备08001421号京公网安备110108007702</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!--页面底部END-->
+            <!--页面底部END-->
 
-        undefined
+            undefined
 
 </html>

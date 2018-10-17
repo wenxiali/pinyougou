@@ -43,4 +43,14 @@
        LIMIT 10,3
     </select>
 
+    <!--热卖单品-->
+    <select id="selectSelling" resultType="map">
+        SELECT c.`image`,c.`title`,c.`price`,b.sl
+        FROM tb_order_item a,
+        (SELECT id,SUM(num) AS sl FROM tb_order_item GROUP BY item_id) b,
+        tb_item c
+      WHERE a.id=b.id AND a.item_id=c.id
+      ORDER BY b.sl DESC
+    </select>
+
 </mapper>

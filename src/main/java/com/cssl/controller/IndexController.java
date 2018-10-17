@@ -1,14 +1,12 @@
 package com.cssl.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cssl.dto.UserDto;
-import com.cssl.pojo.TbOrder;
-import com.cssl.pojo.TbOrderItem;
 import com.cssl.pojo.TbUser;
 import com.cssl.service.OrderItemService;
 import com.cssl.service.OrderService;
+import com.cssl.service.TbItemService;
 import com.cssl.service.UserService;
 import com.cssl.util.FileUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,6 +35,8 @@ public class IndexController {
     private OrderService oService;
     @Autowired
     private OrderItemService oiService;
+    @Autowired
+    private TbItemService iService;
 
     /**
      * 我的订单
@@ -50,22 +50,12 @@ public class IndexController {
         }
         String username=(String)session.getAttribute("username");
         IPage<Map<String,Object>> list = oService.selectList(new Page(pa,4),username,status,nick_Name);
+        List<Map<String,Object>> selling=iService.selectSelling();
+        model.addAttribute("selling",selling);
         model.addAttribute("list",list);
         return "home-index";
     }
-    /**
-     * 首页删除
-     * @return
-     */
-    @RequestMapping("/delete-index")
-    public String delete(String orderId){
-        boolean a=oiService.delete(new QueryWrapper<TbOrderItem>().eq("order_id",orderId));
-        if (a){
-            boolean b=oService.delete(new QueryWrapper<TbOrder>().eq("order_id",orderId));
-            return "forward:home-index";
-        }
-        return "forward:home-index";
-    }
+
 
     /**
      * 待付款
@@ -84,23 +74,13 @@ public class IndexController {
         }
         String username=(String)session.getAttribute("username");
         IPage<Map<String,Object>> pay = oService.selectList(new Page(pa,2),username,status,nick_Name);
+        List<Map<String,Object>> selling=iService.selectSelling();
+        model.addAttribute("selling",selling);
         model.addAttribute("pay",pay);
         return "home-order-pay";
     }
 
-    /**
-     * 代付款删除
-     * @return
-     */
-    @RequestMapping("/delete-pay")
-    public String deletepay(String orderId){
-        boolean a=oiService.delete(new QueryWrapper<TbOrderItem>().eq("order_id",orderId));
-        if (a){
-            boolean b=oService.delete(new QueryWrapper<TbOrder>().eq("order_id",orderId));
-            return "forward:home-order-pay";
-        }
-        return "forward:home-order-pay";
-    }
+
 
     /**
      * 待发货
@@ -119,23 +99,13 @@ public class IndexController {
         }
         String username=(String)session.getAttribute("username");
         IPage<Map<String,Object>> send = oService.selectList(new Page(pa,2),username,status,nick_Name);
+        List<Map<String,Object>> selling=iService.selectSelling();
+        model.addAttribute("selling",selling);
         model.addAttribute("send",send);
         return "home-order-send";
     }
 
-    /**
-     * 代发货删除
-     * @return
-     */
-    @RequestMapping("/delete-send")
-    public String deletesend(String orderId){
-        boolean a=oiService.delete(new QueryWrapper<TbOrderItem>().eq("order_id",orderId));
-        if (a){
-            boolean b=oService.delete(new QueryWrapper<TbOrder>().eq("order_id",orderId));
-            return "forward:home-order-send";
-        }
-        return "forward:home-order-send";
-    }
+
 
     /**
      * 待收货
@@ -154,23 +124,12 @@ public class IndexController {
         }
         String username=(String)session.getAttribute("username");
         IPage<Map<String,Object>> receive = oService.selectList(new Page(pa,2),username,status,nick_Name);
+        List<Map<String,Object>> selling=iService.selectSelling();
+        model.addAttribute("selling",selling);
         model.addAttribute("receive",receive);
         return "home-order-receive";
     }
 
-    /**
-     * 代收货删除
-     * @return
-     */
-    @RequestMapping("/delete-receive")
-    public String deletereceive(String orderId){
-        boolean a=oiService.delete(new QueryWrapper<TbOrderItem>().eq("order_id",orderId));
-        if (a){
-            boolean b=oService.delete(new QueryWrapper<TbOrder>().eq("order_id",orderId));
-            return "forward:home-order-receive";
-        }
-        return "forward:home-order-receive";
-    }
 
     /**
      * 待评价
@@ -189,22 +148,10 @@ public class IndexController {
         }
         String username=(String)session.getAttribute("username");
         IPage<Map<String,Object>> evaluate = oService.selectList(new Page(pa,2),username,status,nick_Name);
+        List<Map<String,Object>> selling=iService.selectSelling();
+        model.addAttribute("selling",selling);
         model.addAttribute("evaluate",evaluate);
         return "home-order-evaluate";
-    }
-
-    /**
-     * 代收货删除
-     * @return
-     */
-    @RequestMapping("/delete-evaluate")
-    public String deleteevaluate(String orderId){
-        boolean a=oiService.delete(new QueryWrapper<TbOrderItem>().eq("order_id",orderId));
-        if (a){
-            boolean b=oService.delete(new QueryWrapper<TbOrder>().eq("order_id",orderId));
-            return "forward:home-order-evaluate";
-        }
-        return "forward:home-order-evaluate";
     }
 
 
@@ -294,6 +241,8 @@ public class IndexController {
     @RequestMapping("/home-orderDetail")
     public String homeorderDetail(Long orderId,Model model){
         List<Map<String,Object>> list= oService.selectOrder(orderId);
+        List<Map<String,Object>> selling=iService.selectSelling();
+        model.addAttribute("selling",selling);
         model.addAttribute("order",list);
         return "home-orderDetail";
     }

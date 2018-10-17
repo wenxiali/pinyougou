@@ -32,7 +32,7 @@
 
     <select id="selectOrder" resultType="map">
        SELECT o.receiver_area_name AS ran,o.`order_id` AS oi,o.create_time AS ct,o.payment_time AS pt,
-         o.payment_type AS ptt,o.consign_time AS cct,oi.`title`,oi.`price`,o.`payment`,
+         o.payment_type AS ptt,o.consign_time AS cct,o.end_time as et,oi.`title`,oi.`price`,o.`payment`,
          oi.`total_fee` AS tf,o.`post_fee` AS pf,oi.`pic_path` AS pp,oi.`num`,o.`status`
         FROM tb_order o
         LEFT JOIN tb_order_item oi ON o.`order_id`=oi.`order_id`
