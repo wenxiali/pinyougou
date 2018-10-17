@@ -28,5 +28,10 @@ public class AddressServiceImpl extends ServiceImpl<AddressDao, TbAddress> imple
         return dao.deleteAdd(aId);
     }
 
+    @Override
+    public TbAddress getAddress(String username) {
+        return dao.byenAddress(username);
+    }
+
 
 }

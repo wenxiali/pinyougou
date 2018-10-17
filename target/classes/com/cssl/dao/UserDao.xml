@@ -75,4 +75,9 @@
     FROM tb_user WHERE username=#{username}
 
     </select>
+
+    <insert id="addUser" parameterType="String">
+        INSERT INTO tb_user(`username`,`password`,`phone`)
+        VALUES(#{username},#{password},#{phone})
+    </insert>
 </mapper>

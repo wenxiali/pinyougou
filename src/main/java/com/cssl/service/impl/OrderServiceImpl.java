@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -20,6 +21,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, TbOrder> implements 
     @Override
     public IPage<Map<String,Object>> selectList(IPage page, String username, Integer status, String nick_Name) {
         return dao.selectList(page,username,status,nick_Name);
+    }
+
+    @Override
+    public  List<Map<String,Object>> selectOrder(Long orderId) {
+        return dao.selectOrder(orderId);
     }
 }
 

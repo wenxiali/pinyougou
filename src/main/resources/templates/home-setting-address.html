@@ -29,11 +29,17 @@
                     }
                 });
             }
+        }/*,city,area,address,,,*/
+        function modi(contact,province,address,mobile,is_default) {
+            $("#contact").val(contact);
+            $("#province2").val(province);
+            $("#address").val(address);
+            $("#mobile").val(mobile);
+            $("#is_default").val(is_default);
+            /*$("#city").val(city);
+            $("#area").val(area);
+*/
         }
-        /*
-        function modify(contact) {
-
-        }*/
     </script>
     
 </head>
@@ -174,7 +180,7 @@
 <script type="text/javascript" src="js/plugins/jquery-placeholder/jquery.placeholder.min.js"></script>
 <script type="text/javascript" src="js/widget/nav.js"></script>
 <script type="text/javascript" src="js/plugins/citypicker/address.js"></script>
-<script type="text/javascript" src="pages/userInfo/main.js"></script>
+<!--<script type="text/javascript" src="pages/main.js"></script>-->
 </body>
 <!--header-->
 <div id="account">
@@ -197,8 +203,8 @@
                         <dd><a href="#" th:href="@{/home-index}">我的订单</a></dd>
                         <dd><a href="#" th:href="@{/home-order-pay(status=1)}">待付款</a></dd>
                         <dd><a href="#" th:href="@{/home-order-send(status=2,status=3)}">待发货</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-receive(status=4)}">待收货</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-evaluate(status=5,status=7)}">待评价</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-receive(status=4,status=5)}">待收货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-evaluate(status=6,status=7)}">待评价</a></dd>
                     </dl>
                     <dl>
                         <dt><i>·</i> 我的中心</dt>
@@ -219,7 +225,7 @@
                 <div class="body userAddress">
                     <div class="address-title">
                         <span class="title">地址管理</span>
-                        <a data-toggle="modal" data-target=".edit" data-keyboard="false"
+                        <a data-toggle="modal" data-target="#edit" data-keyboard="false"
                            class="sui-btn  btn-info add-new">添加新地址</a>
                         <span class="clearfix"></span>
                     </div>
@@ -239,9 +245,9 @@
                                 <td><span th:text="${addr.province}"/><span th:text="${addr.city}"/><span
                                         th:text="${addr.area}"/><span th:text="${addr.address}"/></td>
                                 <td th:text="${addr.mobile}"></td>
-                                <td align="center">
-                                    <a data-toggle="modal" data-target=".modify" data-keyboard="false"
-                                       class="sui-btn  btn-info add-new">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <td align="center"><!--,\''+${addr.city}+'\',\''+${addr.area}+'\',-->
+                                    <a data-toggle="modal" data-target="#modify" data-keyboard="false"
+                                       class="sui-btn  btn-info add-new" th:onclick="'javascript:modi(\''+${addr.contact}+'\',\''+${addr.province}+'\',\''+${addr.address}+'\',\''+${addr.mobile}+'\',\''+${addr.is_default}+'\')'">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                     <input type="button" value="删除" th:onclick="'javascript:del(\''+${addr.aid}+'\')'"/>&nbsp;&nbsp;&nbsp;&nbsp;
                                    <span th:switch="${addr.is_default}">
                                        <span th:case="1">默认地址</span>
@@ -270,7 +276,7 @@
                         </div>
                     </div>
                     <!--新增地址弹出层-->
-                    <div tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade edit"
+                    <div tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade" id="edit"
                          style="width:580px;">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -346,21 +352,21 @@
                         </div>
                     </div>
                     <!--修改地址弹出层-->
-     <!--               <div tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade modify"
+                   <div tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade" id="modify"
                          style="width:580px;">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" data-dismiss="modal" aria-hidden="true" class="sui-close">×
                                     </button>
-                                    <h4 id="myModalLabel" class="modal-title">修改地址</h4>
+                                    <h4 id="myModalLabel1" class="modal-title">修改地址</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="modify.action" class="sui-form form-horizontal">
+                                    <form action="" class="sui-form form-horizontal">
                                         <div class="control-group">
                                             <label class="control-label">收货人：</label>
                                             <div class="controls">
-                                                <input type="text" th:value="${address.contact}" class="input-medium">
+                                                <input type="text" name="contact" class="input-medium" id="contact">
                                             </div>
                                         </div>
                                         <div class="control-group">
@@ -368,13 +374,13 @@
                                             <div class="controls">
                                                 <div data-toggle="distpicker">
                                                     <div class="form-group area">
-                                                        <select class="form-control" id="province1"></select>
+                                                        <select class="form-control" name="province" id="province2"></select>
                                                     </div>
                                                     <div class="form-group area">
-                                                        <select class="form-control" id="city1"></select>
+                                                        <select class="form-control"  name="city" id="city2"></select>
                                                     </div>
                                                     <div class="form-group area">
-                                                        <select class="form-control" id="district1"></select>
+                                                        <select class="form-control"  name="area" id="district2"></select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -382,33 +388,33 @@
                                         <div class="control-group">
                                             <label class="control-label">详细地址：</label>
                                             <div class="controls">
-                                                <input type="text" th:value="${address.is_default}" class="input-large">
+                                                <input type="text" name="address" id="address" class="input-large">
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">联系电话：</label>
                                             <div class="controls">
-                                                <input type="text" th:value="${address.mobile}" class="input-medium">
+                                                <input type="text" name="mobile" id="mobile" class="input-medium">
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">设为默认：</label>
-                                            <div class="controls">
-                                                <input type="radio"  class="input-medium">是
-                                                <input type="radio"  class="input-medium">否
+                                            <div class="controls" id="is_default" name="is_default">
+                                                <input type="radio" name="is_default" checked class="input-medium">是
+                                                <input type="radio" name="is_default" checked class="input-medium">否
                                             </div>
                                         </div>
-                                        <div class="control-group">
+                                        <!--<div class="control-group">
                                             <label class="control-label">地址别名：</label>
                                             <div class="controls">
-                                                <input type="text" th:value="${address.alias}" class="input-medium">
+                                                <input type="text" name="alias" class="input-medium">
                                             </div>
                                             <div class="othername">
                                                 建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#"
                                                                                                            class="sui-btn btn-default">父母家</a>　<a
                                                     href="#" class="sui-btn btn-default">公司</a>
                                             </div>
-                                        </div>
+                                        </div>-->
                                         <div class="modal-footer">
                                             <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large">确定
                                             </button>
@@ -424,7 +430,7 @@
                             </div>
                         </div>
                     </div>
--->
+
                 </div>
             </div>
         </div>

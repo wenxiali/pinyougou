@@ -2,20 +2,29 @@ package com.cssl.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cssl.dto.RegisUser;
 import com.cssl.pojo.TbAddress;
 import com.cssl.pojo.TbUser;
 import com.cssl.service.AddressService;
 import com.cssl.service.UserService;
+import com.cssl.util.Constant;
+import com.cssl.util.PhoneRandom;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -35,24 +44,60 @@ public class LoginController {
         return "register";
     }
 
-
     /**
-     * 注冊
-     *
-     * @param user
+     *注册用户
      * @return
      */
-    @RequestMapping("register.action")
-    public String register(TbUser user) {
-        if (user.getUsername() != null) {
-            user.setCreated(new Date());
-            user.setUpdated(new Date());
-            boolean row = service.insert(user);
-            return "login";
-        } else {
-            return "register";
+    @RequestMapping(path = "/phoneregis")
+    @ResponseBody
+    public Map<String,Object> pathregister(@RequestParam("strs")String strs, HttpServletRequest request){
+        Map<String,Object> modelMap=new HashMap<>();
+        ObjectMapper mapper = new ObjectMapper(); // create once, reuse
+        RegisUser regisUser=null;
+        try {
+            regisUser= mapper.readValue(strs,RegisUser.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String vercation=(String)request.getSession().getAttribute(Constant.VERCATION);
+
+        if(regisUser.getPhoneyzm().equals(vercation)){
+            int cont=service.insertUser(regisUser);
+            if(cont>0){
+                modelMap.put("success",true);
+            }else {
+                modelMap.put("success",false);
+                modelMap.put("errMsg","注册失败。");
+            }
+        }else {
+            modelMap.put("success",false);
+            modelMap.put("errMsg","验证码不一致。");
+        }
+        modelMap.put("success",true);
+        return modelMap;
+    }
+
+
+    /**
+     * 获取验证码并发送短信
+     */
+    @RequestMapping(path = "/pathredx",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> pathredx(String phone,HttpServletRequest request){
+        Map<String,Object> modelMap=new HashMap<>();
+        if(!"".equals(phone)&&null!=phone){
+
+            PhoneRandom.Phonedxe(phone,request);
+            modelMap.put("success",true);
+            return modelMap;
+        }else {
+
+            modelMap.put("success",false);
+            modelMap.put("errMsg","手机号码不能为空。");
+            return modelMap;
         }
     }
+
 
     /**
      * 验证用戶名信息
@@ -100,7 +145,6 @@ public class LoginController {
             session.setAttribute("id", user.getId());
             session.setAttribute("username", user.getUsername());
             session.setAttribute("phone", user.getPhone());
-            session.setAttribute("head_Pic", user.getHead_Pic());
             return "forward:home-index";
         }
         return "login";
@@ -132,6 +176,12 @@ public class LoginController {
         return "home-setting-address";
     }
 
+    /**
+     * 新增地址
+     * @param address
+     * @param session
+     * @return
+     */
     @RequestMapping("/insert.action")
     public String insertAddress(TbAddress address, HttpSession session) {
         String username = (String) session.getAttribute("username");
@@ -145,6 +195,7 @@ public class LoginController {
         }
     }
 
+
     /**
      * 安全管理页面
      * @return
@@ -155,12 +206,23 @@ public class LoginController {
         return "home-setting-safe";
     }
 
+    /**
+     * 商品详情
+     * @return
+     */
     @RequestMapping("/item")
     public String item(){
 
         return "item";
     }
 
+    /**
+     * 修改密码
+     * @param user
+     * @param id
+     * @param session
+     * @return
+     */
     @RequestMapping("/modifyPW.action")
     public String modifyPW(TbUser user,Integer id, HttpSession session){
         id=(Integer)session.getAttribute("id");
@@ -184,10 +246,13 @@ public class LoginController {
         return "home-setting-safe-complete";
     }
 
-
+    /**
+     * 修改地址
+     * @return
+     *//*
     @RequestMapping("/modify.action")
     public String update(){
         return "redirect:/home-setting-address.action";
-    }
+    }*/
 
 }

@@ -19,14 +19,6 @@ public class ShowController {
 
 
     /**
-     *商品详情
-     */
-    @RequestMapping("/item")
-    public String item(){
-        return "item.html";
-    }
-
-    /**
      * 秒杀页面
      */
     @RequestMapping("/seckill-index")

@@ -6018,6 +6018,7 @@ pre code, .sui-pre code, pre .sui-code, .sui-pre .sui-code {
 .typographic img {
     display: inline;
     float: left;
+    width: 80px;
     margin-right: 10px
 }
 

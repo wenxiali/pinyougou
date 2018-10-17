@@ -3,6 +3,7 @@ package com.cssl.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cssl.dao.UserDao;
+import com.cssl.dto.RegisUser;
 import com.cssl.pojo.TbUser;
 import com.cssl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,4 +38,10 @@ public class UserServiceImpl extends ServiceImpl<UserDao,TbUser> implements User
     public TbUser getUser(String username) {
         return dao.byenUser(username);
     }
+
+    @Override
+    public int insertUser(RegisUser regisUser) {
+        return dao.addUser(regisUser.getUsername(),regisUser.getPassword(),regisUser.getPhone());
+    }
+
 }

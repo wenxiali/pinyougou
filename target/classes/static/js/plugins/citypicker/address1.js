@@ -4,173 +4,85 @@ function sttsring(){
     return data.setting;
 
 }
-$(function(){
+geteaddress();
+function geteaddress(){
+    $.ajax({
+        url : "/pinyougou/geteAddress",
+        type : "get",
+        dataType : "json",
+        success : function(data) {
+            var add=data.geteAddress;
 
-    $("#up_img_WU_FILE_0").on("change", function(){
-        // Get a reference to the fileList
-        var files = !!this.files ? this.files : [];
-
-        // If no files were selected, or no FileReader support, return
-        if (!files.length || !window.FileReader) return;
-
-        // Only proceed if the selected file is an image
-        if (/^image/.test( files[0].type)){
-
-            // Create a new instance of the FileReader
-            var reader = new FileReader();
-
-            // Read the local file as a DataURL
-            reader.readAsDataURL(files[0]);
-
-            // When loaded, set image data as background of div
-            reader.onloadend = function(){
-
-                $("#imgShow_WU_FILE_0").attr("src", this.result);
-
+            if(shi==add.is_default){
+                $('#shi').attr('checked','checked');
+            }else {
+                $('#fou').attr('checked','checked');
             }
 
+            var sttr = {"province": add.province, "city": add.city, "area": add.area};
+
+            che(sttr.province);
+            shi(sttr.province,sttr.city);
+            jie(sttr.city,sttr.area);
         }
-
     });
-   $("#sum").click(function () {
-
-      var user={};
-      user.nick_Name=$("#userName").val();
-      user.email=$("#email").val();
-      user.sex= $('.controls input[name="sex"]:checked ').val();
-      user.time= $("#time").val();
-
-      user.provinceid=$("#province1 option:selected").val();
-      user.cityid=$("#city1 option:selected").val();
-      user.areaid=$("#district1 option:selected").val();
-      user.job=$("#job option:selected").val();
-      var shopImg=$("#up_img_WU_FILE_0")[0].files[0];
-
-
-      var formData=new FormData();
-      formData.append("strs",JSON.stringify(user));
-      formData.append("fileImg",shopImg);
-
-       $.ajax({
-           url:'/pinyougou/updateuserty',
-           type:'POST',
-           data : formData,
-
-           /**
-            *必须false才会自动加上正确的Content-Type
-            */
-           contentType: false,
-           /**
-            * 必须false才会避开jQuery对 formdata 的默认处理
-            * XMLHttpRequest会对 formdata 进行正确的处理
-            */
-           processData: false,
-           success:function(data){
-               if(data>0){
-                   alert('更改成功！');
-                   var imgshow=$("#imgShow_WU_FILE_0").attr("src");
-                   $("#dltx").attr("src",imgshow);
-                   $("#up_img_WU_FILE_0").val("");
-               }else{
-                   alert('更改失败！');
-               }
-
-           }
-       });
-   })
-
-    getuser();
-    function getuser(){
-        $.ajax({
-            url : "/pinyougou/geteuser",
-            type : "get",
-            dataType : "json",
-            success : function(data) {
-               var user=data.getUser;
-                   $("#imgShow_WU_FILE_0").attr("src",user.head_pic);
-                   $("#userName").val(user.nick_Name);
-                   $("#email").val(user.email);
-
-                   $("#time").val(user.time);
-                   var nan=$("#nan").val();
-
-               if(nan==user.sex){
-                   $('#nan').attr('checked','checked');
-                   }else {
-                       $('#nv').attr('checked','checked');
-                   }
-                $("#job option[value='"+user.job+"']").attr("selected","selected");
-               if(user.provinceid!=null&&user.provinceid!=''&&user.cityid!=null&&
-                   user.cityid!=''&&user.areaid!=null&&user.areaid!='') {
-                   var sttr = {"provinceid": user.provinceid, "cityid": user.cityid, "areaid": user.areaid};
-               }else {
-                   var sttr= {"provinceid":110000,"cityid":110100,"areaid":110101};
-               }
-                che(sttr.provinceid);
-                shi(sttr.provinceid,sttr.cityid);
-                jie(sttr.cityid,sttr.areaid);
-            }
-        });
-    }
-
-  function che(provinceid) {
+  function che(province) {
       var data=sttsring();
       var provinces='';
       $.each(data.provinces, function(i,val){
-         provinces+='<option value="'+val.provinceid+'" data-code="'+val.provinceid+'" >'+val.province+'</option>';
+         provinces+='<option value="'+val.province+'" data-code="'+val.province+'" >'+val.province+'</option>';
       });
 
-      $("#province1").append(provinces);
-      $("#province1 option[value='"+provinceid+"']").attr("selected","selected");
+      $("#province2").append(provinces);
+      $("#province2 option[value='"+province+"']").attr("selected","selected");
 
   }
 
-  function shi(provinceid,cityid) {
+  function shi(province,city) {
       var data=sttsring();
       var cities='';
       $.each(data.cities, function(i,val){
-        if(val.provinceid==provinceid){
+        if(val.province==province){
 
-            cities+='<option value="'+val.cityid+'" data-code="'+val.cityid+'" >'+val.city+'</option>';
+            cities+='<option value="'+val.city+'" data-code="'+val.city+'" >'+val.city+'</option>';
         }
 
       });
 
-      $("#city1").append(cities);
-      $("#city1 option[value='"+cityid+"']").attr("selected","selected");
+      $("#city2").append(cities);
+      $("#city2 option[value='"+city+"']").attr("selected","selected");
   }
 
-  function jie(cityid,areaid){
+  function jie(city,area){
       var data=sttsring();
       var area=''
      $.each(data.areas, function(i,val){
-          if(val.cityId==cityid){
-              area+='<option value="'+val.areaId+'" data-code="'+val.areaId+'" >'+val.area+'</option>';
+          if(val.cityId==city){
+              area+='<option value="'+val.area+'" data-code="'+val.area+'" >'+val.area+'</option>';
           }
 
       });
-      $("#district1").append(area);
-      $("#district1 option[value='"+areaid+"']").attr("selected","selected");
+      $("#district2").append(area);
+      $("#district2 option[value='"+areaid+"']").attr("selected","selected");
 
   }
 
     //click
-    $("#province1").change(function(){
+    $("#province2").change(function(){
         var $provinceid=$(this).val();
-        $("#city1").empty();
+        $("#city2").empty();
         shi($provinceid,0);
-        var $cityid=$("#city1").eq(0).val();
-        $("#district1").empty();
+        var $cityid=$("#city2").eq(0).val();
+        $("#district2").empty();
         jie($cityid,0);
 
     });
-    $("#city1").change(function(){
+    $("#city2").change(function(){
         var $cityid=$(this).val();
-        alert($cityid);
-        $("#district1").empty();
+        $("#district2").empty();
         jie($cityid,0);
 
     })
 
 
-});
+}

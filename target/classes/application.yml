@@ -31,7 +31,7 @@ mybatis-plus:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://47.106.152.20:3306/pinyougoudb
+    url: jdbc:mysql://47.106.152.20:3306/pinyougoudb?characterEncoding=utf8&useSSL=false
     username: root
     password: wxl112233
 

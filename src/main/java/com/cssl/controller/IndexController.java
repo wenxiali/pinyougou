@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -207,6 +208,11 @@ public class IndexController {
     }
 
 
+    /**
+     * 完善信息
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/geteuser",method = RequestMethod.GET)
     @ResponseBody
     public Map<String,Object> geteuser(HttpServletRequest request){
@@ -237,9 +243,8 @@ public class IndexController {
     @ResponseBody
     public int updateUserty(MultipartFile fileImg,
                             @RequestParam("strs") String strs,
-                            HttpServletRequest request){
+                            HttpServletRequest request,HttpSession session){
         String username=(String)request.getSession().getAttribute("username");
-        System.out.println(strs);
         ObjectMapper mapper = new ObjectMapper(); // create once, reuse
         UserDto userdato=null;
         try {
@@ -261,11 +266,12 @@ public class IndexController {
         try{
             if(null!=fileImg.getOriginalFilename()&&!"".equals(fileImg.getOriginalFilename())){
 
-                String fileType="imgupload/"+username+"/tx/";
+                String fileType="img/head_Pic/";
                 String filePath = request.getSession().getServletContext().getRealPath(fileType);
                 //清空对应文件头像
                 FileUtil.deleteFileOrpath(filePath);
                 user.setHead_Pic(FileUtil.addimags(fileImg,fileType,request));
+                session.setAttribute("head_Pic",FileUtil.addimags(fileImg,fileType,request));
             }else {
                 user.setHead_Pic(null);
             }
@@ -282,5 +288,14 @@ public class IndexController {
         return counr;
     }
 
+    /**
+     * 订单详情
+     */
+    @RequestMapping("/home-orderDetail")
+    public String homeorderDetail(Long orderId,Model model){
+        List<Map<String,Object>> list= oService.selectOrder(orderId);
+        model.addAttribute("order",list);
+        return "home-orderDetail";
+    }
 
 }

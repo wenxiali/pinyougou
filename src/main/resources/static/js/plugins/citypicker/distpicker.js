@@ -100,7 +100,12 @@ $(function(){
                        $('#nv').attr('checked','checked');
                    }
                 $("#job option[value='"+user.job+"']").attr("selected","selected");
-                var sttr= {"provinceid":user.provinceid,"cityid":user.cityid,"areaid":user.areaid};
+               if(user.provinceid!=null&&user.provinceid!=''&&user.cityid!=null&&
+                   user.cityid!=''&&user.areaid!=null&&user.areaid!='') {
+                   var sttr = {"provinceid": user.provinceid, "cityid": user.cityid, "areaid": user.areaid};
+               }else {
+                   var sttr= {"provinceid":110000,"cityid":110100,"areaid":110101};
+               }
                 che(sttr.provinceid);
                 shi(sttr.provinceid,sttr.cityid);
                 jie(sttr.cityid,sttr.areaid);

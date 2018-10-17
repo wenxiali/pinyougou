@@ -10,4 +10,7 @@ public interface AddressService extends IService<TbAddress> {
     IPage<Map<String,Object>> selectAddress(IPage page,String username, Integer aId);
 
     int deleteAdd( Integer aId);
+
+    TbAddress getAddress(String username);
+
 }

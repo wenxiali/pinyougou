@@ -1,6 +1,7 @@
 package com.cssl.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.cssl.dto.RegisUser;
 import com.cssl.pojo.TbUser;
 
 public interface UserService extends IService<TbUser> {
@@ -12,4 +13,7 @@ public interface UserService extends IService<TbUser> {
     int updateUser(TbUser user);
 
     TbUser getUser(String username);
+
+    int insertUser(RegisUser regisUser);
+
 }

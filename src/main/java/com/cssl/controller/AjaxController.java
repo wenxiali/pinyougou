@@ -4,7 +4,6 @@ import com.cssl.service.AddressService;
 import com.cssl.service.OrderItemService;
 import com.cssl.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,14 +29,6 @@ public class AjaxController {
         return  row;
     }
 
-    /**
-     * 订单详情
-     */
-    @RequestMapping("/home-orderDetail")
-    public String homeorderDetail(String orderId, Model model){
-
-        return "home-orderDetail";
-    }
 
 
 }

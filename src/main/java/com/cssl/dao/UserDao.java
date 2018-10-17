@@ -14,4 +14,7 @@ public interface UserDao extends SuperMapper<TbUser> {
     int updateUser(TbUser user);
 
     TbUser byenUser(String username);
+
+    int addUser(@Param("username") String username,@Param("password") String password,@Param("phone") String phone);
+
 }

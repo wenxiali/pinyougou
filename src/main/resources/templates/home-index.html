@@ -13,6 +13,15 @@
     <link rel="stylesheet" type="text/css" href="css/pages-seckillOrder.css"/>
     <script type="text/javascript" src="script/jquery-1.8.3.js"></script>
     <script type="text/javascript">
+       /* $(function () {
+            $(".xiangqing").click(function () {
+                $("span[name='orderid']").each(function () {
+                    var orderId=$(this).text();
+                    window.location="home-orderDetail?orderId="+orderId;
+                })
+            });
+        });*/
+
         function selectAll() {
             var ckall = document.getElementsByName("selected");
             if (document.getElementById("ck").checked) {
@@ -78,7 +87,7 @@
                     }
                 }
             }
-        }        
+        }
     </script>
     <style>
         #del {
@@ -219,7 +228,7 @@ q<body>
         width: 80px;
     }
     .typographic img{
-        width: 80px;
+        width: 100px;
     }
     #aa{
         float: left;
@@ -236,10 +245,9 @@ q<body>
     <div class="py-container">
         <div class="yui3-g home">
             <!--左侧列表-->
-            <div class="yui3-u-1-6 list">
-
+            <div class="yui3-u-1-6 list" >
                 <div class="person-info">
-                    <div class="person-photo"><img th:src="@{${session.head_Pic}}"></div>
+                    <div class="person-photo"><img  th:src="@{${session.head_Pic}}"></div>
                     <div class="person-account">
                         <span class="name" th:text="${session.username}"></span>
                         <span class="safe"><a href="login">退出登录 </a></span>
@@ -252,8 +260,8 @@ q<body>
                         <dd><a href="#" th:href="@{/home-index}" class="list-active">我的订单</a></dd>
                         <dd><a href="#" th:href="@{/home-order-pay(status=1)}">待付款</a></dd>
                         <dd><a href="#" th:href="@{/home-order-send(status=2,status=3)}">待发货</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-receive(status=4)}">待收货</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-evaluate(status=5,status=7)}">待评价</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-receive(status=4,status=5)}">待收货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-evaluate(status=6,status=7)}">待评价</a></dd>
                     </dl>
                     <dl>
                         <dt><i>·</i> 我的中心</dt>
@@ -267,7 +275,9 @@ q<body>
                         <dd><a href="#" th:href="@{/home-setting-safe.action}">安全管理</a></dd>
                     </dl>
                 </div>
+
             </div>
+
             <!--右侧主内容-->
             <div class="yui3-u-5-6 order-pay">
                 <div class="body">
@@ -294,7 +304,7 @@ q<body>
                                 <label data-toggle="checkbox">
                                     <input type="checkbox" class="ck2" name="selected"/><span
                                         th:text="${home.ct}"></span>
-                                    &nbsp;订单编号：<span th:text="${home.ori}"></span> &nbsp;
+                                    &nbsp;订单编号：<span name="orderid" th:text="${home.ori}"></span> &nbsp;
                                     店铺：<span th:text="${home.nn}"></span><a>和我联系</a>
                                 </label>
                                 <a class="sui-btn btn-info share-btn" type="button"
@@ -331,10 +341,10 @@ q<body>
                                                 <li th:case="2">买家已付款</li>
                                                 <li th:case="3">等待卖家发货</span></li>
                                                 <li th:case="4">卖家已发货</span></li>
-                                                <li th:case="5">已评价</span></li>
-                                                <li th:case="6">交易关闭</span></li>
+                                                <li th:case="5">待收货</span></li>
+                                                <li th:case="6">交易成功</span></li>
                                                 <li th:case="7">待评价</span></li>
-                                                <li><a href="#" th:href="@{/home-orderDetail()}" class="btn">订单详情 </a>
+                                                <li><a href="#" th:href="@{/home-orderDetail(orderId=${home.ori})}" class="btn" >订单详情 </a>
                                                 </li>
                                             </ul>
                                         </td>
