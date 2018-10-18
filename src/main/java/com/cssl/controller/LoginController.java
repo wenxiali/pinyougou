@@ -49,55 +49,110 @@ public class LoginController {
     }
 
     /**
-     *注册用户
+     * 用户注册
+     *
+     * @param strs
+     * @param request
      * @return
      */
     @RequestMapping(path = "/phoneregis")
     @ResponseBody
-    public Map<String,Object> pathregister(@RequestParam("strs")String strs, HttpServletRequest request){
-        Map<String,Object> modelMap=new HashMap<>();
+    public Map<String, Object> pathregister(@RequestParam("strs") String strs, HttpServletRequest request) {
+        Map<String, Object> modelMap = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper(); // create once, reuse
-        RegisUser regisUser=null;
+        RegisUser regisUser = null;
         try {
-            regisUser= mapper.readValue(strs,RegisUser.class);
+            regisUser = mapper.readValue(strs, RegisUser.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String vercation=(String)request.getSession().getAttribute(Constant.VERCATION);
+        String vercation = (String) request.getSession().getAttribute(Constant.VERCATION);
 
-        if(regisUser.getPhoneyzm().equals(vercation)){
-            int cont=service.insertUser(regisUser);
-            if(cont>0){
-                modelMap.put("success",true);
-            }else {
-                modelMap.put("success",false);
-                modelMap.put("errMsg","注册失败。");
+        if (regisUser.getPhoneyzm().equals(vercation)) {
+            int cont = service.insertUser(regisUser);
+            if (cont > 0) {
+                modelMap.put("success", true);
+            } else {
+                modelMap.put("success", false);
+                modelMap.put("errMsg", "注册失败。");
             }
-        }else {
-            modelMap.put("success",false);
-            modelMap.put("errMsg","验证码不一致。");
+        } else {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "验证码不一致。");
         }
-        modelMap.put("success",true);
         return modelMap;
     }
 
+    /**
+     * 验证手机号
+     *
+     * @return
+     */
+    @RequestMapping(path = "/validationPhone")
+    @ResponseBody
+    public Map<String, Object> senSuccess(@RequestParam("msgcode") String msgcode, @RequestParam("phone") String phone, HttpSession session, HttpServletRequest request) {
+        Map<String, Object> modelMap = new HashMap<>();
+        //验证码
+        String vercation = (String) request.getSession().getAttribute(Constant.VERCATION);
+        //
+        if (vercation.equals(msgcode)) {
+            String username = (String) request.getSession().getAttribute("usernmae");
+            phone = request.getParameter("phone");
+            TbUser user = service.selectName(username, phone);
+            if (user != null) {
+                modelMap.put("success", true);
+            } else {
+                modelMap.put("success", false);
+                modelMap.put("errMsg", "验证失败。");
+            }
+        } else {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "验证码不一致。");
+        }
+        return modelMap;
+    }
+
+    @RequestMapping(path = "/updatePhone")
+    @ResponseBody
+    public Map<String, Object> updatePhone(@RequestParam("msgcode") String msgcode,Integer id,
+                                           TbUser user, @RequestParam("phone") String phone, HttpSession session, HttpServletRequest request) {
+        Map<String, Object> modelMap = new HashMap<>();
+        //验证码
+        String vercation = (String) request.getSession().getAttribute(Constant.VERCATION);
+        //
+        if (msgcode.equals(vercation)) {
+            id = (Integer) session.getAttribute("id");
+            user.setPhone(phone);
+            boolean count = service.updateById(user);
+            if (count) {
+                modelMap.put("success", true);
+            } else {
+                modelMap.put("success", false);
+                modelMap.put("errMsg", "修改失败。");
+            }
+        } else {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "验证码不一致。");
+        }
+        return modelMap;
+    }
 
     /**
      * 获取验证码并发送短信
      */
-    @RequestMapping(path = "/pathredx",method = RequestMethod.POST)
+    @RequestMapping(path = "/pathredx", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> pathredx(String phone,HttpServletRequest request){
-        Map<String,Object> modelMap=new HashMap<>();
-        if(!"".equals(phone)&&null!=phone){
+    public Map<String, Object> pathredx(String phone, HttpServletRequest request) {
+        Map<String, Object> modelMap = new HashMap<>();
+        if (!"".equals(phone) && null != phone) {
 
-            PhoneRandom.Phonedxe(phone,request);
-            modelMap.put("success",true);
+            PhoneRandom.Phonedxe(phone, request);
+            modelMap.put("success", true);
             return modelMap;
-        }else {
+        } else {
 
-            modelMap.put("success",false);
-            modelMap.put("errMsg","手机号码不能为空。");
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "手机号码不能为空。");
             return modelMap;
         }
     }
@@ -156,6 +211,7 @@ public class LoginController {
 
     /**
      * 基本资料完善
+     *
      * @return
      */
     @RequestMapping("/home-setting-info.action")
@@ -182,6 +238,7 @@ public class LoginController {
 
     /**
      * 新增地址
+     *
      * @param address
      * @param session
      * @return
@@ -202,50 +259,53 @@ public class LoginController {
 
     /**
      * 安全管理页面
+     *
      * @return
      */
     @RequestMapping("/home-setting-safe.action")
-    public String homesettingsafe(){
+    public String homesettingsafe() {
 
         return "home-setting-safe";
     }
 
     /**
      * 商品详情
+     *
      * @return
      */
     @RequestMapping("/item")
-    public String item(){
+    public String item() {
 
         return "item";
     }
 
     /**
      * 修改密码和手机号
+     *
      * @param user
      * @param id
      * @param session
      * @return
      */
     @RequestMapping("/modifyPW.action")
-    public String modifyPW(TbUser user,Integer id, HttpSession session){
-        id=(Integer)session.getAttribute("id");
-        boolean row=service.updateById(user);
-        if (row){
+    public String modifyPW(TbUser user, Integer id, HttpSession session) {
+        id = (Integer) session.getAttribute("id");
+        boolean row = service.updateById(user);
+        if (row) {
             return "login";
-        }else {
+        } else {
             return "home-setting-safe.action";
         }
     }
 
     @RequestMapping("/home-setting-safe-phone")
-    public String a(){
+    public String a() {
 
         return "home-setting-safe-phone";
     }
 
     @RequestMapping("/home-setting-safe-complete")
-    public String b(){
+    public String b() {
 
         return "home-setting-safe-complete";
     }

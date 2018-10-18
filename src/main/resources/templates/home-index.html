@@ -315,13 +315,13 @@
                                         </td>
                                         <td width="20%" class="center">
                                             <ul class="unstyled" th:switch="${home.status}">
-                                                <li th:case="1">等待买家付款</li>
-                                                <li th:case="2">买家已付款</li>
-                                                <li th:case="3">等待卖家发货</span></li>
-                                                <li th:case="4">卖家已发货</span></li>
-                                                <li th:case="5">待收货</span></li>
-                                                <li th:case="6">交易成功</span></li>
-                                                <li th:case="7">待评价</span></li>
+                                                <span th:case="1">待付款</span>
+                                                <span th:case="2">已付款</span>
+                                                <span th:case="3">待发货</span>
+                                                <span th:case="4">已发货</span>
+                                                <span th:case="5">交易成功</span>
+                                                <span th:case="6">退款</span>
+                                                <span th:case="7">待评价</span>
                                                 <li><a href="#" th:href="@{/home-orderDetail(orderId=${home.ori})}" class="btn" >订单详情 </a>
                                                 </li>
                                             </ul>

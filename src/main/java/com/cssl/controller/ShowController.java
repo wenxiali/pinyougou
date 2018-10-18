@@ -19,6 +19,14 @@ public class ShowController {
 
 
     /**
+     * 足迹
+     */
+    @RequestMapping("/home-person-footmark")
+    public String  homepersonfootmark(){
+        return "home-person-footmark";
+    }
+
+    /**
      * 秒杀页面
      */
     @RequestMapping("/seckill-index")

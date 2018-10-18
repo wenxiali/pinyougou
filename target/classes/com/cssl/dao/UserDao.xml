@@ -47,7 +47,9 @@
             <if test="head_Pic !=null and head_Pic!=''">
                 head_pic=#{head_Pic},
             </if>
-
+            <if test="phone !=null and phone!=''">
+                phone=#{phone},
+            </if>
             <if test="sex!=null and sex!=''">
                 sex=#{sex},
             </if>

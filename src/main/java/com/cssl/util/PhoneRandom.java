@@ -107,17 +107,18 @@ public class PhoneRandom {
         System.out.println("验证码："+smsText);
         System.out.println("手机号码："+smsMob);
         request.getSession().setAttribute(Constant.VERCATION,smsText);
-       HttpClientUtil client = HttpClientUtil.getInstance();
-
-            //UTF发送
-            int result = client.sendMsgUtf8(Constant.UID, Constant.KEY, smsText, smsMob);
-            if(result>0){
-                System.out.println("UTF8成功发送条数=="+result);
-              return 1;
-            }else{
-                System.out.println(client.getErrorMsg(result));
-                return 0;
-            }
+//       HttpClientUtil client = HttpClientUtil.getInstance();
+//
+//            //UTF发送
+//            int result = client.sendMsgUtf8(Constant.UID, Constant.KEY, smsText, smsMob);
+//            if(result>0){
+//                System.out.println("UTF8成功发送条数=="+result);
+//              return 1;
+//            }else{
+//                System.out.println(client.getErrorMsg(result));
+//                return 0;
+//            }
+        return 1;
 
     }
 
