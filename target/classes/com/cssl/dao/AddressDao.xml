@@ -25,4 +25,32 @@
         DELETE FROM tb_address WHERE aid=#{aId}
     </delete>
 
+    <update id="updateAddress" parameterType="TbAddress">
+
+        UPDATE tb_address
+        <set>
+            <if test="contact!=null and contact!=''">
+                contact=#{contact},
+            </if>
+            <if test="province_Id !=null and province_Id!=''">
+                province_Id=#{province_Id},
+            </if>
+            <if test="city_Id !=null and city_Id!=''">
+                city_Id=#{city_Id},
+            </if>
+            <if test="town_Id !=null and town_Id !=''">
+                town_Id=#{town_Id},
+            </if>
+            <if test="address!=null and address!=''">
+                address=#{address},
+            </if>
+            <if test="mobile !=null and mobile!=''">
+                mobile=#{mobile},
+            </if>
+            <if test="is_Default!=null and is_Default!=''">
+                is_Default=#{is_Default}
+            </if>
+        </set>
+        WHERE username=#{username}
+    </update>
 </mapper>

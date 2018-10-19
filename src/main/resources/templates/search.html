@@ -11,13 +11,30 @@
 	<link rel="stylesheet" type="text/css" href="css/webbase.css" />
 	<link rel="stylesheet" type="text/css" href="css/pages-list.css" />
 	<link rel="stylesheet" type="text/css" href="css/widget-cartPanelView.css" />
-	<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+	<script type="text/javascript" src="js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="script/jquery-1.8.3.js"></script>
 	<script type="text/javascript" th:inline="javascript">
         function clickFun() {
             var pa=$(".page-num").val();
             window.location.replace("/pinyougou/searchh?pa="+pa);
         }
+
+        function cook(id,image,price,title) {
+            alert("1");
+            $.cookie('cookid',id,{expires:2,path: '/'});
+            $.cookie('image',image,{expires:2,path: '/'});
+            $.cookie('price',price,{expires:2,path: '/'});
+            $.cookie('title',title,{expires:2,path: '/'});
+            var cookid=$.cookie("cookid");
+            alert("cookid",cookid);
+			//window.location="home-person-footmark?cooki="+cooki;
+        }
 	</script>
+	<style>
+		.p-img{
+			width: 180px;
+		}
+	</style>
 </head>
 
 <body>
@@ -32,7 +49,6 @@
 					<ul class="fl">
 						<li class="f-item">品优购欢迎您！</li>
 						<li class="f-item">请
-							<a href="login.html" target="_blank">登录</a>　<span><a href="register.html" target="_blank">免费注册</a></span></li>
 					</ul>
 					<ul class="fr">
 						<li class="f-item">我的订单</li>
@@ -290,17 +306,17 @@
 				<ul class="yui3-g">
 					<li class="yui3-u-1-5" th:each="mob,ss:${listmob.getRecords()}">
 						<div class="list-wrap">
-							<div class="p-img">
-								<a href="item.html" target="_blank"><img src="img/_/mobile01.png" th:src="@{${mob.image}}" style="margin: 50px;height: 150px"/></a>
+							<div class="p-img" >
+								<a th:onclick="'javascript:cook(\''+${mob.id}+'\',\''+${mob.image}+'\',\''+${mob.price}+'\',\''+${mob.title}+'\')'"><img th:src="@{${mob.image}}" style="margin: 30px;height: 150px"/></a>
 							</div>
 							<div class="price">
 								<strong>
 									<em>¥</em>
-									<i th:text="${mob.price}">6088.00</i>
+									<i th:text="${mob.price}"></i>
 								</strong>
 							</div>
 							<div class="attr">
-								<em th:text="${mob.title}">Apple苹果iPhone 6s (A1699)</em>
+								<em th:text="${mob.title}"></em>
 							</div>
 							<div class="cu">
 								<em></em>
@@ -341,81 +357,24 @@
 		<!--hotsale-->
 		<div class="clearfix hot-sale">
 			<h4 class="title">热卖商品</h4>
-			<div class="hot-list">
+			<div class="like-list">
 				<ul class="yui3-g">
 					<li class="yui3-u-1-4">
-						<div class="list-wrap">
+						<div class="list-wrap" th:each="sell:${selling}">
 							<div class="p-img">
-								<img src="img/like_01.png" />
+								<img th:src="@{${sell.image}}" />
 							</div>
 							<div class="attr">
-								<em>Apple苹果iPhone 6s (A1699)</em>
+								<em th:text="${sell.title}"></em>
 							</div>
 							<div class="price">
 								<strong>
 									<em>¥</em>
-									<i>4088.00</i>
+									<i th:text="${sell.price}"></i>
 								</strong>
 							</div>
 							<div class="commit">
-								<i class="command">已有700人评价</i>
-							</div>
-						</div>
-					</li>
-					<li class="yui3-u-1-4">
-						<div class="list-wrap">
-							<div class="p-img">
-								<img src="img/like_03.png" />
-							</div>
-							<div class="attr">
-								<em>金属A面，360°翻转，APP下单省300！</em>
-							</div>
-							<div class="price">
-								<strong>
-									<em>¥</em>
-									<i>4088.00</i>
-								</strong>
-							</div>
-							<div class="commit">
-								<i class="command">已有700人评价</i>
-							</div>
-						</div>
-					</li>
-					<li class="yui3-u-1-4">
-						<div class="list-wrap">
-							<div class="p-img">
-								<img src="img/like_04.png" />
-							</div>
-							<div class="attr">
-								<em>256SSD商务大咖，完爆职场，APP下单立减200</em>
-							</div>
-							<div class="price">
-								<strong>
-									<em>¥</em>
-									<i>4068.00</i>
-								</strong>
-							</div>
-							<div class="commit">
-								<i class="command">已有20人评价</i>
-							</div>
-						</div>
-					</li>
-					<li class="yui3-u-1-4">
-						<div class="list-wrap">
-							<div class="p-img">
-								<img src="img/like_02.png" />
-							</div>
-							<div class="attr">
-								<em>Apple苹果iPhone 6s (A1699)</em>
-							</div>
-							<div class="price">
-								<strong>
-									<em>¥</em>
-									<i>4088.00</i>
-								</strong>
-							</div>
-							<div class="commit">
-								<i class="command">已有700人评价</i>
+								<i class="command">已出售<span th:text="${sell.sl}"/></i>
 							</div>
 						</div>
 					</li>

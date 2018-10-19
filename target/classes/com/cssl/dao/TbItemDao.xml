@@ -4,6 +4,57 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cssl.dao.TbItemDao">
 
+    <resultMap id="tbItemMap" type="TbItem">
+        <id property="id" column="id"/>
+        <association property="tbSeller" javaType="TbSeller">
+            <id property="sellerId" column="seller_id" />
+        </association>
+        <association property="tbItemCat" javaType="TbItemCat">
+            <id property="id" column="catid" />
+        </association>
+    </resultMap>
+
+    <select id="selectTbItem" resultMap="tbItemMap">
+         SELECT t.id,
+           t.title,
+           t.sell_point,
+           t.price,
+           t.num,
+            t.image,
+           c.id AS catid,
+           c.name,
+           c.parent_id,
+           c.type_id,
+           s.seller_id,
+           s.name,
+           s.nick_name,
+           s.email,
+           s.linkman_name,
+           s.linkman_mobile
+           FROM tb_item t
+           LEFT JOIN tb_seller s
+           ON t.seller_id=s.seller_id
+            LEFT JOIN tb_item_cat c ON
+             t.cat_id=c.id
+             WHERE t.id=#{itemId};
+           </select>
+
+    <update id="updateItme" parameterType="map">
+        UPDATE tb_item SET image=#{image} where id=#{id}
+    </update>
+
+    <insert id="insertItemImg" parameterType="java.util.List">
+        INSERT INTO tb_item_img(img_type,item_id)
+        VALUES
+        <foreach collection ="tbItemImgs" item="item" index= "index" separator =",">
+            (
+            #{item.img_type},
+            #{item.item_id}
+
+            )
+        </foreach >
+    </insert>
+
     <select id="selectHottest" resultType="map">
        SELECT * FROM  tb_item_cat AS a,tb_item AS b
        WHERE a.id=b.categoryId
@@ -52,5 +103,7 @@
       WHERE a.id=b.id AND a.item_id=c.id
       ORDER BY b.sl DESC
     </select>
+
+    <select resultType="map" id="selectBrand"> SELECT seller FROM tb_item WHERE seller_id=#{seller_Id} GROUP BY seller </select>
 
 </mapper>

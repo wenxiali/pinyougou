@@ -13,4 +13,5 @@ public interface AddressService extends IService<TbAddress> {
 
     TbAddress getAddress(String username);
 
+    int updateAddress(TbAddress address);
 }

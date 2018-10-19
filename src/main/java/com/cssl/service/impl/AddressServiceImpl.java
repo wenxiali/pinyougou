@@ -33,5 +33,10 @@ public class AddressServiceImpl extends ServiceImpl<AddressDao, TbAddress> imple
         return dao.byenAddress(username);
     }
 
+    @Override
+    public int updateAddress(TbAddress address) {
+        return dao.updateAddress(address);
+    }
+
 
 }

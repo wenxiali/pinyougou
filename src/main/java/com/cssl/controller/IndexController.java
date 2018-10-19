@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cssl.dto.UserDto;
 import com.cssl.pojo.TbUser;
-import com.cssl.service.OrderItemService;
-import com.cssl.service.OrderService;
-import com.cssl.service.TbItemService;
-import com.cssl.service.UserService;
+import com.cssl.service.*;
 import com.cssl.util.FileUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +34,8 @@ public class IndexController {
     private OrderItemService oiService;
     @Autowired
     private TbItemService iService;
+    @Autowired
+    private AddressService aService;
 
     /**
      * 我的订单
@@ -235,6 +234,7 @@ public class IndexController {
         return counr;
     }
 
+
     /**
      * 订单详情
      */
@@ -246,5 +246,7 @@ public class IndexController {
         model.addAttribute("order",list);
         return "home-orderDetail";
     }
+
+
 
 }

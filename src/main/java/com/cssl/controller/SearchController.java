@@ -35,6 +35,9 @@ public class SearchController {
     @Autowired
     private TbItemService servicei;
 
+    @Autowired
+    private TbItemService iService;
+
     //品牌表
     @Autowired
     private TbBrandService serviceb;
@@ -68,6 +71,10 @@ public class SearchController {
         model.addAttribute("memory",memory);
         List<TbSpecificationOption> listmem=serviceop.selectList(new QueryWrapper<TbSpecificationOption>().eq("spec_Id",32));
         model.addAttribute("listmem",listmem);
+
+        //热卖
+        List<Map<String, Object>> selling = iService.selectSelling();
+        model.addAttribute("selling", selling);
 
         //商品详情
         if(pa==null){

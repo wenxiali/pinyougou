@@ -2,6 +2,7 @@ package com.cssl.dao;
 
 import com.cssl.SuperMapper;
 import com.cssl.pojo.TbItem;
+import com.cssl.pojo.TbItemImg;
 
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,18 @@ public interface TbItemDao extends SuperMapper<TbItem> {
      */
     public List<Map<String,Object>> selecttitle(Map map);
 
+    /**
+     * 热卖
+     * @return
+     */
     public List<Map<String,Object>> selectSelling();
 
+    int insertItemImg(List<TbItemImg> tbItemImgs);
+
+    int updateItme(Map<String,Object>map);
+
+    /**
+     * 查询商家卖的商品品牌
+     */
+    public List<Map<String,Object>> selectBrand(Map map);
 }

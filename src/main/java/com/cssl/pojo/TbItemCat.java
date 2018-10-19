@@ -17,7 +17,6 @@ public class TbItemCat implements Serializable {
 	private Long id;
 	private Long parent_Id;
 	private String name;
-	private Long type_Id;
 
 
 }

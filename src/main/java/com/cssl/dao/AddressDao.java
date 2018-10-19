@@ -18,4 +18,6 @@ public interface AddressDao extends SuperMapper<TbAddress> {
     int deleteAdd(@Param("aId") Integer aId);
 
     TbAddress byenAddress(String username);
+
+    int updateAddress(TbAddress address);
 }

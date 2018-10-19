@@ -15,13 +15,13 @@ public class FileUtil {
     // 随机数
     private static final Random r = new Random();
 
-    public static String addimags(MultipartFile file,String fileType,
-
-                                  HttpServletRequest request){
+    public static String addimags(MultipartFile file,String fileType, HttpServletRequest request){
         String contentType = file.getContentType();
         String fileName =FileUtil.getRandomFileName(file.getOriginalFilename());
-        String username=(String)request.getSession().getAttribute("username");
-        String filePath = request.getSession().getServletContext().getRealPath(fileType);
+        System.out.println(fileName);
+        //upload/itern/itemlsst/
+        String filePath = "E:/pinyougou/pinyougou_A/src/main/webapp/"+fileType;
+        System.out.println(filePath);
         try {
             FileUtil.uploadFile(file.getBytes(), filePath, fileName);
         } catch (Exception e) {
@@ -50,6 +50,13 @@ public class FileUtil {
         int rannum = r.nextInt(89999) + 10000;
         String nowTimeStr = sDateFormat.format(new Date());
         return nowTimeStr + rannum+getFileExtension(fileName);
+    }
+
+    public static String getRandomName(String fileName,int i){
+        int begin=fileName.indexOf(".");
+
+        String imgname=fileName.substring(0,begin);
+       return imgname+"0"+i+getFileExtension(fileName);
     }
 
     /**

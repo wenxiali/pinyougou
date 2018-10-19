@@ -3,6 +3,7 @@ package com.cssl.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cssl.dao.TbItemDao;
 import com.cssl.pojo.TbItem;
+import com.cssl.pojo.TbItemImg;
 import com.cssl.service.TbItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -53,6 +54,20 @@ public class TbItemServiceImpl extends ServiceImpl<TbItemDao, TbItem> implements
         return dao.selectSelling();
     }
 
+    @Override
+    public int insertItemImg(List<TbItemImg> tbItemImgs) {
+        int count=0;
+        if(tbItemImgs.size()>0){
+            count=dao.insertItemImg(tbItemImgs);
+        }
+        return count;
+    }
+
+    @Override
+    public int updateItme(Map<String, Object> map) {
+        return dao.updateItme(map);
+    }
+
     /**
      * 手机通讯最热
      */
@@ -67,5 +82,13 @@ public class TbItemServiceImpl extends ServiceImpl<TbItemDao, TbItem> implements
     @Override
     public List<Map<String, Object>> selectModshow(Map map) {
         return dao.selectModshow(map);
+    }
+
+    /**
+     * 查询商家卖的商品品牌
+     */
+    @Override
+    public List<Map<String, Object>> selectBrand(Map map) {
+        return dao.selectBrand(map);
     }
 }

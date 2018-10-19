@@ -255,6 +255,20 @@ public class LoginController {
             return "redirect:/home-setting-address.action";
         }
     }
+   /* *
+     * 修改地址
+     * @return
+     */
+    @RequestMapping("/modify.action")
+    public String update(TbAddress address,HttpSession session){
+        String username = (String) session.getAttribute("username");
+        int row=aService.updateAddress(address);
+        if (row>0) {
+            return "redirect:/home-setting-address.action";
+        }else {
+            return "redirect:/home-setting-address.action";
+        }
+    }
 
 
     /**
@@ -310,13 +324,5 @@ public class LoginController {
         return "home-setting-safe-complete";
     }
 
-    /**
-     * 修改地址
-     * @return
-     *//*
-    @RequestMapping("/modify.action")
-    public String update(){
-        return "redirect:/home-setting-address.action";
-    }*/
 
 }
