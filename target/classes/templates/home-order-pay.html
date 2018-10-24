@@ -42,12 +42,11 @@
             });
         });
         function dell() {
-            if (confirm('您确定要删除选中的订单？')){
-                var selected=document.getElementsByName("selected");
-                for (i=0;i<selected.length;i++){
-                    if (selected[i].checked){
-                        var orderId=selected[i].value;
-                        alert(orderId);
+            if (confirm('您确定要删除选中的订单？')) {
+                var selected = document.getElementsByName("selected");
+                for (i = 0; i < selected.length; i++) {
+                    if (selected[i].checked) {
+                        var orderId = selected[i].value;
                         $.ajax({
                             url: "delete",
                             data: "orderId=" + orderId,
@@ -238,14 +237,13 @@
 
                         <dd><a href="#" th:href="@{/home-index}">我的订单</a></dd>
                         <dd><a href="#" th:href="@{/home-order-pay(status=1)}" class="list-active">待付款</a></dd><!--th:if="${session.username}==admin"-->
-                        <dd><a href="#" th:href="@{/home-order-send(status=2,status=3)}">待发货</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-receive(status=4,status=5)}">待收货</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-evaluate(status=6,status=7)}">待评价</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-send(status=3)}">待发货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-receive(status=4)}">待收货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-evaluate(status=5)}">待评价</a></dd>
                     </dl>
                     <dl>
                         <dt><i>·</i> 我的中心</dt>
-                        <dd><a href="home-person-collect">我的收藏</a></dd>
-                        <dd><a href="home-person-footmark">我的足迹</a></dd>
+                        <dd><a href="#" th:href="@{/home-person-collect.action(uid=${session.id})}" >我的收藏</a></dd>
                     </dl>
                     <dl>
                         <dt><i>·</i> 设置</dt>
@@ -278,7 +276,7 @@
                         <div class="orders">
                             <div class="choose-order">
                                 <input type="checkbox" id="ck" onclick="selectAll()">&nbsp;<span>全选</span>
-                                <a href="" class="sui-btn btn-info btn-bordered hepay-btn" id="he">合并付款</a>
+                                <a href="" class="sui-btn btn-info btn-bordered hepay-btn" onclick="dell()">批量删除</a>
                                 <div class="orders">
 
                                     <div class="choose-title" th:each="home:${pay.getRecords()}">

@@ -21,15 +21,18 @@
         ORDER BY ta.`create_date` DESC
     </select>
 
+    <select id="selectIs" resultType="TbAddress">
+         SELECT is_default FROM tb_address
+    </select>
+
     <delete id="deleteAdd" parameterType="int">
         DELETE FROM tb_address WHERE aid=#{aId}
     </delete>
 
-    <update id="updateAddress" parameterType="TbAddress">
-
+    <update id="updateAddress">
         UPDATE tb_address
         <set>
-            <if test="contact!=null and contact!=''">
+            <if test="contact !=null and contact!=''">
                 contact=#{contact},
             </if>
             <if test="province_Id !=null and province_Id!=''">
@@ -47,10 +50,14 @@
             <if test="mobile !=null and mobile!=''">
                 mobile=#{mobile},
             </if>
-            <if test="is_Default!=null and is_Default!=''">
+            <if test="is_Default!=null and is_Default!=0 ">
                 is_Default=#{is_Default}
             </if>
         </set>
-        WHERE username=#{username}
+        WHERE aid=#{aid}
+    </update>
+
+    <update id="updateIs">
+    UPDATE tb_address set is_Default=#{is_Default} where aid=#{aid}
     </update>
 </mapper>

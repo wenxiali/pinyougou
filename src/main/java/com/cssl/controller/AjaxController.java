@@ -1,6 +1,7 @@
 package com.cssl.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.cssl.pojo.TbAddress;
 import com.cssl.pojo.TbOrder;
 import com.cssl.pojo.TbOrderItem;
 import com.cssl.service.AddressService;
@@ -42,13 +43,39 @@ public class AjaxController {
     @RequestMapping("/delete")
     public boolean deleteevaluate(String orderId) {
         boolean a = oiService.delete(new QueryWrapper<TbOrderItem>().eq("order_id", orderId));
-        System.out.println(a);
+        // System.out.println(a);
         boolean b = false;
         if (a) {
-             b = oService.delete(new QueryWrapper<TbOrder>().eq("order_id", orderId));
-            System.out.println(b);
+            b = oService.delete(new QueryWrapper<TbOrder>().eq("order_id", orderId));
+            //System.out.println(b);
         }
         return b;
+    }
+
+    /**
+     * 退款
+     */
+    @RequestMapping("/home-tuikuan")
+    public int tuikuan(TbOrder order) {
+        int row = oService.updateTui(order);
+        return row;
+    }
+
+    /**
+     * 修改默认地址
+     *
+     * @param address
+     * @return
+     */
+    @RequestMapping("/home-moren")
+    public int moren(TbAddress address) {
+        int row =0;
+        if (address.getIs_Default() == 1) {
+            return 0;
+        }else {
+            row = aService.updateIs(address);
+            return row;
+        }
     }
 
 }

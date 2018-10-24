@@ -15,4 +15,7 @@ public interface OrderDao extends SuperMapper<TbOrder> {
                                          @Param("nick_Name") String nick_Name);
 
     List<Map<String,Object>> selectOrder(@Param("orderId") Long orderId);
+
+    //退款 确认收货
+    int updateTui(TbOrder order);
 }

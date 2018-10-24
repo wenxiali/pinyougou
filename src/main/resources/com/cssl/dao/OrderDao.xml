@@ -11,8 +11,8 @@
 
     <!--首页查询-->
     <select id="selectList" resultType="map">
-        SELECT o.`create_time` as ct,o.`order_id` as ori,s.nick_name as nn,oi.`title`,oi.`price`,o.`status`,
-        o.`post_fee` as pf,o.`payment`,oi.`num`,oi.`total_fee` as tf,oi.pic_path as pp
+        SELECT o.`create_time` AS ct,o.`order_id` AS ori,s.nick_name AS nn,oi.`title`,oi.`price`,o.`status`,o.`refund`,
+        o.`post_fee` AS pf,o.`payment`,oi.`num`,oi.`total_fee` AS tf,oi.pic_path AS pp
         FROM tb_order o
         LEFT JOIN tb_order_item oi ON o.`order_id`=oi.`order_id`
         LEFT JOIN tb_seller s ON o.`seller_id`=s.`seller_id`
@@ -38,4 +38,18 @@
         LEFT JOIN tb_order_item oi ON o.`order_id`=oi.`order_id`
         WHERE o.order_id=#{orderId}
     </select>
+
+    <update id="updateTui">
+
+        UPDATE tb_order
+        <set>
+            <if test="status!=null and status!=''">
+                status=#{status},
+            </if>
+            <if test="refund !=null and refund !=0">
+                refund=#{refund},
+            </if>
+        </set>
+        WHERE order_id=#{orderId}
+    </update>
 </mapper>

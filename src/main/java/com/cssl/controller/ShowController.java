@@ -1,6 +1,7 @@
 package com.cssl.controller;
 
 import com.cssl.pojo.TbItemImg;
+import com.cssl.service.TbCollectionService;
 import com.cssl.service.TbItemService;
 import com.cssl.util.FileUtil;
 import com.cssl.util.ImgTest;
@@ -27,12 +28,19 @@ public class ShowController {
     @Autowired
     private TbItemService iService;
 
+    @Autowired
+    private TbCollectionService cService;
+
     /**
      * 收藏
      */
-    @RequestMapping("/home-person-collect")
-    public String homepersoncollect(Model model) {
+    @RequestMapping("/home-person-collect.action")
+    public String homepersoncollect(Model model, Long uid,Map map,HttpServletRequest request) {
+        uid=(Long) request.getSession().getAttribute("id");
+        map.put("uid",uid);
+        List<Map<String,Object>> collect=cService.selectCollection(map);
         List<Map<String,Object>> selling=iService.selectSelling();
+        model.addAttribute("conllect",collect);
         model.addAttribute("selling",selling);
         return "home-person-collect";
     }
@@ -135,6 +143,7 @@ public class ShowController {
 
         return "upload successful";
     }
+
 
 
 }

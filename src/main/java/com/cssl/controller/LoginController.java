@@ -260,8 +260,8 @@ public class LoginController {
      * @return
      */
     @RequestMapping("/modify.action")
-    public String update(TbAddress address,HttpSession session){
-        String username = (String) session.getAttribute("username");
+    public String update(TbAddress address,Long aid){
+        address.setAid(aid);
         int row=aService.updateAddress(address);
         if (row>0) {
             return "redirect:/home-setting-address.action";
@@ -302,8 +302,9 @@ public class LoginController {
      * @return
      */
     @RequestMapping("/modifyPW.action")
-    public String modifyPW(TbUser user, Integer id, HttpSession session) {
-        id = (Integer) session.getAttribute("id");
+    public String modifyPW(TbUser user, Long id, HttpSession session) {
+        id = (Long) session.getAttribute("id");
+        user.setId(id);
         boolean row = service.updateById(user);
         if (row) {
             return "login";

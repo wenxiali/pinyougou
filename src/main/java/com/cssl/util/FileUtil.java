@@ -18,10 +18,8 @@ public class FileUtil {
     public static String addimags(MultipartFile file,String fileType, HttpServletRequest request){
         String contentType = file.getContentType();
         String fileName =FileUtil.getRandomFileName(file.getOriginalFilename());
-        System.out.println(fileName);
         //upload/itern/itemlsst/
         String filePath = "E:/pinyougou/pinyougou_A/src/main/webapp/"+fileType;
-        System.out.println(filePath);
         try {
             FileUtil.uploadFile(file.getBytes(), filePath, fileName);
         } catch (Exception e) {

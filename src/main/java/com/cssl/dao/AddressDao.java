@@ -15,7 +15,17 @@ public interface AddressDao extends SuperMapper<TbAddress> {
      */
     IPage<Map<String,Object>> selectAddress(IPage page,@Param("username") String username, @Param("aId") Integer aId);
 
+    TbAddress selectIs();
+
     int deleteAdd(@Param("aId") Integer aId);
+
+
+    /**
+     * 修改默认
+     * @param address
+     * @return
+     */
+    int updateIs(TbAddress address);
 
     TbAddress byenAddress(String username);
 

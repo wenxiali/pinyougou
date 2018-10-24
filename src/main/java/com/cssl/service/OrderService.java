@@ -12,4 +12,7 @@ public interface OrderService extends IService<TbOrder> {
     IPage<Map<String,Object>> selectList(IPage page, String username, Integer status, String nick_Name);
 
     List<Map<String,Object>> selectOrder(Long orderId);
+
+
+    int updateTui(TbOrder order);
 }

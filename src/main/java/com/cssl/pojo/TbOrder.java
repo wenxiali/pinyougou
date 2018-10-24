@@ -19,6 +19,7 @@ public class TbOrder implements Serializable {
 	private Double payment;
 	private String payment_Type;
 	private String post_Fee;
+	private int refund;//加  退款
 	private String status;
 	private Timestamp create_Time;
 	private Timestamp update_Time;

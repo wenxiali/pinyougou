@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -24,6 +25,11 @@ public class AddressServiceImpl extends ServiceImpl<AddressDao, TbAddress> imple
     }
 
     @Override
+    public TbAddress selectIs() {
+        return dao.selectIs();
+    }
+
+    @Override
     public int deleteAdd(Integer aId) {
         return dao.deleteAdd(aId);
     }
@@ -36,6 +42,11 @@ public class AddressServiceImpl extends ServiceImpl<AddressDao, TbAddress> imple
     @Override
     public int updateAddress(TbAddress address) {
         return dao.updateAddress(address);
+    }
+
+    @Override
+    public int updateIs(TbAddress address) {
+        return dao.updateIs(address);
     }
 
 

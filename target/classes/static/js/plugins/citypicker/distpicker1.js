@@ -8799,7 +8799,7 @@ function sttsring() {
 }
 
 $(function () {
-    var sttr= {"province_Id":110000,"city_Id":110100,"area-Id":110101};
+    var sttr= {"province_Id":110000,"city_Id":110100,"area_Id":110101};
     che(sttr.provinceid);
     shi(sttr.provinceid,sttr.cityid);
     jie(sttr.cityid,sttr.areaid);

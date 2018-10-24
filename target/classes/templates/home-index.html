@@ -45,11 +45,11 @@
 
 
         function dell() {
-            if (confirm('您确定要删除选中的订单？')){
-                var selected=document.getElementsByName("selected");
-                for (i=0;i<selected.length;i++){
-                    if (selected[i].checked){
-                        var orderId=selected[i].value;
+            if (confirm('您确定要删除选中的订单？')) {
+                var selected = document.getElementsByName("selected");
+                for (i = 0; i < selected.length; i++) {
+                    if (selected[i].checked) {
+                        var orderId = selected[i].value;
                         alert(orderId);
                         $.ajax({
                             url: "delete",
@@ -204,13 +204,16 @@
     .person-photo {
         width: 80px;
     }
-    .p-img{
+
+    .p-img {
         width: 180px;
     }
-    .typographic img{
+
+    .typographic img {
         width: 100px;
     }
-    #aa{
+
+    #aa {
         float: left;
     }
 </style>
@@ -225,9 +228,9 @@
     <div class="py-container">
         <div class="yui3-g home">
             <!--左侧列表-->
-            <div class="yui3-u-1-6 list" >
+            <div class="yui3-u-1-6 list">
                 <div class="person-info">
-                    <div class="person-photo"><img  th:src="@{${session.head_Pic}}"></div>
+                    <div class="person-photo"><img th:src="@{${session.head_Pic}}"></div>
                     <div class="person-account">
                         <span class="name" th:text="${session.username}"></span>
                         <span class="safe"><a href="login">退出登录 </a></span>
@@ -239,19 +242,19 @@
                         <dt><i>·</i> 订单中心</dt>
                         <dd><a href="#" th:href="@{/home-index}" class="list-active">我的订单</a></dd>
                         <dd><a href="#" th:href="@{/home-order-pay(status=1)}">待付款</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-send(status=2,status=3)}">待发货</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-receive(status=4,status=5)}">待收货</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-evaluate(status=6,status=7)}">待评价</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-send(status=3)}">待发货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-receive(status=4)}">待收货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-evaluate(status=5)}">待评价</a></dd>
                     </dl>
                     <dl>
                         <dt><i>·</i> 我的中心</dt>
-                        <dd><a href="#" th:href="@{/home-person-collect}" >我的收藏</a></dd>
-                        <dd><a href="#" th:href="@{/home-person-footmark}" >我的足迹</a></dd>
+                        <dd><a href="#" th:href="@{/home-person-collect.action(uid=${session.id})}">我的收藏</a></dd>
                     </dl>
                     <dl>
                         <dt><i>·</i> 设置</dt>
-                        <dd><a  href="#" th:href="@{/home-setting-info.action}" >个人信息</a></dd>
-                        <dd><a href="#" th:href="@{/home-setting-address.action(username=${session.username})}">地址管理</a></dd>
+                        <dd><a href="#" th:href="@{/home-setting-info.action}">个人信息</a></dd>
+                        <dd><a href="#" th:href="@{/home-setting-address.action(username=${session.username})}">地址管理</a>
+                        </dd>
                         <dd><a href="#" th:href="@{/home-setting-safe.action}">安全管理</a></dd>
                     </dl>
                 </div>
@@ -320,11 +323,18 @@
                                                 <span th:case="3">待发货</span>
                                                 <span th:case="4">已发货</span>
                                                 <span th:case="5">交易成功</span>
-                                                <span th:case="6">退款</span>
-                                                <span th:case="7">待评价</span>
-                                                <li><a href="#" th:href="@{/home-orderDetail(orderId=${home.ori})}" class="btn" >订单详情 </a>
+                                                <span th:case="6">待评价</span>
+                                               <!-- <span th:case="7">已退款</span>-->
+                                                <li><a href="#" th:href="@{/home-orderDetail(orderId=${home.ori})}"
+                                                       class="btn">订单详情 </a>
                                                 </li>
+                                                <li th:switch="${home.refund}">
+                                                    <span th:case="2">退款中</span>
+                                                    <span th:case="3">已退款</span>
+                                                </li>
+
                                             </ul>
+
                                         </td>
                                     </tr>
 
@@ -363,7 +373,7 @@
                             <li class="yui3-u-1-4">
                                 <div class="list-wrap" th:each="sell:${selling}">
                                     <div class="p-img">
-                                        <img th:src="@{${sell.image}}" />
+                                        <img th:src="@{${sell.image}}"/>
                                     </div>
                                     <div class="attr">
                                         <em th:text="${sell.title}"></em>

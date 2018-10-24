@@ -27,5 +27,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, TbOrder> implements 
     public  List<Map<String,Object>> selectOrder(Long orderId) {
         return dao.selectOrder(orderId);
     }
+
+    @Override
+    public int updateTui(TbOrder order) {
+        return dao.updateTui(order);
+    }
 }
 

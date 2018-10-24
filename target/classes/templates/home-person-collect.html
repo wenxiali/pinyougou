@@ -171,16 +171,15 @@
                 <div class="list-items">
                     <dl>
                         <dt><i>·</i> 订单中心</dt>
-                        <dd><a href="#" th:href="@{/home-index}" class="list-active">我的订单</a></dd>
+                        <dd><a href="#" th:href="@{/home-index}">我的订单</a></dd>
                         <dd><a href="#" th:href="@{/home-order-pay(status=1)}">待付款</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-send(status=2,status=3)}">待发货</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-receive(status=4,status=5)}">待收货</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-evaluate(status=6,status=7)}">待评价</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-send(status=3)}">待发货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-receive(status=4)}">待收货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-evaluate(status=5)}">待评价</a></dd>
                     </dl>
                     <dl>
                         <dt><i>·</i> 我的中心</dt>
                         <dd><a href="#" th:href="@{/home-person-collect}" class="list-active">我的收藏</a></dd>
-                        <dd><a href="#" th:href="@{/home-person-footmark}">我的足迹</a></dd>
                     </dl>
                     <dl>
                         <dt><i>·</i> 设置</dt>
@@ -197,12 +196,11 @@
                     <h4>收藏的商品</h4>
                     <div class="goods-list">
                         <ul class="yui3-g" id="goods-list">
-                            <li class="yui3-u-1-4">
+                            <li class="yui3-u-1-4" th:each="con:${conllect}">
                                 <div class="list-wrap">
-                                    <div class="p-img"><img src="img/_/t.jpg" alt=''></div>
-                                    <div class="price"><strong><em>¥</em> <i>139.00</i></strong></div>
-                                    <div class="attr"><em>Apple苹果iPhone 6s 32G金色 移动联通电信4G手机</em></div>
-                                    <div class="cu"><em><span>促</span>满一件可参加超值换购</em></div>
+                                    <div class="p-img"><img th:src="@{${con.cimage}}"></div>
+                                    <div class="price"><strong><em>¥</em> <i th:text="${con.cprice}"></i></strong></div>
+                                    <div class="attr"><em th:text="${con.ctitle}"></em></div>
                                     <div class="operate">
                                         <a href="success-cart.html" target="_blank"
                                            class="sui-btn btn-bordered btn-danger">加入购物车</a>

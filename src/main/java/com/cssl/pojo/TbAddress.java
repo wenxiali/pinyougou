@@ -16,7 +16,7 @@ public class TbAddress implements Serializable {
 
 	// Fields
 
-	private Integer aId;
+	private Long aid;
 	private String username;
 	private String province_Id;
 	private String city_Id;

@@ -25,6 +25,7 @@
                 }
             }
         }
+
         $(function () {
             $(".ck2").click(function () {
                 var ckall = document.getElementsByName("selected");
@@ -45,11 +46,11 @@
          * 删除订单
          */
         function dell() {
-            if (confirm('您确定要删除选中的订单？')){
-                var selected=document.getElementsByName("selected");
-                for (i=0;i<selected.length;i++){
-                    if (selected[i].checked){
-                        var orderId=selected[i].value;
+            if (confirm('您确定要删除选中的订单？')) {
+                var selected = document.getElementsByName("selected");
+                for (i = 0; i < selected.length; i++) {
+                    if (selected[i].checked) {
+                        var orderId = selected[i].value;
                         alert(orderId);
                         $.ajax({
                             url: "delete",
@@ -66,10 +67,23 @@
                 window.location = "home-order-send";
             }
         }
-        //退款
-        function tuikuan() {
-            if (confirm('亲，您确定要退款嘛？')){
-                $("#aa").text('退款中');
+
+        function tui(orderId) {
+            if (confirm('亲，您确定要退款嘛！ ')) {
+                $.ajax({
+                    url: "home-tuikuan",
+                    data: {"orderId": orderId,"refund":2},
+                    success: function (row) {
+                        if (row>0) {
+                            alert("正在退款，请等待商家回复...");
+                            window.location="home-order-send";
+                        } else {
+                            alert("退款失败，请重新操作！");
+                            window.location="home-order-send";
+                        }
+
+                    }
+                });
             }
         }
     </script>
@@ -207,16 +221,19 @@
     })
 </script>
 <style>
-    .person-photo{
+    .person-photo {
         width: 80px;
     }
-    .p-img{
+
+    .p-img {
         width: 180px;
     }
-    .typographic img{
+
+    .typographic img {
         width: 100px;
     }
-    #aa{
+
+    #aa {
         float: left;
     }
 </style>
@@ -235,7 +252,7 @@
                 <div class="person-info">
                     <div class="person-photo"><img th:src="@{${session.head_Pic}}"></div>
                     <div class="person-account">
-                        <span class="name"  th:text="${session.username}"></span>
+                        <span class="name" th:text="${session.username}"></span>
                         <span class="safe">账户安全</span>
                     </div>
                     <div class="clearfix"></div>
@@ -245,19 +262,19 @@
                         <dt><i>·</i> 订单中心</dt>
                         <dd><a href="#" th:href="@{/home-index}">我的订单</a></dd>
                         <dd><a href="#" th:href="@{/home-order-pay(status=1)}">待付款</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-send(status=2,status=3)}" class="list-active">待发货</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-receive(status=4,status=5)}">待收货</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-evaluate(status=6,status=7)}">待评价</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-send(status=3)}" class="list-active">待发货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-receive(status=4)}">待收货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-evaluate(status=5)}">待评价</a></dd>
                     </dl>
                     <dl>
                         <dt><i>·</i> 我的中心</dt>
-                        <dd><a href="home-person-collect">我的收藏</a></dd>
-                        <dd><a href="home-person-footmark">我的足迹</a></dd>
+                        <dd><a href="#" th:href="@{/home-person-collect.action(uid=${session.id})}">我的收藏</a></dd>
                     </dl>
                     <dl>
                         <dt><i>·</i> 设置</dt>
-                        <dd><a  href="#" th:href="@{/home-setting-info.action}" >个人信息</a></dd>
-                        <dd><a href="#" th:href="@{/home-setting-address.action(username=${session.username})}">地址管理</a></dd>
+                        <dd><a href="#" th:href="@{/home-setting-info.action}">个人信息</a></dd>
+                        <dd><a href="#" th:href="@{/home-setting-address.action(username=${session.username})}">地址管理</a>
+                        </dd>
                         <dd><a href="#" th:href="@{/home-setting-safe.action}">安全管理</a></dd>
                     </dl>
                 </div>
@@ -324,13 +341,17 @@
                                                 <td width="10%" class="center">
                                                     <ul class="unstyled" th:switch="${home.status}">
                                                         <li th:case="3">等待卖家发货</li>
-                                                        <li><a href="#" th:href="@{/home-orderDetail(orderId=${home.ori})}" class="btn" >订单详情 </a></li>
+                                                        <li><a href="#"
+                                                               th:href="@{/home-orderDetail(orderId=${home.ori})}"
+                                                               class="btn">订单详情 </a></li>
                                                     </ul>
                                                 </td>
                                                 <td width="10%" class="center">
-                                                    <ul class="unstyled">
-                                                        <li><a  data-toggle="modal" data-target="#tuikuan" data-keyboard="false" id="aa"
-                                                                class="sui-btn btn-info">退款</a></li>
+                                                    <ul class="unstyled" th:switch="${home.refund}">
+                                                        <li th:case="1"><a th:onclick="'javascript:tui(\''+${home.ori}+'\')'"
+                                                                           class="sui-btn btn-info">退款</a></li>
+                                                        <li th:case="2"><a name="aa" class="sui-btn btn-info">退款中</a></li>
+                                                        <li th:case="3"><a  class="sui-btn btn-info">已退款</a></li>
                                                     </ul>
                                                 </td>
                                             </tr>
@@ -340,7 +361,8 @@
                                     <div class="choose-order">
                                         <div class="sui-pagination pagination-large top-pages">
                                             <ul>
-                                                <li class="prev disabled"><A href="#" th:href="@{/home-order-send(pa=1)}">首页</A>
+                                                <li class="prev disabled"><A href="#"
+                                                                             th:href="@{/home-order-send(pa=1)}">首页</A>
                                                 </li>
                                                 <li class="prev disabled"><A href="#"
                                                                              th:href="@{/home-order-send(pa=${send.getCurrent()-1})}">上一页</A>
@@ -356,37 +378,6 @@
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
-                                <!--退款地址弹出层-->
-                                <div tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade" id="tuikuan"
-                                     style="width:580px;">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" data-dismiss="modal" aria-hidden="true" class="sui-close">×
-                                                </button>
-                                                <h4 id="myModalLabel" class="modal-title">退款选项</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                    <div class="control-group">
-                                                        <label class="control-label">请选择退款原因：</label><br/>
-                                                        <div class="controls">
-                                                            &nbsp; &nbsp; &nbsp; &nbsp;<input type="checkbox"  class="input-medium">拍错了<br/>
-                                                            &nbsp; &nbsp; &nbsp; &nbsp;<input type="checkbox"  class="input-medium">不想买了<br/>
-                                                            &nbsp; &nbsp; &nbsp; &nbsp;<input type="checkbox"  class="input-medium">未收到货<br/>
-                                                            &nbsp; &nbsp; &nbsp; &nbsp;<input type="checkbox"  class="input-medium">其他原因<br/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <a href="#" onclick="tuikuan()">提交</a>
-                                                    </div>
-                                                </form>
-
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div class="like-title">
                                     <div class="mt">
@@ -398,7 +389,7 @@
                                         <li class="yui3-u-1-4">
                                             <div class="list-wrap" th:each="sell:${selling}">
                                                 <div class="p-img">
-                                                    <img th:src="@{${sell.image}}" />
+                                                    <img th:src="@{${sell.image}}"/>
                                                 </div>
                                                 <div class="attr">
                                                     <em th:text="${sell.title}"></em>
@@ -554,7 +545,4 @@
                 </div>
             </div>
             <!--页面底部END-->
-
-            undefined
-
 </html>

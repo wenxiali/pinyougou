@@ -21,16 +21,18 @@
                     success: function (r) {
                         if (r > 0) {
                             alert("删除成功！");
-                            window.location="home-setting-address.action";
+                            window.location = "home-setting-address.action";
                         } else {
                             alert("删除失败!");
-                            window.location="home-setting-address.action";
+                            window.location = "home-setting-address.action";
                         }
                     }
                 });
             }
         }
-        function modi(contact,province,city,area,address,mobile,is_default) {
+
+        function modi(aid, contact, province, city, area, address, mobile, is_default) {
+            $("#aid").val(aid);
             $("#contact").val(contact);
             $("#province2").val(province);
             $("#city2").val(city);
@@ -38,9 +40,53 @@
             $("#address").val(address);
             $("#mobile").val(mobile);
             $("#is_default").val(is_default);
+            $("#is_default").empty();
+            var html = "";
+            if (is_default == 1) {
+                html += ' <input type="radio" name="is_default" checked class="input-medium">是<input type="radio" name="is_default" class="input-medium">否';
+            } else {
+                html += ' <input type="radio" name="is_default" class="input-medium">是<input type="radio" name="is_default" checked class="input-medium">否';
+            }
+            $("#is_default").html(html);
+        }
+
+        function moren1(aid) {
+            if (confirm("亲，您确定要取消默认地址吗？")) {
+                $.ajax({
+                    url: "home-moren",
+                    data: {"aid": aid, "is_Default": 0},
+                    success: function (row) {
+                        if (row > 0) {
+                            alert("取消成功...");
+                            window.location = "home-setting-address.action";
+                        } else {
+                            alert("取消失败，请重新操作！");
+                            window.location = "home-setting-address.action";
+                        }
+                    }
+                });
+            }
+        }
+
+        function moren2(aid) {
+            if (confirm("亲，您确定要设为默认地址吗？")) {
+                    $.ajax({
+                        url: "home-moren",
+                        data: {"aid": aid, "is_Default": 1},
+                        success: function (row) {
+                            if (row > 0) {
+                                alert("设置成功...");
+                                window.location = "home-setting-address.action";
+                            } else {
+                                alert("设置失败，已有默认地址！");
+                                window.location = "home-setting-address.action";
+                            }
+                        }
+                    });
+                }
         }
     </script>
-    
+
 </head>
 
 <body>
@@ -201,18 +247,17 @@
                         <dt><i>·</i> 订单中心</dt>
                         <dd><a href="#" th:href="@{/home-index}">我的订单</a></dd>
                         <dd><a href="#" th:href="@{/home-order-pay(status=1)}">待付款</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-send(status=2,status=3)}">待发货</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-receive(status=4,status=5)}">待收货</a></dd>
-                        <dd><a href="#" th:href="@{/home-order-evaluate(status=6,status=7)}">待评价</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-send(status=3)}">待发货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-receive(status=4)}">待收货</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-evaluate(status=5)}">待评价</a></dd>
                     </dl>
                     <dl>
                         <dt><i>·</i> 我的中心</dt>
-                        <dd><a href="home-person-collect">我的收藏</a></dd>
-                        <dd><a href="home-person-footmark">我的足迹</a></dd>
+                        <dd><a href="#" th:href="@{/home-person-collect.action(uid=${session.id})}">我的收藏</a></dd>
                     </dl>
                     <dl>
                         <dt><i>·</i> 设置</dt>
-                        <dd><a  href="#" th:href="@{/home-setting-info.action}" >个人信息</a></dd>
+                        <dd><a href="#" th:href="@{/home-setting-info.action}">个人信息</a></dd>
                         <dd><a href="#" th:href="@{/home-setting-address.action(userId=${session.username})}"
                                class="list-active">地址管理</a></dd>
                         <dd><a href="#" th:href="@{/home-setting-safe.action}">安全管理</a></dd>
@@ -246,12 +291,16 @@
                                 <td th:text="${addr.mobile}"></td>
                                 <td align="center"><!--,\''+${addr.city}+'\',\''+${addr.area}+'\',-->
                                     <a data-toggle="modal" data-target="#modify" data-keyboard="false"
-                                       class="sui-btn  btn-info add-new" th:onclick="'javascript:modi(\''+${addr.contact}+'\',\''+${addr.province}+'\',\''+${addr.city}+'\',\''+${addr.area}+'\',\''+${addr.address}+'\',\''+${addr.mobile}+'\',\''+${addr.is_default}+'\')'">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                       class="sui-btn  btn-info add-new"
+                                       th:onclick="'javascript:modi(\''+${addr.aid}+'\',\''+${addr.contact}+'\',\''+${addr.province}+'\',\''+${addr.city}+'\',\''+${addr.area}+'\',\''+${addr.address}+'\',\''+${addr.mobile}+'\',\''+${addr.is_default}+'\')'">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                     <input type="button" value="删除" th:onclick="'javascript:del(\''+${addr.aid}+'\')'"/>&nbsp;&nbsp;&nbsp;&nbsp;
-                                   <span th:switch="${addr.is_default}">
-                                       <span th:case="1">默认地址</span>
-                                       <span th:case="0">设为默认</span>
-                                   </span>
+                                    <!--<span th:switch="">-->
+                                    <button id="moren" th:onclick="'javascript:moren1(\''+${addr.aid}+'\')'" th:if="${addr.is_default eq 1}" value="1">默认地址
+                                    </button>
+                                    <button th:onclick="'javascript:moren2(\''+${addr.aid}+'\')'"
+                                            th:if="${addr.is_default eq 0}" value="0">设为默认地址
+                                    </button>
+                                    <!--</span>-->
                                 </td>
                             </tr>
                             </tbody>
@@ -297,13 +346,15 @@
                                             <div class="controls">
                                                 <div data-toggle="distpicker">
                                                     <div class="form-group area">
-                                                        <select class="form-control" name="province_Id" id="province1"></select>
+                                                        <select class="form-control" name="province_Id"
+                                                                id="province1"></select>
                                                     </div>
                                                     <div class="form-group area">
                                                         <select class="form-control" name="city_Id" id="city1"></select>
                                                     </div>
                                                     <div class="form-group area">
-                                                        <select class="form-control" name="town_Id" id="district1"></select>
+                                                        <select class="form-control" name="town_Id"
+                                                                id="district1"></select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -339,7 +390,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <input type="submit" value="提交" />
+                                            <input type="submit" value="提交"/>
                                             <input type="button" value="取消"/>
                                         </div>
                                     </form>
@@ -351,7 +402,7 @@
                         </div>
                     </div>
                     <!--修改地址弹出层-->
-                   <div tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade" id="modify"
+                    <div tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade" id="modify"
                          style="width:580px;">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -362,6 +413,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <form action="modify.action" method="post" class="sui-form form-horizontal">
+                                        <input type="hidden" id="aid" name="aid">
                                         <div class="control-group">
                                             <label class="control-label">收货人：</label>
                                             <div class="controls">
@@ -373,13 +425,15 @@
                                             <div class="controls">
                                                 <div data-toggle="distpicker">
                                                     <div class="form-group area">
-                                                        <select class="form-control" id="province2"  name="province_Id"></select>
+                                                        <select class="form-control" id="province2"
+                                                                name="province_Id"></select>
                                                     </div>
                                                     <div class="form-group area">
                                                         <select class="form-control" id="city2" name="city_Id"></select>
                                                     </div>
                                                     <div class="form-group area">
-                                                        <select class="form-control" id="district2" name="area_Id"></select>
+                                                        <select class="form-control" id="district2"
+                                                                name="area_Id"></select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -399,8 +453,7 @@
                                         <div class="control-group">
                                             <label class="control-label">设为默认：</label>
                                             <div class="controls" id="is_default" name="is_default">
-                                                <input type="radio" name="is_default" checked class="input-medium">是
-                                                <input type="radio" name="is_default" checked class="input-medium">否
+
                                             </div>
                                         </div>
                                         <!--<div class="control-group">
@@ -415,7 +468,7 @@
                                             </div>
                                         </div>-->
                                         <div class="modal-footer">
-                                            <input type="submit" value="提交" />
+                                            <input type="submit" value="提交"/>
                                             <input type="button" value="取消"/>
                                         </div>
                                     </form>
