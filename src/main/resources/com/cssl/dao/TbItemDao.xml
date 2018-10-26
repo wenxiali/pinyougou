@@ -4,52 +4,63 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cssl.dao.TbItemDao">
 
-    <resultMap id="tbItemMap" type="TbItem">
+    <resultMap id="tbItemMap" type="com.cssl.dto.ItemDto">
         <id property="id" column="id"/>
-        <association property="tbSeller" javaType="TbSeller">
-            <id property="sellerId" column="seller_id" />
+        <association property="tbSeller" javaType="com.cssl.pojo.TbSeller">
+            <id property="seller_Id" column="seller_Id" />
         </association>
-        <association property="tbItemCat" javaType="TbItemCat">
+        <association property="tbItemCat" javaType="com.cssl.pojo.TbItemCat">
             <id property="id" column="catid" />
         </association>
+        <collection property="tbItemImgs" ofType="com.cssl.pojo.TbItemImg">
+            <id property="img_id" column="img_id"/>
+        </collection>
     </resultMap>
 
-    <select id="selectTbItem" resultMap="tbItemMap">
-         SELECT t.id,
+    <select id="getTbItem" resultMap="tbItemMap">
+           SELECT t.id,
            t.title,
            t.sell_point,
            t.price,
            t.num,
-            t.image,
+           t.image,
            c.id AS catid,
-           c.name,
+           c.name as catname,
            c.parent_id,
-           c.type_id,
            s.seller_id,
            s.name,
            s.nick_name,
            s.email,
            s.linkman_name,
-           s.linkman_mobile
+           s.linkman_mobile,
+           i.img_type,
+           i.img_fdw
            FROM tb_item t
-           LEFT JOIN tb_seller s
-           ON t.seller_id=s.seller_id
-            LEFT JOIN tb_item_cat c ON
-             t.cat_id=c.id
-             WHERE t.id=#{itemId};
+           LEFT JOIN tb_seller s ON
+           t.seller_id=s.seller_id
+           LEFT JOIN tb_item_cat c ON
+           t.cat_id=c.id
+           LEFT JOIN tb_item_img i ON
+           t.id=i.item_id
+           WHERE t.id=#{itemId};
            </select>
+
+    <!--<select id="getItemImg" resultType="">
+       SELECT * FROM tb_item_img WHERE item_id=#{}
+    </select>-->
 
     <update id="updateItme" parameterType="map">
         UPDATE tb_item SET image=#{image} where id=#{id}
     </update>
 
     <insert id="insertItemImg" parameterType="java.util.List">
-        INSERT INTO tb_item_img(img_type,item_id)
+        INSERT INTO tb_item_img(img_type,img_fdw,item_id)
         VALUES
-        <foreach collection ="tbItemImgs" item="item" index= "index" separator =",">
+        <foreach collection ="temImgs" item="itemImg" index= "index" separator =",">
             (
-            #{item.img_type},
-            #{item.item_id}
+            #{itemImg.img_type},
+            #{itemImg.img_fdw},
+            #{itemImg.item_id}
 
             )
         </foreach >
@@ -68,7 +79,7 @@
        WHERE a.id=b.categoryId
        AND b.categoryId IN (SELECT id FROM tb_item_cat WHERE parent_id IN (SELECT id FROM tb_item_cat WHERE parent_id=74))
        ORDER BY b.create_time DESC
-       LIMIT 10,3
+       LIMIT 10,5
     </select>
 
     <select id="selecttitle" resultType="map">
@@ -83,7 +94,7 @@
        WHERE a.id=b.categoryId
        AND b.categoryId IN (SELECT id FROM tb_item_cat WHERE parent_id IN (SELECT id FROM tb_item_cat WHERE parent_id=558))
        ORDER BY b.create_time DESC
-       LIMIT 2,6
+       LIMIT 2,5
     </select>
 
     <select id="selectModshow" resultType="map">
@@ -98,10 +109,10 @@
     <select id="selectSelling" resultType="map">
         SELECT c.`image`,c.`title`,c.`price`,b.sl
         FROM tb_order_item a,
-        (SELECT id,SUM(num) AS sl FROM tb_order_item GROUP BY item_id) b,
+        (SELECT id,SUM(num) AS sl FROM tb_order_item GROUP BY item_id,id) b,
         tb_item c
-      WHERE a.id=b.id AND a.item_id=c.id
-      ORDER BY b.sl DESC
+        WHERE a.id=b.id AND a.item_id=c.id
+        ORDER BY b.sl DESC
     </select>
 
     <select resultType="map" id="selectBrand"> SELECT seller FROM tb_item WHERE seller_id=#{seller_Id} GROUP BY seller </select>

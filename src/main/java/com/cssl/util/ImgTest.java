@@ -3,22 +3,29 @@ package com.cssl.util;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGEncodeParam;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
+import org.assertj.core.util.Arrays;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ImgTest {
     public static void main(String[] args) {
-        HttpServletRequest request = null;
+
 
 
     }
@@ -35,8 +42,8 @@ public class ImgTest {
         InputStream is = null;
         FileOutputStream fs = null;
         /** 临时文件夹*/
-        String imgPath = "E:/pinyougou/pinyougou_A/src/main/webapp/"+"upload/itern/item/";
-       System.out.println(imgPath);
+        String imgPath = request.getSession().getServletContext().getRealPath("upload/itern/item/");
+
         System.out.println("old-path-" +imgPath);
         //图片名
         String name = myFile.getOriginalFilename();
@@ -47,8 +54,7 @@ public class ImgTest {
         }
         String newImgNmae="upload/itern/updeteitem/";
         /** 处理后文件夹*/
-        String newImaPath =  "E:/pinyougou/pinyougou_A/src/main/webapp/"+newImgNmae;
-       System.out.println(newImaPath);
+        String newImaPath = request.getSession().getServletContext().getRealPath(newImgNmae);
 
         String newPath = ""+ newImaPath;
         System.out.println("new-path-" + newPath);

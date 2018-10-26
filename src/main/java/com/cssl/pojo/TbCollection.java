@@ -7,7 +7,7 @@ public class TbCollection {
     //收藏表
     private int id;
     private Long iid;
-    private Long uid;
+    private int uid;
     private String ctitle;
     private Double cprice;
     private String cimage;

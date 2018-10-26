@@ -58,31 +58,99 @@
         }
 
         //家用电器标题
-       function clickapl(titid) {
-		   var id=titid;
-		   $.post("ajextitle",{"id":id},function (f) {
-			   var str="";
-			   var tab2=$("#tab2");
-			   for(var i=0;i<f.length;i++){
-			       str+="<div class=\"yui3-u row-218 split\" th:each=\"hott,ss:${listhoot}\">\n" +
-                       "\t\t\t\t\t\t\t<img src=\""+f[i].image+"\" />\n" +
-                       "\t\t\t\t\t\t</div>";
-			   }
-			   tab2.html(str)
-           })
-       }
+        function clickapl(titid) {
+            var id=titid;
+            $.post("ajextitle",{"id":id},function (f) {
+                var str="";
+                var tab2=$("#tabtu");
+                for(var i=0;i<f.length;i++){
+                    str+="<li class=\"yui3-u-1-5\">\n" +
+                        "\t\t\t\t\t\t<div class=\"list-wrap\"  >\n" +
+                        "\t\t\t\t\t\t\t<div class=\"p-img\">\n" +
+                        "\t\t\t\t\t\t\t\t<a href=\"item.html\" target=\"_blank\"><img  src=\""+f[i].image+"\" style=\"margin: 30px;height: 150px\"/></a>\n" +
+                        "\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t<div class=\"price\">\n" +
+                        "\t\t\t\t\t\t\t\t<strong>\n" +
+                        "\t\t\t\t\t\t\t\t\t<em>¥</em>\n" +
+                        "\t\t\t\t\t\t\t\t\t<i>"+f[i].price+"</i>\n" +
+                        "\t\t\t\t\t\t\t\t</strong>\n" +
+                        "\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t<div class=\"attr\">\n" +
+                        "\t\t\t\t\t\t\t\t<em>"+f[i].title+"</em>\n" +
+                        "\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t<div class=\"cu\">\n" +
+                        "\t\t\t\t\t\t\t\t<em></em>\n" +
+                        "\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t<div class=\"commit\">\n" +
+                        "\t\t\t\t\t\t\t\t<i class=\"command\">已有2000人评价</i>\n" +
+                        "\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t<div class=\"operate\" >\n" +
+                        "\t\t\t\t\t\t\t\t<a href=\"\"  th:href=\"@{/shopping(title="+f[i].title+",price="+f[i].price+",seller_id="+f[i].seller_id+",image="+f[i].image+")}\" target=\"_blank\" class=\"sui-btn btn-bordered btn-danger\">加入购物车</a>\n" +
+                        "\t\t\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"sui-btn btn-bordered\">对比</a>\n" +
+                        "\t\t\t\t\t\t\t\t<a href=\"javascript:void(0);\"   th:id=\"'gz'+"+f[i].id+"\" th:onclick=\"'javascript:clickcoll('+"+f[i].id+"+')'\"  class=\"sui-btn btn-bordered\">关注</a>\n" +
+                        "\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t</li>";
+                }
+                tab2.html(str)
+            })
+        }
        //手机标题
         function clickmob(titid) {
             var id=titid;
             $.post("ajextitle",{"id":id},function (f) {
                 var str="";
-                var tab3=$("#tab3");
+                var tab3=$("#tabtuo");
                 for(var i=0;i<f.length;i++){
-                    str+="<div class=\"yui3-u row-218 split\" th:each=\"hott,ss:${listhoot}\">\n" +
-                        "\t\t\t\t\t\t\t<img src=\""+f[i].image+"\" />\n" +
-                        "\t\t\t\t\t\t</div>";
+                    str+="<li class=\"yui3-u-1-5\">\n" +
+                        "\t\t\t\t\t\t<div class=\"list-wrap\"  >\n" +
+                        "\t\t\t\t\t\t\t<div class=\"p-img\">\n" +
+                        "\t\t\t\t\t\t\t\t<a href=\"item.html\" target=\"_blank\"><img  src=\""+f[i].image+"\" style=\"margin: 30px;height: 150px\"/></a>\n" +
+                        "\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t<div class=\"price\">\n" +
+                        "\t\t\t\t\t\t\t\t<strong>\n" +
+                        "\t\t\t\t\t\t\t\t\t<em>¥</em>\n" +
+                        "\t\t\t\t\t\t\t\t\t<i>"+f[i].price+"</i>\n" +
+                        "\t\t\t\t\t\t\t\t</strong>\n" +
+                        "\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t<div class=\"attr\">\n" +
+                        "\t\t\t\t\t\t\t\t<em>"+f[i].title+"</em>\n" +
+                        "\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t<div class=\"cu\">\n" +
+                        "\t\t\t\t\t\t\t\t<em></em>\n" +
+                        "\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t<div class=\"commit\">\n" +
+                        "\t\t\t\t\t\t\t\t<i class=\"command\">已有2000人评价</i>\n" +
+                        "\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t<div class=\"operate\" >\n" +
+                        "\t\t\t\t\t\t\t\t<a href=\"\"  th:href=\"@{/shopping(title="+f[i].title+",price="+f[i].price+",seller_id="+f[i].seller_id+",image="+f[i].image+")}\" target=\"_blank\" class=\"sui-btn btn-bordered btn-danger\">加入购物车</a>\n" +
+                        "\t\t\t\t\t\t\t\t<a href=\"javascript:void(0);\" class=\"sui-btn btn-bordered\">对比</a>\n" +
+                        "\t\t\t\t\t\t\t\t<a href=\"javascript:void(0);\"   th:id=\"'gz'+"+f[i].id+"\" th:onclick=\"'javascript:clickcoll('+"+f[i].id+"+')'\"  class=\"sui-btn btn-bordered\">关注</a>\n" +
+                        "\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t</li>";
                 }
                 tab3.html(str)
+            })
+        }
+
+        //取消关注
+        function clickqx(iid) {
+            /*$.post("ajexdelete",{"iid":iid},function (f) {
+                if(f==1){
+                    //window.location.href="indexx";
+                    window.location="indexx";
+                }
+            })*/
+            $.ajax({
+                url:"ajexdelete?iid="+iid,
+                success : function (f) {
+                    if(f==1){
+                        //window.location.href="indexx";
+                        window.location="indexx";
+                    }
+                }
+
             })
         }
 	</script>
@@ -99,6 +167,7 @@
 				<div class="shortcut">
 					<ul class="fl">
 						<li class="f-item">品优购欢迎您！</li>
+						<li class="f-item">请<a href="login" target="_blank">登录</a>　<span><a href="register" target="_blank">免费注册</a></span></li>
 					</ul>
 					<ul class="fr">
 						<li class="f-item">我的订单</li>
@@ -131,7 +200,7 @@
 			<div class="py-container">
 				<div class="yui3-g Logo">
 					<div class="yui3-u Left logoArea">
-						<a class="logo-bd" title="品优购" href="JD-index.html" target="_blank"></a>
+						<a class="logo-bd" title="品优购" href="#" th:href="@{/indexx}" target="_blank"></a>
 					</div>
 					<div class="yui3-u Center searchArea">
 						<div class="search">
@@ -160,14 +229,10 @@
 						<div class="fr shopcar">
 							<div class="show-shopcar" id="shopcar">
 								<span class="car"></span>
-								<a class="sui-btn btn-default btn-xlarge" href="cart.html" target="_blank">
+								<a class="sui-btn btn-default btn-xlarge" th:href="@{/shopcart}" target="_blank">
 									<span>我的购物车</span>
 									<i class="shopnum">0</i>
 								</a>
-								<div class="clearfix shopcarlist" id="shopcarlist" style="display:none">
-									<p>"啊哦，你的购物车还没有商品哦！"</p>
-									<p>"啊哦，你的购物车还没有商品哦！"</p>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -371,11 +436,11 @@
 				<a href="javascript:change()" class="fr tip changeBnt" id="xxlChg"><i></i>换一换</a>
 			</div>
 			<div class="bd">
-				<ul class="clearfix yui3-g Favourate picLB" id="picLBxxl" >
+				<ul  class="clearfix yui3-g Favourate picLB" id="picLBxxl" >
 					<li class="yui3-u-1-6" th:each="xh,ss:${listi}">
 						<dl class="picDl huozhe">
 							<dd>
-								<a href="" class="pic"><img src="img/like_02.png" th:src="@{${xh.image}}" alt=""  /></a>
+								<a th:href="${'/pinyougou/item?itemId='+xh.id}" class="pic"><img th:src="@{${xh.image}}" style="position: relative; right: 50px;margin: 10px;height: 110px"  /></a>
 								<div class="like-text">
 									<p th:text="${xh.title}"></p>
 									<h3 th:text="${xh.price}"></h3>
@@ -444,6 +509,7 @@
 				<h3 class="fl">家用电器</h3>
 				<div class="fr">
 					<ul class="sui-nav nav-tabs">
+						<a href="javascript:void(0);"  th:href="@{/seards}"  class="sui-btn btn-bordered">更多</a>
 						<li class="active">
 							<a href="#tab1" data-toggle="tab">热门</a>
 						</li>
@@ -455,49 +521,40 @@
 			</div>
 			<div class="clearfix  tab-content floor-content">
 				<div id="tab1" class="tab-pane active">
-					<div class="yui3-g Floor-1">
-						<div class="yui3-u Left blockgary">
-							<ul class="jd-list">
-								<li>节能补贴</li>
-								<li>4K电视</li>
-								<li>空气净化器</li>
-								<li>IH电饭煲</li>
-								<li>滚筒洗衣机</li>
-								<li>电热水器</li>
-							</ul>
-							<img src="img/floor-1-1.png" />
-						</div>
-						<div class="yui3-u row-330 floorBanner">
-							<div id="floorCarousel" data-ride="carousel" data-interval="4000" class="sui-carousel slide">
-								<ol class="carousel-indicators">
-									<li data-target="#floorCarousel" data-slide-to="0" class="active"></li>
-									<li data-target="#floorCarousel" data-slide-to="1"></li>
-									<li data-target="#floorCarousel" data-slide-to="2"></li>
-								</ol>
-								<div class="carousel-inner">
-									<div class="active item">
-										<img src="img/commodity/xp7.jpg" >
-										<h3>TCL D55A710 55英寸海量爱奇艺正版视频内置wifi安卓智能云液晶电视（金色）</h3>
-									</div>
-									<div class="item"  th:each="show,ss:${listshow}">
-										<img src="img/floor-1-b02.png" th:src="@{${show.image}}">
-										<h3 th:text="${show. sell_point}"></h3>
-									</div>
+					<ul class="yui3-g">
+						<li class="yui3-u-1-5" th:each="show,ss:${listshow}">
+							<div class="list-wrap"  >
+								<div class="p-img">
+									<a href="item" target="_blank"><img  src="img/_/mobile01.png"   th:src="@{${show.image}}" style="margin: 30px;height: 150px"/></a>
 								</div>
-								<a href="#floorCarousel" data-slide="prev" class="carousel-control left">‹</a>
-								<a href="#floorCarousel" data-slide="next" class="carousel-control right">›</a>
+								<div class="price">
+									<strong>
+										<em>¥</em>
+										<i th:text="${show.price}">6088.00</i>
+									</strong>
+								</div>
+								<div class="attr">
+									<em th:text="${show.title}">Apple苹果iPhone 6s (A1699)</em>
+								</div>
+								<div class="cu">
+									<em></em>
+								</div>
+								<div class="commit">
+									<i class="command">已有2000人评价</i>
+								</div>
+								<div class="operate" >
+									<a href=""  th:href="@{/shopping(title=${show.title},price=${show.price},seller_id=${show.seller_id},image=${show.image})}" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
+									<a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
+									<a href="javascript:void(0);"   th:id="'gz'+${show.id}" th:onclick="'javascript:clickcoll('+${show.id}+')'"  class="sui-btn btn-bordered">关注</a>
+								</div>
 							</div>
-						</div>
-						<div class="yui3-u row-220 split" style="clear:both;width: 600px">
-							<span class="floor-x-line"></span>
-							<div style="float:left;width: 200px; height: 200px" class="floor-conver-pit"  align="center" th:each="hott,ss:${listhoot}">
-								<img  style="width: 150px;height: 150px" src="img/floor-1-2.png" th:src="@{${hott.image}}"/>
-							</div>
-						</div>
-					</div>
+						</li>
+					</ul>
 				</div>
 				<div id="tab2" class="tab-pane">
-
+					<ul>
+						<li id="tabtu"></li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -508,6 +565,7 @@
 				<h3 class="fl">手机通讯</h3>
 				<div class="fr">
 					<ul class="sui-nav nav-tabs">
+						<a href="javascript:void(0);"  th:href="@{/searchh}"  class="sui-btn btn-bordered">更多</a>
 						<li class="active">
 							<a href="#tab8" data-toggle="tab">热门</a>
 						</li>
@@ -519,49 +577,40 @@
 			</div>
 			<div class="clearfix  tab-content floor-content">
 				<div id="tab8" class="tab-pane active">
-					<div class="yui3-g Floor-1">
-						<div class="yui3-u Left blockgary">
-							<ul class="jd-list">
-								<li>节能补贴</li>
-								<li>4K电视</li>
-								<li>空气净化器</li>
-								<li>IH电饭煲</li>
-								<li>滚筒洗衣机</li>
-								<li>电热水器</li>
-							</ul>
-							<img src="img/commodity/ry9.jpg" />
-						</div>
-						<div class="yui3-u row-330 floorBanner">
-							<div id="floorCarousell" data-ride="carousel" data-interval="4000" class="sui-carousel slide">
-								<ol class="carousel-indicators">
-									<li data-target="#floorCarousell" data-slide-to="0" class="active"></li>
-									<li data-target="#floorCarousell" data-slide-to="1"></li>
-									<li data-target="#floorCarousell" data-slide-to="2"></li>
-								</ol>
-								<div class="carousel-inner">
-									<div class="active item">
-										<img src="img/commodity/ry12.jpg">
-										<h3>酷派 大神 F1青春版（8297D）智尚白 移动3G手机 双卡双待</h3>
-									</div>
-									<div class="item" th:each="mshow,ss:${listmobshow}">
-										<img src="img/floor-1-b02.png" th:src="@{${mshow.image}}">
-										<h3 th:text="${mshow. sell_point}"></h3>
-									</div>
+					<ul class="yui3-g">
+						<li class="yui3-u-1-5"  th:each="mshow,ss:${listmobshow}">
+							<div class="list-wrap"  >
+								<div class="p-img">
+									<a href="item" target="_blank"><img  src="img/_/mobile01.png"   th:src="@{${mshow.image}}" style="margin: 30px;height: 150px"/></a>
 								</div>
-								<a href="#floorCarousell" data-slide="prev" class="carousel-control left">‹</a>
-								<a href="#floorCarousell" data-slide="next" class="carousel-control right">›</a>
+								<div class="price">
+									<strong>
+										<em>¥</em>
+										<i th:text="${mshow.price}">6088.00</i>
+									</strong>
+								</div>
+								<div class="attr">
+									<em th:text="${mshow.title}">Apple苹果iPhone 6s (A1699)</em>
+								</div>
+								<div class="cu">
+									<em></em>
+								</div>
+								<div class="commit">
+									<i class="command">已有2000人评价</i>
+								</div>
+								<div class="operate" >
+									<a href=""  th:href="@{/shopping(title=${mshow.title},price=${mshow.price},seller_id=${mshow.seller_id},image=${mshow.image})}" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
+									<a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
+									<a href="javascript:void(0);"   th:id="'gz'+${mshow.id}" th:onclick="'javascript:clickcoll('+${mshow.id}+')'"  class="sui-btn btn-bordered">关注</a>
+								</div>
 							</div>
-						</div>
-						<div class="yui3-u row-220 split" style="clear:both;width: 600px">
-							<span class="floor-x-line"></span>
-							<div style="float:left;width: 200px; height: 200px" class="floor-conver-pit"  align="center" th:each="mhod,ss:${listmhod}">
-								<img  style="width: 150px;height: 150px" src="img/floor-1-2.png" th:src="@{${mhod.image}}"/>
-							</div>
-						</div>
-					</div>
+						</li>
+					</ul>
 				</div>
 				<div id="tab3" class="tab-pane">
-					<p>第二个</p>
+					<ul>
+						<li id="tabtuo"></li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -766,6 +815,22 @@
 							<div id="J-cart-render">
 								<!-- 列表 -->
 								<div id="cart-list" class="tbar-cart-list">
+
+									<div class="tbar-cart-item" th:each="shop,ss:${listshop}">
+										<div class="jtc-item-promo">
+											<em class="promo-tag promo-mz">满赠<i class="arrow"></i></em>
+											<div class="promo-text">已购满600元，您可领赠品</div>
+										</div>
+										<div class="jtc-item-goods">
+											<span class="p-img"><a href="#" target="_blank"><img th:src="@{${shop.iimage}}"  height="50" width="50" /></a></span>
+											<div class="p-name">
+												<a href="#" th:text="${shop.ititle}">{1}</a>
+											</div>
+											<div class="p-price">¥<strong th:text="${shop.iprice}">{3}</strong> </div>
+											<a href="#none" class="p-del J-del">删除</a>
+										</div>
+									</div>
+
 								</div>
 							</div>
 						</div>
@@ -773,8 +838,6 @@
 					<!-- 小计 -->
 					<div id="cart-footer" class="tbar-panel-footer J-panel-footer">
 						<div class="tbar-checkout">
-							<div class="jtc-number"> <strong class="J-count" id="cart-number">0</strong>件商品 </div>
-							<div class="jtc-sum"> 共计：<strong class="J-total" id="cart-sum">¥0</strong> </div>
 							<a class="jtc-btn J-btn" href="#none" target="_blank">去购物车结算</a>
 						</div>
 					</div>
@@ -788,9 +851,19 @@
 					</h3>
 					<div class="tbar-panel-main">
 						<div class="tbar-panel-content J-panel-content">
-							<div class="tbar-tipbox2">
-								<div class="tip-inner"> <i class="i-loading"></i> </div>
+
+							<div class="tbar-cart-item" th:each="col,ss:${listcol}">
+								<div class="jtc-item-goods">
+									<span class="p-img"><a href="#" target="_blank"><img th:src="@{${col.cimage}}"  height="50" width="50" /></a></span>
+									<div class="p-name">
+										<a href="#" th:text="${col.ctitle}">{1}</a>
+									</div>
+									<div class="p-price">¥<strong th:text="${col.cprice}">{3}</strong></div>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<a href="#none" th:href="'javascript:clickqx('+${col.iid}+')'"  class="sui-btn btn-bordered" style="color: #9d261d">取消关注</a>
+								</div>
 							</div>
+
 						</div>
 					</div>
 					<div class="tbar-panel-footer J-panel-footer"></div>
@@ -833,7 +906,7 @@
 				<div onclick="cartPanelView.tabItemClick('cart')" class="toolbar-tab tbar-tab-cart" data="购物车" tag="cart" >
 					<i class="tab-ico"></i>
 					<em class="tab-text"></em>
-					<span class="tab-sub J-count " id="tab-sub-cart-count">0</span>
+					<span class="tab-sub J-count hide">0</span>
 				</div>
 				<div onclick="cartPanelView.tabItemClick('follow')" class="toolbar-tab tbar-tab-follow" data="我的关注" tag="follow" >
 					<i class="tab-ico"></i>
@@ -860,23 +933,7 @@
 
 	</div>
 </div>
-<!--购物车单元格 模板-->
-<script type="text/template" id="tbar-cart-item-template">
-	<div class="tbar-cart-item" >
-		<div class="jtc-item-promo">
-			<em class="promo-tag promo-mz">满赠<i class="arrow"></i></em>
-			<div class="promo-text">已购满600元，您可领赠品</div>
-		</div>
-		<div class="jtc-item-goods">
-			<span class="p-img"><a href="#" target="_blank"><img src="{2}" alt="{1}" height="50" width="50" /></a></span>
-			<div class="p-name">
-				<a href="#">{1}</a>
-			</div>
-			<div class="p-price"><strong>¥{3}</strong>×{4} </div>
-			<a href="#none" class="p-del J-del">删除</a>
-		</div>
-	</div>
-</script>
+
 <!--侧栏面板结束-->
 <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript">

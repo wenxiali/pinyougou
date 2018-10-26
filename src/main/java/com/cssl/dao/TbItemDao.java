@@ -1,8 +1,10 @@
 package com.cssl.dao;
 
 import com.cssl.SuperMapper;
+import com.cssl.dto.ItemDto;
 import com.cssl.pojo.TbItem;
 import com.cssl.pojo.TbItemImg;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -40,9 +42,11 @@ public interface TbItemDao extends SuperMapper<TbItem> {
      */
     public List<Map<String,Object>> selectSelling();
 
-    int insertItemImg(List<TbItemImg> tbItemImgs);
+    ItemDto getTbItem(Integer itemId);
 
-    int updateItme(Map<String,Object>map);
+    int insertItemImg(@Param("temImgs") List<TbItemImg> temImgs);
+
+    int updateItme(Map<String, Object> map);
 
     /**
      * 查询商家卖的商品品牌

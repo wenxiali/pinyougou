@@ -24,14 +24,11 @@
                 <div class="shortcut">
                     <ul class="fl">
                         <li class="f-item">品优购欢迎您！</li>
-                        <li class="f-item">请<a href="login.html" target="_blank">登录</a>　<span><a href="register.html"
-                                                                                                 target="_blank">免费注册</a></span>
-                        </li>
                     </ul>
                     <ul class="fr">
                         <li class="f-item">我的订单</li>
                         <li class="f-item space"></li>
-                        <li class="f-item"><a href="home.html" target="_blank">我的品优购</a></li>
+                        <li class="f-item"><a href="#" th:href="@{/home}">我的品优购</a></li>
                         <li class="f-item space"></li>
                         <li class="f-item">品优购会员</li>
                         <li class="f-item space"></li>
@@ -60,7 +57,7 @@
             <div class="py-container">
                 <div class="yui3-g Logo">
                     <div class="yui3-u Left logoArea">
-                        <a class="logo-bd" title="品优购" href="JD-index.html" target="_blank"></a>
+                        <a class="logo-bd" title="品优购" href="#" th:href="@{/indexx}" target="_blank"></a>
                     </div>
                     <div class="yui3-u Center searchArea">
                         <div class="search">
@@ -85,21 +82,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="yui3-u Right shopArea">
-                        <div class="fr shopcar">
-                            <div class="show-shopcar" id="shopcar">
-                                <span class="car"></span>
-                                <a class="sui-btn btn-default btn-xlarge" href="cart.html" target="_blank">
-                                    <span>我的购物车</span>
-                                    <i class="shopnum">0</i>
-                                </a>
-                                <div class="clearfix shopcarlist" id="shopcarlist" style="display:none">
-                                    <p>"啊哦，你的购物车还没有商品哦！"</p>
-                                    <p>"啊哦，你的购物车还没有商品哦！"</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
 
                 <div class="yui3-g NavList">
@@ -222,8 +205,8 @@
                     </div>
                     <div class="like-list">
                         <ul class="yui3-g">
-                            <li class="yui3-u-1-4">
-                                <div class="list-wrap" th:each="sell:${selling}">
+                            <li class="yui3-u-1-4" th:each="sell:${selling}">
+                                <div class="list-wrap">
                                     <div class="p-img">
                                         <img th:src="@{${sell.image}}"/>
                                     </div>

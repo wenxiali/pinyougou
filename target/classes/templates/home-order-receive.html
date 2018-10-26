@@ -100,7 +100,6 @@
                 <div class="shortcut">
                     <ul class="fl">
                         <li class="f-item">品优购欢迎您！</li>
-                        </li>
                     </ul>
                     <ul class="fr">
                         <li class="f-item">我的订单</li>
@@ -158,21 +157,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="yui3-u Right shopArea">
-                        <div class="fr shopcar">
-                            <div class="show-shopcar" id="shopcar">
-                                <span class="car"></span>
-                                <a class="sui-btn btn-default btn-xlarge" href="cart.html" target="_blank">
-                                    <span>我的购物车</span>
-                                    <i class="shopnum">0</i>
-                                </a>
-                                <div class="clearfix shopcarlist" id="shopcarlist" style="display:none">
-                                    <p>"啊哦，你的购物车还没有商品哦！"</p>
-                                    <p>"啊哦，你的购物车还没有商品哦！"</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
 
                 <div class="yui3-g NavList">
@@ -316,8 +301,8 @@
                                                 </td>
                                                 <td width="5%" class="center">
                                                     <ul class="unstyled">
-                                                        <li class="o-price" th:text="${home.price}"></li>
-                                                        <li th:text="${home.payment}"></li>
+                                                        <li class="o-price">￥<span  th:text="${home.price}"/></li>
+                                                        <li>￥<span th:text="${home.payment}"/></li>
                                                     </ul>
                                                 </td>
                                                 <td width="5%" class="center" th:text="${home.num}"></td>
@@ -326,7 +311,7 @@
                                                 </td>
                                                 <td width="10%" class="center">
                                                     <ul class="unstyled">
-                                                        <li th:text="${home.tf}"></li>
+                                                        <li >￥<span th:text="${home.tf}"></span></li>
                                                         <li>（含运费：￥<span th:text="${home.pf}"></span>）</li>
                                                     </ul>
                                                 </td>
@@ -377,8 +362,8 @@
                                 </div>
                                 <div class="like-list">
                                     <ul class="yui3-g">
-                                        <li class="yui3-u-1-4">
-                                            <div class="list-wrap" th:each="sell:${selling}">
+                                        <li class="yui3-u-1-4" th:each="sell:${selling}">
+                                            <div class="list-wrap">
                                                 <div class="p-img">
                                                     <img th:src="@{${sell.image}}"/>
                                                 </div>

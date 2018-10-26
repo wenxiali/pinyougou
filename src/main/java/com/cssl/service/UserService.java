@@ -6,9 +6,9 @@ import com.cssl.pojo.TbUser;
 
 public interface UserService extends IService<TbUser> {
 
-    TbUser selectName(String username,String phone);
+    TbUser selectName(String username, String phone);
 
-    TbUser selectUser(String username,String phone,String password);
+    TbUser selectUser(String username, String phone, String password);
 
     int updateUser(TbUser user);
 

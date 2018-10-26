@@ -11,4 +11,9 @@ public interface TbBrandDao extends SuperMapper<TbBrand> {
      * 查询手机品牌
      */
     public List<TbBrand> listbrand();
+
+    /**
+     * 查询电视品牌
+     */
+    public List<TbBrand> listtele();
 }

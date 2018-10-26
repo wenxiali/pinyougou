@@ -2,14 +2,18 @@ package com.cssl.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cssl.pojo.TbAddress;
+import com.cssl.pojo.TbCollection;
 import com.cssl.pojo.TbOrder;
 import com.cssl.pojo.TbOrderItem;
 import com.cssl.service.AddressService;
 import com.cssl.service.OrderItemService;
 import com.cssl.service.OrderService;
+import com.cssl.service.TbCollectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class AjaxController {
@@ -21,6 +25,9 @@ public class AjaxController {
 
     @Autowired
     private OrderService oService;
+
+    @Autowired
+    private TbCollectionService cService;
 
     /**
      * 删除地址
@@ -68,14 +75,26 @@ public class AjaxController {
      * @return
      */
     @RequestMapping("/home-moren")
-    public int moren(TbAddress address) {
-        int row =0;
-        if (address.getIs_Default() == 1) {
-            return 0;
-        }else {
-            row = aService.updateIs(address);
-            return row;
+    public int moren(TbAddress address, String username,Long aid, HttpServletRequest request) {
+        username=(String)request.getSession().getAttribute("username");
+        address.setUsername(username);
+        int a=aService.updateUs(address);
+        int b=0;
+        if (a>0){
+            address.setAid(aid);
+            b=aService.updateIs(address);
         }
+        return b;
     }
 
+    /**
+     * 删除收藏
+     * @param id
+     * @return
+     */
+    @RequestMapping("home-conllection")
+    public boolean homeconllectdel(int id){
+        boolean row=cService.delete(new QueryWrapper<TbCollection>().eq("id", id));
+        return row;
+    }
 }

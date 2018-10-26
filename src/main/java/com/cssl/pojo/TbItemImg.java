@@ -8,5 +8,6 @@ import lombok.Setter;
 public class TbItemImg {
     private int img_id;
     private String img_type;
+    private String img_fdw;
     private int item_id;
 }

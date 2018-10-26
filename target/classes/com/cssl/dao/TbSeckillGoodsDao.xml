@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssl.dao.TbSeckillGoodsDao">
+
+    <select id="selectsy" resultType="map">
+        SELECT a.*,ROUND((a.num-a.stock_count)/a.num*100,0) AS bfb,b.price AS cost
+        FROM tb_seckill_goods AS a,tb_item AS b WHERE a.item_id=b.id
+    </select>
+
+
+    <select id="selectid" resultType="map">
+     SELECT a.*,b.price AS cost,c.name AS sjname,c.seller_id AS sjid
+     FROM tb_seckill_goods AS a,tb_item AS b,tb_seller AS c
+     WHERE a.item_id=b.id AND c.seller_id=b.seller_id AND a.id=#{id}
+    </select>
+
+</mapper>

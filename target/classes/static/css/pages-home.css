@@ -297,7 +297,7 @@ input {
 .control-group .control-label {
     float: left;
     width: 96px;
-    o overflow: hidden
+    overflow: hidden
 }
 
 .control-group .controls {

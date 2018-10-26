@@ -24,7 +24,6 @@
                 <div class="shortcut">
                     <ul class="fl">
                         <li class="f-item">品优购欢迎您！</li>
-                        </li>
                     </ul>
                     <ul class="fr">
                         <li class="f-item">我的订单</li>
@@ -82,21 +81,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="yui3-u Right shopArea">
-                        <div class="fr shopcar">
-                            <div class="show-shopcar" id="shopcar">
-                                <span class="car"></span>
-                                <a class="sui-btn btn-default btn-xlarge" href="cart.html" target="_blank">
-                                    <span>我的购物车</span>
-                                    <i class="shopnum">0</i>
-                                </a>
-                                <div class="clearfix shopcarlist" id="shopcarlist" style="display:none">
-                                    <p>"啊哦，你的购物车还没有商品哦！"</p>
-                                    <p>"啊哦，你的购物车还没有商品哦！"</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
 
                 <div class="yui3-g NavList">
@@ -174,7 +159,8 @@
                 <div class="list-items">
                     <dl>
                         <dt><i>·</i> 订单中心</dt>
-                        <dd><a href="#" th:href="@{/home-index}"  class="list-active">我的订单</a></dd>
+                        <dd><a href="#" th:href="@{/home-index}" class="list-active">我的订单</a></dd>
+                        <dd><a href="#" th:href="@{/home-order-pay(status=1)}">待付款</a></dd>
                         <dd><a href="#" th:href="@{/home-order-send(status=3)}">待发货</a></dd>
                         <dd><a href="#" th:href="@{/home-order-receive(status=4)}">待收货</a></dd>
                         <dd><a href="#" th:href="@{/home-order-evaluate(status=5)}">待评价</a></dd>
@@ -197,58 +183,65 @@
                 <div class="body">
                     <div class="order-detail">
                         <h4>订单详情</h4>
-                        <!--  <div class="order-bar">
-                              <div class="sui-steps-round steps-round-auto steps-4" th:switch="${order[0].status}">
-                                  <div class="finished" th:case="1">
-                                      <div class="wrap">
-                                          <div class="round">1</div>
-                                          <div class="bar"></div>
-                                      </div>
-                                      <label>
-                                          <span>提交订单</span>
-                                          <span  th:text="${order[0].ct}"></span>
-                                      </label>
-                                  </div>
-                                  <div class="current">
-                                      <div class="wrap">
-                                          <div class="round">2</div>
-                                          <div class="bar"></div>
-                                      </div>
-                                      <label>
-                                          <span>付款成功</span>
-                                          <span th:text="${order[0].pt}"></span>
-                                      </label>
-                                  </div>
-                                  <div class="todo">
-                                      <div class="wrap">
-                                          <div class="round">3</div>
-                                          <div class="bar"></div>
-                                      </div>
-                                      <label>
-                                          <span>发货</span>
-                                      </label>
-                                  </div>
-                                  <div class="todo">
-                                      <div class="wrap">
-                                          <div class="round">4</div>
-                                          <div class="bar"></div>
-                                      </div>
-                                      <label>
-                                          <span>确认收货</span>
-                                          <span th:text="${order[0].et}"></span>
-                                      </label>
-                                  </div>
+                        <!--<div class="order-bar">
+                            <div class="sui-steps-round steps-round-auto steps-4">
+                                <div class="finished">
+                                    <div class="wrap">
+                                        <div class="round">1</div>
+                                        <div class="bar"></div>
+                                    </div>
+                                    <label>
+                                        <span>提交订单</span>
+                                        <span>2016-06-27</span>
+                                        <span>13:03:53</span>
+                                    </label>
+                                </div>
+                                <div class="current">
+                                    <div class="wrap">
+                                        <div class="round">2</div>
+                                        <div class="bar"></div>
+                                    </div>
+                                    <label>
+                                        <span>付款成功</span>
+                                        <span>2016-06-27</span>
+                                        <span>13:03:53</span>
+                                    </label>
+                                </div>
+                                <div class="todo">
+                                    <div class="wrap">
+                                        <div class="round">3</div>
+                                        <div class="bar"></div>
+                                    </div>
+                                    <label>
+                                        <span>发货</span>
+                                        <span>2016-06-27</span>
+                                        <span>13:03:53</span>
+                                    </label>
+                                </div>
+                                <div class="todo">
+                                    <div class="wrap">
+                                        <div class="round">4</div>
+                                        <div class="bar"></div>
+                                    </div>
+                                    <label>
+                                        <span>确认收货</span>
+                                        <span>2016-06-27</span>
+                                        <span>13:03:53</span>
+                                    </label>
+                                </div>
 
-                                  <div class="todo last">
-                                      <div class="wrap">
-                                          <div class="round">5</div>
-                                      </div>
-                                      <label>
-                                          <span>评价晒单</span>
-                                      </label>
-                                  </div>
-                              </div>
-                          </div>-->
+                                <div class="todo last">
+                                    <div class="wrap">
+                                        <div class="round">5</div>
+                                    </div>
+                                    <label>
+                                        <span>评价晒单</span>
+                                        <span>2016-06-27</span>
+                                        <span>13:03:53</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>-->
                         <div class="order-state">
                             <p>当前订单状态：
                                 <span class="red" th:switch="${order[0].status}">
@@ -267,7 +260,8 @@
                         <p>收货地址：<span th:text="${order[0].ran}"></span></p>
                         <p>订单单号：<span th:text="${order[0].oi}"></span></p>
                         <p>下单时间：<span th:text="${order[0].ct}"></span></p>
-                        <p>支付时间：<span th:text="${order[0].pt}"></span></p>
+                        <p>支付时间：<span th:switch="${order[0].status}"><span th:case="4"><span th:text="${order[0].pt}"/></span></span></span>
+                        </p>
                         <p>支付方式：</p>
                         <p>发货时间：<span th:switch="${order[0].status}"><span th:case="5"><span th:text="${order[0].cct}"/></span></span></span>
                         </p>
@@ -315,11 +309,11 @@
                             </tr>
                             </tbody>
                         </table>
-                        <div class="order-price">
-                            <p>商品总金额：￥<span th:text="${order[0].tf}"></span></p>
-                            <p>运费金额：<span th:text="${order[0].pf}"></span></p>
+                        <div class="order-price" style="color: #9d261d">
+                            <p>商品总金额：￥<em th:text="${order[0].tf}"></em></p>
+                            <p>运费金额：￥<em th:text="${order[0].pf}"></em></p>
                             <p>使用优惠券：无</p>
-                            <h4 class="red">实际支付：￥<span th:text="${order[0].tf}"></span></h4>
+                            <h4 class="red">实际支付：￥<em th:text="${order[0].tf}"></em></h4>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -331,8 +325,8 @@
                     </div>
                     <div class="like-list">
                         <ul class="yui3-g">
-                            <li class="yui3-u-1-4">
-                                <div class="list-wrap" th:each="sell:${selling}">
+                            <li class="yui3-u-1-4" th:each="sell:${selling}">
+                                <div class="list-wrap">
                                     <div class="p-img">
                                         <img th:src="@{${sell.image}}"/>
                                     </div>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssl.dao.ShoppingDao">
+
+        <resultMap id="shoppingMap" type="com.cssl.pojo.Shopping">
+                <id property="shoppingid" column="shoppingid" />
+                <result property="sellertitle" column="name"/>
+                <result property="itemtitle" column="title"/>
+                <result property="itemImg" column="image"/>
+                <result property="itemClick" column="itemclick"/>
+                <result property="itemQuantity" column="quantity"/>
+                <result property="itemPrice" column="price"/>
+                <result property="amount" column="amount"/>
+        </resultMap>
+
+        <select id="shoppingList" resultMap="shoppingMap" >
+             SELECT s.shoppingid,s.itemclick,t.name,i.image,CONCAT(i.price*s.quantity) AS amount,i.title,i.price,s.quantity
+             FROM shopping s,tb_seller t,tb_user u,tb_item i
+             where
+                     s.username=#{userName}
+
+                   and  s.sellerid=#{sellerId}
+
+                and s.sellerid=t.seller_id AND s.itemid=i.id AND s.username=u.username
+
+
+        </select>
+
+        <insert id="insertShopping" parameterType="map">
+              INSERT INTO shopping(sellerid,quantity,itemid,username)
+              VALUES(#{sellerid},#{quantity},#{itemid},#{username})
+        </insert>
+
+        <select id="selectSeller" resultType="String">
+           SELECT sellerid FROM shopping WHERE username=#{userName} GROUP BY sellerid
+        </select>
+
+       <select id="shoppingAmount" resultType="Double">
+           SELECT  SUM(CONCAT(t.price*s.quantity))
+           AS shoppingItemAmount FROM
+           shopping s,tb_item t WHERE s.itemid=t.id
+           AND s.username=#{userName} AND s.itemclick=1
+
+       </select>
+
+       <select id="priceQuantCount" resultType="Double">
+           SELECT CONCAT(t.price*s.quantity)FROM shopping s,tb_item t WHERE s.itemid=t.id AND s.shoppingid=#{shoppingId}
+       </select>
+
+       <select id="clickCount" resultType="Integer">
+           SELECT COUNT(1) FROM shopping WHERE itemclick='1' AND username=#{userName}
+       </select>
+
+        <update id="updateQuantity" >
+             UPDATE shopping SET quantity=#{quantity} WHERE shoppingid=#{shoppingId}
+        </update>
+
+
+
+        <update id="trueClick">
+            UPDATE shopping SET itemclick=1 WHERE shoppingid
+            in <foreach collection="shoppingIds" index="index" item="item" separator="," open="(" close=")">
+            #{item}
+             </foreach>
+
+        </update>
+
+        <update id="falseClick">
+        UPDATE shopping SET itemclick=2 WHERE shoppingid
+        in  <foreach collection="shoppingIds" index="index" item="item" separator="," open="(" close=")">
+        #{item}
+        </foreach>
+
+        </update>
+
+       <select id="queryItemMum" resultType="int">
+           SELECT t.num FROM shopping s,tb_item t WHERE s.itemid=t.id AND s.shoppingid=#{shoppingId}
+       </select>
+
+    <select resultType="map" id="selectshop">
+      SELECT s.shoppingid AS sid,t.name AS tname,i.title AS ititle,i.`image` AS iimage,i.price AS iprice FROM shopping s,tb_seller t,tb_user u,tb_item i WHERE s.username=#{username} AND s.sellerid=t.seller_id AND s.itemid=i.id AND s.username=u.username
+    </select>
+
+
+</mapper>

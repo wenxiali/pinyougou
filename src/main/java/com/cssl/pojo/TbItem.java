@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * TbItem entity. @author MyEclipse Persistence Tools
@@ -38,6 +39,17 @@ public class TbItem implements Serializable {
 	private String brand;
 	private String spec;
 	private String seller;
+    private String cat_id;
+
+
+
+
+
+
+
+
+
+
 
 
 }

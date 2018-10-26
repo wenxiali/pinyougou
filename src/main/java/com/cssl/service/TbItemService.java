@@ -1,6 +1,7 @@
 package com.cssl.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.cssl.dto.ItemDto;
 import com.cssl.pojo.TbItem;
 import com.cssl.pojo.TbItemImg;
 
@@ -40,13 +41,17 @@ public interface TbItemService extends IService<TbItem> {
      */
     public List<Map<String,Object>> selectSelling();
 
+    ItemDto getItemDto(Integer itemId);
+
     int insertItemImg(List<TbItemImg> tbItemImgs);
 
-    int updateItme(Map<String,Object>map);
+    int updateItme(Map<String, Object> map);
 
 
     /**
      * 查询商家卖的商品品牌
      */
     public List<Map<String,Object>> selectBrand(Map map);
+
+
 }

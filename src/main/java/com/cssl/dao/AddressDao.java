@@ -13,7 +13,7 @@ public interface AddressDao extends SuperMapper<TbAddress> {
      * @param page
      * @return
      */
-    IPage<Map<String,Object>> selectAddress(IPage page,@Param("username") String username, @Param("aId") Integer aId);
+    IPage<Map<String,Object>> selectAddress(IPage page, @Param("username") String username, @Param("aId") Integer aId);
 
     TbAddress selectIs();
 
@@ -26,6 +26,7 @@ public interface AddressDao extends SuperMapper<TbAddress> {
      * @return
      */
     int updateIs(TbAddress address);
+    int updateUs(TbAddress address);
 
     TbAddress byenAddress(String username);
 

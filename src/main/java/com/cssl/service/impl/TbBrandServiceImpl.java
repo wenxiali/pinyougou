@@ -19,8 +19,21 @@ public class TbBrandServiceImpl extends ServiceImpl<TbBrandDao, TbBrand> impleme
     @Autowired
     private TbBrandDao dao;
 
+    /**
+     * 查询手机品牌
+     */
     @Override
     public List<TbBrand> listbrand() {
         return dao.listbrand();
     }
+
+    /**
+     * 查询电视品牌
+     */
+    @Override
+    public List<TbBrand> listtele() {
+        return dao.listtele();
+    }
+
+
 }

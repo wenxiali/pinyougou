@@ -29,6 +29,32 @@
             alert("cookid",cookid);
 			//window.location="home-person-footmark?cooki="+cooki;
         }
+        //添加我的收藏
+        function  clickcoll(iid) {
+            var id=document.getElementById('gz'+iid);
+            var idd=$("#gz"+iid);
+            var tex=id.innerText;
+            if(tex=="关注"){
+                $.post("ajexinsert",{"iid":iid},function (f) {
+                    if(f==0){
+                        window.location.href = "login";
+                    }
+                    idd.text("取消关注");
+                })
+            }else if("取消关注") {
+                $.post("ajexdelete",{"iid":iid},function (f) {
+                    if (f==1){
+                        idd.text("关注");
+                    }
+                })
+            }
+        }
+
+        //清空
+        function clickqk() {
+            window.location.href = "searchh";
+        }
+
 	</script>
 	<style>
 		.p-img{
@@ -48,14 +74,11 @@
 				<div class="shortcut">
 					<ul class="fl">
 						<li class="f-item">品优购欢迎您！</li>
-						<li class="f-item">请
 					</ul>
 					<ul class="fr">
 						<li class="f-item">我的订单</li>
 						<li class="f-item space"></li>
-						<li class="f-item">
-							<a href="home.html" target="_blank">我的品优购</a>
-						</li>
+						<li class="f-item"><a href="#" th:href="@{/home}">我的品优购</a></li>
 						<li class="f-item space"></li>
 						<li class="f-item">品优购会员</li>
 						<li class="f-item space"></li>
@@ -83,7 +106,7 @@
 			<div class="py-container">
 				<div class="yui3-g Logo">
 					<div class="yui3-u Left logoArea">
-						<a class="logo-bd" title="品优购" href="JD-index.html" target="_blank"></a>
+						<a class="logo-bd" title="品优购" href="#" th:href="@{/indexx}" target="_blank"></a>
 					</div>
 					<div class="yui3-u Center searchArea">
 						<div class="search">
@@ -163,14 +186,14 @@
 				<li class="active">智能手机</li>
 			</ul>
 			<ul class="tags-choose">
-				<li class="tag" th:if="${session.specse}!=null" th:text="${session.specse}">全网通<i class="sui-icon icon-tb-close"></i></li>
-				<li class="tag" th:if="${session.speccse}!=null" th:text="${session.speccse}">63G<i class="sui-icon icon-tb-close"></i></li>
-				<li class="tag" th:if="${session.brandse}!=null" th:text="${session.brandse}">品牌<i class="sui-icon icon-tb-close"></i></li>
-				<li class="tag" th:if="${session.price}!=null" th:text="${session.price}+'-'+${session.pricee}">品牌<i class="sui-icon icon-tb-close"></i></li>
+				<li class="tag"><a th:if="${session.specse}!=null" th:text="${session.specse}">全网通</a><a th:href="@{/searchcs(brand=${session.brandse},specc=${session.speccse},price=${session.price},pricee=${session.pricee},px=${session.px})}"><i class="sui-icon icon-tb-close"></i></a></li>
+				<li class="tag"><a th:if="${session.speccse}!=null" th:text="${session.speccse}">63G</a><a th:href="@{/searchcs(brand=${session.brandse},spec=${session.specse},price=${session.price},pricee=${session.pricee},px=${session.px})}"> <i class="sui-icon icon-tb-close"></i></a></li>
+				<li class="tag"><a th:if="${session.brandse}!=null" th:text="${session.brandse}">品牌</a><a th:href="@{/searchcs(specc=${session.speccse},spec=${session.specse},price=${session.price},pricee=${session.pricee},px=${session.px})}"><i class="sui-icon icon-tb-close"></i></a></li>
+				<li class="tag"><a th:if="${session.price}!=null" th:text="${session.price}+'-'+${session.pricee}">价格</a><a th:href="@{/searchh(brand=${session.brandse},specc=${session.speccse},spec=${session.specse})}"><i class="sui-icon icon-tb-close"></i></a></li>
 			</ul>
 			<form class="fl sui-form form-dark">
 				<div class="input-control control-right">
-					<input type="text" />
+					<a href="javascript:void(0);"  th:onclick="'javascript:clickqk()'"  class="sui-btn btn-bordered">清空</a>
 					<i class="sui-icon icon-touch-magnifier"></i>
 				</div>
 			</form>
@@ -307,7 +330,7 @@
 					<li class="yui3-u-1-5" th:each="mob,ss:${listmob.getRecords()}">
 						<div class="list-wrap">
 							<div class="p-img" >
-								<a th:onclick="'javascript:cook(\''+${mob.id}+'\',\''+${mob.image}+'\',\''+${mob.price}+'\',\''+${mob.title}+'\')'"><img th:src="@{${mob.image}}" style="margin: 30px;height: 150px"/></a>
+								<a th:onclick="'javascript:cook(\''+${mob.id}+'\',\''+${mob.image}+'\',\''+${mob.price}+'\',\''+${mob.title}+'\')'"><img th:src="@{${mob.image}}" style="margin: 10px;height: 150px"/></a>
 							</div>
 							<div class="price">
 								<strong>
@@ -327,7 +350,7 @@
 							<div class="operate">
 								<a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
 								<a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-								<a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
+								<a href="javascript:void(0);"   th:id="'gz'+${mob.id}" th:onclick="'javascript:clickcoll('+${mob.id}+')'"  class="sui-btn btn-bordered">关注</a>
 							</div>
 						</div>
 					</li>

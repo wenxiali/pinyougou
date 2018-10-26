@@ -8,4 +8,8 @@
       SELECT * FROM tb_brand  WHERE NAME IN(SELECT brand FROM tb_item WHERE categoryId=560)
     </select>
 
+    <select resultType="TbBrand" id="listtele">
+      SELECT * FROM tb_brand WHERE NAME IN(SELECT brand FROM tb_item WHERE categoryId=76)
+    </select>
+
 </mapper>

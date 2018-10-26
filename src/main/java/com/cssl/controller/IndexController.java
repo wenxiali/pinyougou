@@ -215,7 +215,7 @@ public class IndexController {
                 String fileType="img/head_Pic/";
                 String filePath = request.getSession().getServletContext().getRealPath(fileType);
                 //清空对应文件头像
-                FileUtil.deleteFileOrpath(filePath);
+                //FileUtil.deleteFileOrpath(filePath);
                 user.setHead_Pic(FileUtil.addimags(fileImg,fileType,request));
                 session.setAttribute("head_Pic",FileUtil.addimags(fileImg,fileType,request));
             }else {
@@ -247,7 +247,9 @@ public class IndexController {
         return "home-orderDetail";
     }
 
-
-
+    @RequestMapping("inputfile")
+    public String inputfile(){
+        return "inputfile";
+    }
 
 }

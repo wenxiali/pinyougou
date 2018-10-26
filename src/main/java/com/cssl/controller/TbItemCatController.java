@@ -3,12 +3,11 @@ package com.cssl.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cssl.pojo.TbCollection;
 import com.cssl.pojo.TbContent;
 import com.cssl.pojo.TbItem;
 import com.cssl.pojo.TbItemCat;
-import com.cssl.service.TbContentService;
-import com.cssl.service.TbItemCatService;
-import com.cssl.service.TbItemService;
+import com.cssl.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +31,14 @@ public class TbItemCatController {
     //商品详情表
     @Autowired
     private TbItemService servicei;
+
+    //购物车
+    @Autowired
+    private ShoppingService sertvices;
+
+    //收藏表
+    @Autowired
+    private TbCollectionService serviceco;
 
     /**
      * 首页
@@ -61,7 +68,7 @@ public class TbItemCatController {
         }
         //家用电器区appliances
           //标题
-        List<TbItemCat> listals=service.selectList(new QueryWrapper<TbItemCat>().eq("parent_Id",74));
+       List<TbItemCat> listals=service.selectList(new QueryWrapper<TbItemCat>().eq("parent_Id",74));
         model.addAttribute("listals",listals);
           //最热
         List<Map<String,Object>> listhoot=servicei.selectHottest(map);
@@ -80,6 +87,21 @@ public class TbItemCatController {
          //轮播
         List<Map<String,Object>> listmobshow=servicei.selectMod(map);
         model.addAttribute("listmobshow",listmobshow);
+
+        //侧方购物车
+        String username=(String) session.getAttribute("username");
+        if(username!=null){
+            map.put("username",username);
+            List<Map<String,Object>> listshop=sertvices.selectshop(map);
+            model.addAttribute("listshop",listshop);
+        }
+
+        //侧方关注
+        Integer uid=(Integer)session.getAttribute("id");
+        if(uid!=null){
+            List<TbCollection> listcol=serviceco.selectList(new QueryWrapper<TbCollection>().eq("uid", uid));
+            model.addAttribute("listcol",listcol);
+        }
 
         return "index.html";
     }

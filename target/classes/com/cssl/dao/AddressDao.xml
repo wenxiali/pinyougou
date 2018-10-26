@@ -58,6 +58,12 @@
     </update>
 
     <update id="updateIs">
-    UPDATE tb_address set is_Default=#{is_Default} where aid=#{aid}
+        UPDATE tb_address set is_Default=1
+        where aid=#{aid}
+    </update>
+
+    <update id="updateUs">
+        UPDATE tb_address set is_Default=0
+        where username=#{username}
     </update>
 </mapper>

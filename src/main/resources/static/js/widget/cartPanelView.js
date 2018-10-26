@@ -76,7 +76,7 @@ var cartPanelView = {
 	},
 
     // 填充购物车数据
-    fillCart : function(dataJSON) {
+    /*fillCart : function(dataJSON) {
         // 购物车列表
         var rowsHtml = "";
         for(var i = 0; i < dataJSON.orders.length ; i++){
@@ -99,7 +99,7 @@ var cartPanelView = {
         $("#cart-sum").html(String.format("¥{0}",dataJSON.totalPrices));
         // 侧栏 购物件数
         $("#tab-sub-cart-count").html(dataJSON.totalQuantity);
-    }
+    }*/
 };
 
 $(function() {

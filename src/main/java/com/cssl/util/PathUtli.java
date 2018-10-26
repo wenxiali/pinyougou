@@ -1,5 +1,10 @@
 package com.cssl.util;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class PathUtli {
 	//获取文件分隔符
    private static String seperator=System.getProperty("file.separator");
@@ -31,6 +36,18 @@ public class PathUtli {
 	   String imagePath="upload/itern/shop/"+shopId+"/";
 	   return imagePath.replace("/",seperator);
    }
-   
-   
+
+   public static boolean booleStr(String url){
+    boolean boole=false;
+   	String strsun=url.substring(url.length()-5,url.length()-4);
+   	if(strsun.equals("1")){
+   		boole=true;
+	}
+   	return boole;
+   }
+
+	public static void main(String[] args) {
+     booleStr("safafsafa01.sdf");
+	}
+
 }

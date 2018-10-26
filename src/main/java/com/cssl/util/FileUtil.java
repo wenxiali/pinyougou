@@ -6,8 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 
 public class FileUtil {
     // 时间格式
@@ -18,8 +17,7 @@ public class FileUtil {
     public static String addimags(MultipartFile file,String fileType, HttpServletRequest request){
         String contentType = file.getContentType();
         String fileName =FileUtil.getRandomFileName(file.getOriginalFilename());
-        //upload/itern/itemlsst/
-        String filePath = "E:/pinyougou/pinyougou_A/src/main/webapp/"+fileType;
+        String filePath = request.getSession().getServletContext().getRealPath(fileType);
         try {
             FileUtil.uploadFile(file.getBytes(), filePath, fileName);
         } catch (Exception e) {
@@ -72,6 +70,21 @@ public class FileUtil {
     public static void main(String[] args) {
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public static void deleteFileOrpath(String url){
         File file=new File(url);
         if (file.isDirectory()){//判断file是否是文件目录 若是返回TRUE

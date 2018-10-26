@@ -2,6 +2,7 @@ package com.cssl.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cssl.dao.TbItemDao;
+import com.cssl.dto.ItemDto;
 import com.cssl.pojo.TbItem;
 import com.cssl.pojo.TbItemImg;
 import com.cssl.service.TbItemService;
@@ -90,5 +91,10 @@ public class TbItemServiceImpl extends ServiceImpl<TbItemDao, TbItem> implements
     @Override
     public List<Map<String, Object>> selectBrand(Map map) {
         return dao.selectBrand(map);
+    }
+
+    @Override
+    public ItemDto getItemDto(Integer itemId) {
+        return dao.getTbItem(itemId);
     }
 }
